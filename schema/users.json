@@ -3,7 +3,7 @@
         {
             "_id": "",
             "has_posted_today": false,
-            "posts":[],
+            "post_ids":[],
             "liked_posts":[],
             "liked_words": [],
             "disliked_words": [],
