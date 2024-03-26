@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "_id": "",
+            "has_posted_today": "",
+            "posts":[],
+            "liked_posts":[],
+            "liked_words": [],
+            "disliked_words": [],
+            "selected_language": ""
+        }
+    ]
+}
