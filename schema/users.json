@@ -2,7 +2,7 @@
     "users": [
         {
             "_id": "",
-            "has_posted_today": "",
+            "has_posted_today": false,
             "posts":[],
             "liked_posts":[],
             "liked_words": [],
