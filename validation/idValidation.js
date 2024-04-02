@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 
 const exportedMethods = {
     //TODO: revise
-    checkId(id, varName) {
+    validateId(id, varName) {
         if (!id) throw `Error: You must provide a ${varName}`;
         if (typeof id !== 'string') throw `Error:${varName} must be a string`;
         id = id.trim();

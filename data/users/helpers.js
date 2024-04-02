@@ -1,7 +1,11 @@
+import { ObjectId } from 'mongodb';
+
 let exportedMethods = {
 
     createNewUser(firstName, lastName, email, hashedPassword) {
         let newUser = {
+            _id: new ObjectId(),
+
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -18,7 +22,7 @@ let exportedMethods = {
 
         return newUser;
     },
-    hashPassword(password){
+    hashPassword(password) {
         //TODO: implement
         return password;
     }

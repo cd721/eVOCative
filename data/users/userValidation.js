@@ -1,11 +1,11 @@
 const exportedMethods = {
 
-    checkString(name) {
+    validateName(name) {
         //TODO: implement
         return name;
     },
 
-    checkValidEmail(email){
+    validateEmail(email){
         //TODO: implement
         return email;
     }
