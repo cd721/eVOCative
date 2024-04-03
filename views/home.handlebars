@@ -1,3 +1,15 @@
 {{! 
 This is the handlebars file for the home page of eVOCative. The page users are taken to after they sign in.
 }}
+
+<h1> eVOCative </h1>
+
+<p class = "statement"> Welcome to eVOCative! The path to better vocabulary begins here</p>
+
+{{! after 'Word of the day: ' add the word of the day from the database}}
+<h2> Word of the Day:</h2>
+
+{{! Buttons for user to access word bank}}
+<form action="/wordbank" method="GET">
+    <button type="submit">Word Bank</button>
+</form>
