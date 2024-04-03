@@ -18,9 +18,9 @@ let exportedMethods = {
 
 
 
-    async addComment(post_id, commenter_id, body) {
-        post_id = idValidation.validateId(post_id);
-        commenter_id = idValidation.validateId(commenter_id);
+    async addComment(post_id,commenter_id, body) {
+        post_id = idValidation.validateId(post_id, "Post ID");
+        commenter_id = idValidation.validateId(commenter_id, "Comment ID");
         body = commentValidation.validateBody(body);
 
         let newComment = helpers.createNewComment(commenter_id, body);
