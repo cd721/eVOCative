@@ -1,0 +1,23 @@
+{
+  "name": "evocative",
+  "version": "1.0.0",
+  "description": "Vocabulary Builder",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cd721/eVOCative.git"
+  },
+  "author": "Josephine Cerino, Catherine DeMario, Justerini Meija, Jamie Rollins, Justin Vilchez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cd721/eVOCative/issues"
+  },
+  "homepage": "https://github.com/cd721/eVOCative#readme",
+  "dependencies": {
+    "mongodb": "^6.5.0"
+  }
+}
