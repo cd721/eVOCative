@@ -17,8 +17,10 @@ let exportedMethods = {
 
     async addPost(title, post, tags) {
 
+        let charLimit = 50;
+
         post = postValidation.validatePost(post);
-        title = postValidation.validateTitle(title);
+        title = postValidation.validateTitle(title, charLimit);
         tags = postValidation.validateTags(tags);
 
         let newPost = helpers.createNewPost( title, post, tags);
