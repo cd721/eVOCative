@@ -6,10 +6,15 @@ This is the handlebars file for the home page of eVOCative. The page users are t
 
 <p class = "statement"> Welcome to eVOCative! The path to better vocabulary begins here</p>
 
+{{! Button for user to sign out}}
+<form action="/signin" method="GET">
+    <button type="submit">Sign Out</button>
+</form>
+
 {{! after 'Word of the day: ' add the word of the day from the database}}
 <h2> Word of the Day:</h2>
 
-{{! Buttons for user to access word bank}}
+{{! Button for user to access word bank}}
 <form action="/wordbank" method="GET">
     <button type="submit">Word Bank</button>
 </form>
