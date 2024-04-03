@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "node tasks\\seed.js"
+    "test": "node tasks\\seed.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/cd721/eVOCative#readme",
   "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
     "mongodb": "^6.5.0"
   }
 }
