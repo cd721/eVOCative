@@ -12,6 +12,8 @@ let exportedMethods = {
             hashedPassword: hashedPassword,
 
             start_date: new Date(),
+            streak: 0,
+            longest_streak: 0,
             is_admin: false,
             received_todays_word: false,
             posts: [],
