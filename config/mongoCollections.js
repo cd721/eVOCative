@@ -16,7 +16,6 @@ const getCollectionFn = (collection) => {
 export const users = getCollectionFn('users');
 export const posts = getCollectionFn('posts');
 export const words = getCollectionFn('words');
-export const comments = getCollectionFn('comments');
 export const tickets = getCollectionFn('tickets');
 
 
