@@ -14,7 +14,7 @@ const constructorMethod = (app) => {
     })
 
     app.use('*', (req, res) => {
-        res.redirect('/');
+        res.render('error');
     });
 };
 
