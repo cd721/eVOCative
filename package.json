@@ -8,6 +8,9 @@
     "test": "node tasks\\seed.js",
     "start": "node app.js"
   },
+  "nodemonConfig":{
+    "ext": "js,handlebars,html,css,json"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cd721/eVOCative.git"
