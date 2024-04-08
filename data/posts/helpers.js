@@ -2,16 +2,16 @@ import { ObjectId } from 'mongodb';
 
 let exportedMethods = {
 
-    createNewPost( title, post, tags) {
+    createNewPost(poster_id, title, post, tags) {
         let newPost = {
             _id: new ObjectId(),
             title: title,
             post: post,
             tags: tags,
-
+            poster_id: new ObjectId(poster_id),
             post_date: new Date(),
             comments: [],
-            
+
         };
 
         return newPost;

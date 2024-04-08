@@ -11,12 +11,9 @@ await db.dropDatabase();
 
 const catherine = await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "password");
 
-const firstPost = await posts.addPost("My first post", "This is my post", ["mine", "cool"]);
+const firstPost = await posts.addPost(catherine._id.toString(),"My first post", "This is my post", ["mine", "cool"]);
 
-const firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], {
-    "french": "café", "italian": "caffè",
-    "spanish": "café"
-});
+const firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
 
 const commentOnMyPost = await comments.addComment(firstPost._id.toString(), catherine._id.toString(), "I like it");
 

@@ -45,7 +45,7 @@ let exportedMethods = {
 
         const updateInfo = await userCollection.updateOne(
             { _id: new ObjectId(user_id) },
-            { $push: { words: {_id: new ObjectId(word_id), accuracy_score: 0 } }},
+            { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } },
         )
 
         if (!updateInfo.acknowledged) { throw 'Update failed!' };
@@ -75,6 +75,12 @@ let exportedMethods = {
         return updateUserInfo;
 
     },
+
+    async isAdmin(user_id) {
+        const user = await this.getUserById(user_id);
+
+        return user.is_admin;
+    }
 
 };
 export default exportedMethods;
