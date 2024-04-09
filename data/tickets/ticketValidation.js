@@ -17,7 +17,6 @@ const exportedMethods = {
     return type;
   },
   validateBody(body) {
-    //TODO: implement
     if (!body) throw `Error: Ticket body not provided.`;
     if (typeof body !== "string") throw `Error: Ticket body must be of type string`;
     body = body.trim();
