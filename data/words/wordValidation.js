@@ -20,7 +20,7 @@ const exportedMethods = {
     if (!tags) throw `Error: Tags not provided.`;
     if (!Array.isArray(tags)) throw `Error: Tags must be an array`;
     if (tags.length === 0) throw `Error: Tags cannot be empty`;
-    for (str of tags) {
+    for (let str of tags) {
       if (typeof str !== "string") throw `Error: All elements of tags must be strings`;
       str = str.trim();
       if (str.length === 0) throw `Error: Elements in tags cannot be empty or just spaces`;
@@ -31,7 +31,7 @@ const exportedMethods = {
     if (!translations) throw `Error: Translations not provided.`;
     if (!Array.isArray(translations)) throw `Error: Translations must be an array`;
     if (translations.length === 0) return translations;
-    for (str of translations) {
+    for (let str of translations) {
       if (typeof str !== "string") throw `Error: All elements of translations must be strings`;
       str = str.trim();
       if (str.length === 0) throw `Error: Elements in translations cannot be empty or just spaces`;
