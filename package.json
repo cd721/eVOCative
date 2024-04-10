@@ -8,7 +8,7 @@
     "test": "node tasks\\seed.js",
     "start": "node app.js"
   },
-  "nodemonConfig":{
+  "nodemonConfig": {
     "ext": "js,handlebars,html,css,json"
   },
   "repository": {
@@ -24,6 +24,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
     "mongodb": "^6.5.0"
   }
 }
