@@ -6,7 +6,6 @@
     {{#each words}}
     <article class="wordsForUser">
         <h2><a href="/words/{{_id}}">{{this.word}}</a></h2>
-
         <h3>Tags</h3>
         <ul>
             {{#each this.tags}}
@@ -14,6 +13,8 @@
             {{/each}}
         </ul>
         <h4>My accuracy score for {{this.word}} is {{this.accuracy_score}}.</h4>
+        <p><a href="/users/{{../user_id}}/remove/{{_id}}">Remove {{this.word}} from my word bank</a></p>
+        {{!-- TODO: user can only remove word when signed in --}}
 
     </article>
     {{/each}}

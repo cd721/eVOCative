@@ -1,47 +1,52 @@
 import { Router } from "express";
-import idValidation from "../validation/idValidation.js";
+import userValidation from "../data/users/userValidation.js";
 import userData from "../data/users/users.js";
-
-import postData from "../data/posts/posts.js";
 const router = Router();
 
-router.route("/").get(async (req, res) => {
-  try {
-    return res.render("login");
-  } catch (e) {
-    return res.status(500).json({ error: e });
-  }
-});
-
-router.route("/").post(async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await userData.getUserByUsername(username);
-    if (user && user.password === password) {
-      req.session.user = user;
-      return res.redirect("/profile");
-    } else {
-      return res.status(401).json({ error: "Invalid username or password" });
+router
+  .route("")
+  .get(async (req, res) => {
+    try {
+      return res.render("login");
+    } catch (e) {
+      return res.status(500).json({ error: e });
     }
-  } catch (e) {
-    return res.status(500).json({ error: e });
-  }
-});
+  })
+  .post(async (req, res) => {
+    let login = req.body;
+    let errorList = [];
+    let username = login.loginUser;
+    let password = login.loginPass;
+    let userList;
 
-router.route("/logout").get(async (req, res) => {
-  try {
-    req.session.destroy();
-    return res.redirect("/");
-  } catch (e) {
-    return res.status(500).json({ error: e });
-  }
-});
+    try {
+      username = userValidation.validateName(username);
+    } catch (e) {
+      errorList.push(e);
+    }
 
-router.route("/profile").get(async (req, res) => {
-  try {
-    return res.render("/users/profile", { user });
-  } catch (e) {
-    return res.status(500).json({ error: e });
-  }
-});
+    try {
+      password = userValidation.validatePassword(password);
+    } catch (e) {
+      errorList.push(e);
+    }
+
+    try {
+      userList = await userData.getAllUsers();
+    } catch (e) {
+      errorList.push(e);
+    }
+
+    if (errorList.length > 0) {
+      res.render("login", {
+        errors: errorList,
+        hasErrors: true,
+        username: username,
+        log: login,
+      });
+      return;
+    } else {
+      console.log("it work!");
+    }
+  });
 export default router;

@@ -127,5 +127,25 @@ let exportedMethods = {
     }
     return wordsList;
   },
+
+  async removeWordForUser(user_id, word_id) {
+    const userCollection = await users();
+    let wordToRemove = await wordData.getWordById(word_id);
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $pull: {
+          words: { _id: new ObjectId(word_id) },
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
 };
 export default exportedMethods;
