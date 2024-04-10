@@ -40,7 +40,7 @@ app.use(
 );
 
 //Authentication middleware
-app.use("/private", (req, res, next) => {
+app.use("/profile", (req, res, next) => {
   console.log(req.session.id);
   if (!req.session.user) {
     return res.redirect("/");
@@ -51,7 +51,7 @@ app.use("/private", (req, res, next) => {
 
 //Login middleware
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalURL}`);
+  console.log(req.method);
   next();
 });
 
