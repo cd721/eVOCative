@@ -39,6 +39,7 @@ app.use(
   })
 );
 
+//Authentication middleware
 app.use("/private", (req, res, next) => {
   console.log(req.session.id);
   if (!req.session.user) {
@@ -48,6 +49,7 @@ app.use("/private", (req, res, next) => {
   }
 });
 
+//Login middleware
 app.use("/login", (req, res, next) => {
   if (req.session.user) {
     res.redirect("/private");
