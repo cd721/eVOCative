@@ -26,11 +26,11 @@ router
         }
 
         try {
-
+            let words = await userData.getWordsForUser(user_id);
             if (userData.isAdmin(user_id)) {
-                return res.render("adminProfile", { title: "Admin Profile", user: user });
+                return res.render("users/adminProfile", { title: "Admin Profile", user: user, words: words });
             }
-            return res.render("profile", { title: "User Profile", user: user });
+            return res.render("users/profile", { title: "User Profile", user: user, words: words });
 
         } catch (e) {
             return res.status(500).json({ error: e });

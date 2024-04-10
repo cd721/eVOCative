@@ -1,3 +1,17 @@
 <h1>{{user.firstName}} {{user.lastName}}</h1>
 
+<section>
+    <h2>My Words</h2>
+    {{#each words}}
+    <article class="wordsForUser">
+        <h2><a href="/words/{{_id}}">{{word.word}}</a></h2>
+        <h3>Tags</h3>
+        <ul>
+            {{#each word.tags}}
+            <li><a href="/words/tag/{{this}}">{{word.words}}</a></li>
+            {{/each}}
+        </ul>
+    </article>
+    {{/each}}
+</section>
 <aside>I've been using eVOCactive since {{user.start_date}}.</aside>

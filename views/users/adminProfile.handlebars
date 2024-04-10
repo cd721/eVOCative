@@ -1,4 +1,18 @@
 <h1>{{user.firstName}} {{user.lastName}}</h1>
 <h2>I'm an admin.</h2>
+<section>
+    <h2>My Words</h2>
+    {{#each words}}
+    <article class="wordsForUser">
+        <h2><a href="/words/{{_id}}">{{this.word}}</a></h2>
 
+        <h3>Tags</h3>
+        <ul>
+            {{#each this.tags}}
+            <li><a href="/words/tag/{{this}}">{{this}}</a></li>
+            {{/each}}
+        </ul>
+    </article>
+    {{/each}}
+</section>
 <aside>I've been using eVOCactive since {{user.start_date}}.</aside>
