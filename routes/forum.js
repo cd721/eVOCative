@@ -16,16 +16,18 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
     let post_id = req.params.id;
+    let post;
+    
     try {
         post_id = idValidation.validateId(post_id);
+        post = await postData.getPostById(post_id.toString());
     } catch (e) {
         return res.status(400).render("error");
 
     }
 
-    try {
 
-        const post = await postData.getPostById(post_id.toString());
+    try {
         const poster = await userData.getUserById(post.poster_id.toString());
         const poster_name = `${poster.firstName} ${poster.lastName}`;
 
