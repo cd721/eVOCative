@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
 import wordData from "../data/words/words.js";
+import { ObjectId } from 'mongodb';
 
 const router = Router();
 
@@ -14,12 +15,16 @@ router.route("/").get(async (req, res) => {
 
 router.route("/definitionToWord").get(async (req, res) => {
   try {
-    const user_id = ""; // This will be grabbed from the session id!
-    const user = userData.getUserById(new ObjectId(user_id));
+    const user_id = "6616b43f72affc233d7ee984"; // This will be grabbed from the session id!
+    const user = await userData.getUserById((user_id));
     const randomWord =
       user.words[Math.floor(Math.random() * user.words.length)];
 
-    const words = wordData.getAllWords();
+    if (!randomWord) {
+      throw "The user has no words";
+    }
+
+    const words = await wordData.getAllWords();
     let randomDef1 = words[Math.floor(Math.random() * words.length)];
     while (randomDef1.word === randomWord.word) {
       randomDef1 = words[Math.floor(Math.random() * words.length)];
