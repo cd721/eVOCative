@@ -7,6 +7,14 @@ import generalValidation from "../../validation/generalValidation.js";
 import helpers from './helpers.js'
 
 let exportedMethods = {
+
+
+    async getAllUsers() {
+        const postCollection = await users();
+        return await postCollection.find({}).toArray();
+    },
+
+
     async getUserById(id) {
         id = idValidation.validateId(id);
         const userCollection = await users();
