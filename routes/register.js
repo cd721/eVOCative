@@ -21,15 +21,18 @@ router.route("/").get(async (req, res) => {
 
 router.route("/").post(async (req, res) => {
   let newUser = req.body;
-  let { fName, lName, email, username, password, confirmPassword } = newUser;
   try {
-    valid.validateName(fName);
-    valid.validateName(lName);
-    valid.validateEmail(email);
-    await userData.addUser(fName, lName, email, username, password);
-    return res.render("register");
-  } catch (error) {
-    return res.status(500).json({ error });
+    await userData.addUser(
+      newUser.fname,
+      newUser.lname,
+      newUser.email,
+      newUser.username,
+      newUser.password
+    );
+    return res.render("login");
+  } catch (e) {
+    console.log(e);
+    return res.status(400).render("error", { error: e });
   }
 });
 
