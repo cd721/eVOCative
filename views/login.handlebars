@@ -5,11 +5,21 @@
 
 <h1>Login</h1>
 
-<form action="/login" method="POST">
+<form action="login" method="POST">
     <p>Username</p>
-        <input type="text">
+        <input type="text" name="loginUser" id="loginUser" value={{log.loginUser}}>
     <p>Password</p>
-        <input type="text">
+        <input type="text" name="loginPass" id="loginPass">
 
-    <input type="submit">
+    <input type="submit" id="submitButton">
+
+    {{#if hasErrors}}
+        <ul class="error-list">
+            {{#each errorList}}
+            <li>
+            {{this}}
+            </li>
+            {{/each}}
+        </ul>
+    {{/if}}
 </form>
