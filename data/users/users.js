@@ -7,6 +7,14 @@ import generalValidation from "../../validation/generalValidation.js";
 import helpers from './helpers.js'
 
 let exportedMethods = {
+
+
+    async getAllUsers() {
+        const postCollection = await users();
+        return await postCollection.find({}).toArray();
+    },
+
+
     async getUserById(id) {
         id = idValidation.validateId(id);
         const userCollection = await users();
@@ -45,7 +53,7 @@ let exportedMethods = {
 
         const updateInfo = await userCollection.updateOne(
             { _id: new ObjectId(user_id) },
-            { $push: { words: {_id: new ObjectId(word_id), accuracy_score: 0 } }},
+            { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } },
         )
 
         if (!updateInfo.acknowledged) { throw 'Update failed!' };
@@ -75,6 +83,12 @@ let exportedMethods = {
         return updateUserInfo;
 
     },
+
+    async isAdmin(user_id) {
+        const user = await this.getUserById(user_id);
+
+        return user.is_admin;
+    }
 
 };
 export default exportedMethods;
