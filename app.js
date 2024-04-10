@@ -50,13 +50,9 @@ app.use("/private", (req, res, next) => {
 });
 
 //Login middleware
-app.use("/login", (req, res, next) => {
-  if (req.session.user) {
-    res.redirect("/private");
-  } else {
-    req.method = "POST";
-    next();
-  }
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalURL}`);
+  next();
 });
 
 configRoutes(app);
