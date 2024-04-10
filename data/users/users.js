@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import userValidation from './userValidation.js';
 import idValidation from "../../validation/idValidation.js";
 import generalValidation from "../../validation/generalValidation.js";
-
+import wordData from '../words/words.js';
 import helpers from './helpers.js'
 
 let exportedMethods = {
@@ -60,7 +60,27 @@ let exportedMethods = {
 
         //TODO: should return?
     },
+    async updateOverallAccuracyScoreForUser(user_id, new_score) {
+        user_id = idValidation.validateId(user_id);
 
+        new_score = generalValidation.validateAccuracyScore(new_score);
+        const userCollection = await users();
+
+        const updateUserInfo = await userCollection.findOneAndUpdate(
+            { _id: new ObjectId(user_id) },
+            {
+                $set: {
+                    "accuracy_score": new_score,
+                }
+            },
+            { returnDocument: 'after' }
+        )
+
+        if (!updateUserInfo) { throw 'Update failed!' };
+
+        return updateUserInfo;
+
+    },
     async updateAccuracyScoreForWordForUser(user_id, word_id, new_score) {
         user_id = idValidation.validateId(user_id);
         word_id = idValidation.validateId(word_id);
@@ -88,6 +108,17 @@ let exportedMethods = {
         const user = await this.getUserById(user_id);
 
         return user.is_admin;
+    },
+
+    async getWordsForUser(user_id) {
+        const user = await this.getUserById(user_id);
+
+        let wordsList = [];
+        for (let word of user.words) {
+            let wordInfo = await wordData.getWordById(word._id.toString());
+            wordsList.push(wordInfo);
+        }
+        return wordsList;
     }
 
 };
