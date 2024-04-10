@@ -121,14 +121,14 @@ let exportedMethods = {
         return wordsList;
     },
 
-    async removeWordForUser(word_id) {
-        const user = await this.getUserById(user_id);
-        let wordToRemove = await wordData.getWordById(word_id.toString());
+    async removeWordForUser(user_id, word_id) {
+        const userCollection = await users();
+        let wordToRemove = await wordData.getWordById(word_id);
         const updateUserInfo = await userCollection.findOneAndUpdate(
             { _id: new ObjectId(user_id) },
             {
                 $pull: {
-                    "words._id": new ObjectId(word_id),
+                    "words":{"_id": new ObjectId(word_id)}
                 }
             },
             { returnDocument: 'after' }

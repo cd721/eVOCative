@@ -14,7 +14,7 @@ const catherine = await users.addUser("Catherine", "DeMario", "cdemario@stevens.
 const firstPost = await posts.addPost(catherine._id.toString(), "My first post", "This is my post", ["mine", "cool"]);
 
 let firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
-await users.removeWordForUser(firstWord._id.toString());
+await users.removeWordForUser(catherine._id.toString(),firstWord._id.toString());
 firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
 
 
