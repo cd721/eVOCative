@@ -5,6 +5,11 @@ import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
 
 let exportedMethods = {
+  async getAllWords() {
+    const wordCollection = await words();
+    return await wordCollection.find({}).toArray();
+  },
+
   async getWordById(id) {
     id = idValidation.validateId(id);
     const wordCollection = await words();
