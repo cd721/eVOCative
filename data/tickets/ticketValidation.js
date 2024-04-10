@@ -5,11 +5,11 @@ const exportedMethods = {
     type = type.trim();
     if (type.length === 0) throw `Error: Type cannot be empty or just spaces`;
     if (
-      type !== "new vocab" ||
-      type !== "report a user" ||
-      type !== "report a post/comment" ||
-      type !== "bug fix" ||
-      type !== "update/remove vocab" ||
+      type !== "new vocab" &&
+      type !== "report a user" &&
+      type !== "report a post/comment" &&
+      type !== "bug fix" &&
+      type !== "update/remove vocab" &&
       type !== "feature request"
     ) {
       throw `Error: Type must be one of the predefined types`;
