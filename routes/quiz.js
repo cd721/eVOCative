@@ -14,17 +14,43 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/definitionToWord").get(async (req, res) => {
+  let user;
   try {
-    const user_id = "6616b43f72affc233d7ee984"; // This will be grabbed from the session id!
-    const user = await userData.getUserById((user_id));
-    const randomWord =
+    const user_id = "6618756767602f596b367c12"; // This will be grabbed from the session id!
+    user = await userData.getUserById(user_id);
+  } catch (e) {
+
+    return res.status(500).json({ error: e });
+
+  }
+
+let randomWordForUser;
+
+  try {
+     randomWordForUser =
       user.words[Math.floor(Math.random() * user.words.length)];
 
-    if (!randomWord) {
+    if (!randomWordForUser) {
       throw "The user has no words";
     }
+  } catch (e) {
+    return res.status(500).json({ error: e });
 
-    const words = await wordData.getAllWords();
+  }
+
+  let randomWord;
+  let words;
+  try {
+
+    randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+
+    words = await wordData.getAllWords();
+
+  } catch (e) {
+
+  }
+
+  try {
     let randomDef1 = words[Math.floor(Math.random() * words.length)];
     while (randomDef1.word === randomWord.word) {
       randomDef1 = words[Math.floor(Math.random() * words.length)];
@@ -53,28 +79,28 @@ router.route("/definitionToWord").get(async (req, res) => {
 
     buttonOrder[0] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
     ind = spotsLeft.indexOf(buttonOrder[0]);
-    spotsLeft = spotsLeft.splice(ind, 1);
+    spotsLeft.splice(ind, 1);
 
     buttonOrder[1] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
     ind = spotsLeft.indexOf(buttonOrder[1]);
-    spotsLeft = spotsLeft.splice(ind, 1);
+    spotsLeft.splice(ind, 1);
 
     buttonOrder[2] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
     ind = spotsLeft.indexOf(buttonOrder[2]);
-    spotsLeft = spotsLeft.splice(ind, 1);
+    spotsLeft.splice(ind, 1);
 
     buttonOrder[3] = spotsLeft[0];
 
     let buttonDefs = [];
     for (let elem of buttonOrder) {
       if (elem === 1) {
-        buttonDefs.append(randomWord.definition);
+        buttonDefs.push(randomWord.definition);
       } else if (elem === 2) {
-        buttonDefs.append(randomDef1.definition);
+        buttonDefs.push(randomDef1.definition);
       } else if (elem === 3) {
-        buttonDefs.append(randomDef2.definition);
+        buttonDefs.push(randomDef2.definition);
       } else {
-        buttonDefs.append(randomDef3.definition);
+        buttonDefs.push(randomDef3.definition);
       }
     }
 
@@ -82,12 +108,12 @@ router.route("/definitionToWord").get(async (req, res) => {
 
     return res.render(
       "quiz/definitionToWord",
-      { curWord: randomWord },
-      { def1: buttonDefs[0] },
-      { def2: buttonDefs[1] },
-      { def3: buttonDefs[2] },
-      { def4: buttonDefs[3] },
-      { correctInd: correctInd }
+      { curWord: randomWord ,
+       def1: buttonDefs[0] ,
+       def2: buttonDefs[1] ,
+       def3: buttonDefs[2] ,
+       def4: buttonDefs[3] ,
+       correctInd: correctInd }
     );
   } catch (e) {
     return res.status(500).json({ error: e });
