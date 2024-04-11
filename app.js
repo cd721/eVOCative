@@ -1,8 +1,9 @@
-import express from 'express';
+import express from "express";
 const app = express();
-import path from 'path';
-import configRoutes from './routes/index.js';
-import exphbs from 'express-handlebars';
+import path from "path";
+import configRoutes from "./routes/index.js";
+import exphbs from "express-handlebars";
+import session from "express-session";
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -17,20 +18,46 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   next();
 };
 
-app.use('/public', express.static('public'));
+app.use("/public", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
+// MIDDLEWARE
+app.use(express.json());
 
+app.use(
+  session({
+    name: "AuthCookie",
+    secret: "some secret string!", //for encryption
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }, //how long until session expires
+  })
+);
 
+//Authentication middleware
+app.use("/profile", (req, res, next) => {
+  console.log(req.session.id);
+  if (!req.session.user) {
+    return res.redirect("/");
+  } else {
+    next(); //calls next middleware in stack, if the last then calls route
+  }
+});
+
+//Login middleware
+app.use((req, res, next) => {
+  console.log(req.method);
+  next();
+});
 
 configRoutes(app);
 
 app.listen(3000, () => {
   console.log("We've now got a server!");
-  console.log('Your routes will be running on http://localhost:3000');
+  console.log("Your routes will be running on http://localhost:3000");
 });
