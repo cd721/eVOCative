@@ -1,0 +1,57 @@
+/* resets */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* nav bar + footer*/
+
+nav, footer {
+    width: 100%;
+    background-color: #333;
+    padding: 10px 5px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li a {
+    padding: 11px;
+
+    text-decoration: none;
+    color: white;
+}
+
+nav li a:hover {
+    background-color: red;
+}
+
+footer {
+    text-align: center;
+}
+
+footer a, footer p {
+    color: white;
+}
+
+/* body stuff */
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    margin: 10px 30px;
+}
+
+h1 {
+    text-align: center;
+}
