@@ -22,19 +22,31 @@ let exportedMethods = {
     return user;
   },
 
-  async addUser(firstName, lastName, email, password) {
+  async getUserByUsername(username) {
+    //TODO: test
+    username = userValidation.validateUsername(username);
+    const userCollection = await users();
+    const user = await userCollection.findOne({ username: username });
+    if (!user) {
+      throw "Error: User not found";
+    }
+    return user;
+  },
+
+  async addUser(firstName, lastName, email, username, password) {
     firstName = userValidation.validateName(firstName);
     lastName = userValidation.validateName(lastName);
-
+    username = userValidation.usernameDoesNotAlreadyExist(username);
     email = userValidation.validateEmail(email);
 
-    let hashedPassword = helpers.hashPassword(password);
+    const hashedPassword = await helpers.hashPassword(password);
 
     let newUser = helpers.createNewUser(
       firstName,
       lastName,
       email,
-      hashedPassword
+      hashedPassword,
+      username
     );
 
     const userCollection = await users();
