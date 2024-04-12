@@ -4,6 +4,13 @@
     padding: 0;
 }
 
+html {
+    background-color: #e7c796;
+
+    font-family: Roboto, sans-serif;
+    color: #062c30;
+}
+
 .hidden {
     display: none;
 }
@@ -11,8 +18,7 @@
 /* nav bar + footer*/
 
 nav, footer {
-    width: 100%;
-    background-color: #333;
+    background-color: #066163;
     padding: 10px 5px;
 }
 
@@ -53,7 +59,6 @@ body {
 
 main {
     flex: 1;
-    margin: 10px 30px;
 }
 
 h1 {
@@ -61,4 +66,166 @@ h1 {
 }
 
 
+/* container generals */
+.date_added {
+    color: #066163; 
+    text-align: center;
+    font-size: 0.9em;
+}
 
+.main_container {
+    background: #e2e2e2; 
+    width: 65%;
+    margin: 20px auto 0px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tags {
+    margin: 50px 0px 20px; 
+    padding: 10px; 
+    background: #f2f2f2; 
+
+    text-align: center;
+
+    border-radius: 8px; 
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tags h4 {
+    color: #066163;
+    margin-bottom: 10px;
+}
+
+.tags ul {
+    list-style: none; 
+}
+
+.tags li {
+    display: inline-block; 
+    padding: 5px 15px; 
+    margin: 5px; 
+
+    background-color: #eb4d55; 
+    
+
+    color: #ffffff; 
+    
+    border-radius: 4px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); 
+    
+    cursor: pointer; 
+    transition: background-color 0.3s;
+}
+
+.tags li:hover {
+    background-color: #cf424b;
+}
+
+/* ################### WORDS ################### */
+/* word page */
+#word_page h1 {
+    font-size: 5em; 
+    color: #eb4d55; 
+
+    background: #f2f2f2; 
+    padding: 20px 0px;
+    margin-bottom: 50px; 
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#word_page .definition {
+    text-align: center;
+    font-size: 2.0em;
+
+    margin: 0px 10px 20px;
+}
+
+/* word index */
+#word_index h1 {
+    background: #f2f2f2; 
+    padding: 20px 0px;
+    margin-bottom: 10px; 
+
+    font-size: 2.5em;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#word_index ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    list-style-type: none;
+
+    gap: 20px;
+    padding: 20px;
+    
+}
+
+#word_index li {
+    background: #f2f2f2;
+
+    width: 125px;
+    padding: 8px;
+
+    text-align: center;
+
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#word_index li:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#word_index a {
+    text-decoration: none;
+}
+
+#word_index h2 {
+    color: #eb4d55;
+    font-size: 1.5em;
+}
+
+/* ################### POSTS ################### */
+/* post page */
+#post_page #post_info {
+    font-size: 1.5em; 
+
+    background: #f2f2f2; 
+    padding: 30px 20px;
+    margin-bottom: 20px; 
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#post_page h1 {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+#post_page p {
+    font-size: 1.5em;
+
+    margin: 0px 10px 20px;
+}
+
+#post_page address {
+    color: #066163; 
+    font-size: 0.6em;
+}
+
+#post_page .tags a {
+    text-decoration: none;
+    color: inherit;
+}
