@@ -1,0 +1,13 @@
+<section id="word_index" class="main_container">
+    <h1>Word Archive</h1>
+    <ul>
+        {{#each words}}
+        <li>
+            <a href="/words/{{this._id}}">
+                    <h2>{{this.word}}</h2>
+                    <p class="date_added">{{this.dateFormatted.month}} {{this.dateFormatted.day}}</p>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</section>

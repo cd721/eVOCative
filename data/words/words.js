@@ -20,12 +20,25 @@ let exportedMethods = {
     return word;
   },
 
+  async getWordByWord(word) {
+    word = wordValidation.validateWord(word);
+    const wordCollection = await words();
+
+    const existingWord = await wordCollection.findOne({ word: word });
+    return existingWord;
+  },
+
   async addWord(word, definition, tags, translations) {
     word = wordValidation.validateWord(word);
     definition = wordValidation.validateDefinition(definition);
     tags = wordValidation.validateTags(tags);
 
     translations = wordValidation.validateTranslations(translations);
+
+    const existingWord = await this.getWordByWord(word);
+    if (existingWord) {
+      throw 'Word already exists in the database';
+    }
 
     let newWord = helpers.createNewWord(word, definition, tags, translations);
 

@@ -3,8 +3,11 @@ import userRoutes from "./users.js";
 import quizRoutes from "./quiz.js";
 import loginRoutes from "./login.js";
 import registerRoutes from "./register.js";
+import wordRoutes from './words.js';
+
 import path from "path";
 import { static as staticDir } from "express";
+
 const constructorMethod = (app) => {
   app.use("/forum", forumRoutes);
   app.use("/quiz", quizRoutes);
@@ -12,6 +15,8 @@ const constructorMethod = (app) => {
   app.use("/login", loginRoutes);
   app.use("/users", userRoutes);
   app.use("/register", registerRoutes);
+  app.use('/words', wordRoutes);
+
   app.get("/about", (req, res) => {
     res.sendFile(path.resolve("static/about.html"));
   });

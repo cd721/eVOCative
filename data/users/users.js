@@ -65,6 +65,19 @@ let exportedMethods = {
 
     //TODO: should return?
   },
+  
+  async addPostForUser(user_id, post_id) {
+    user_id = idValidation.validateId(user_id);
+    post_id = idValidation.validateId(post_id);
+
+    const userCollection = await users();
+
+    const updateInfo = await userCollection.updateOne(
+        { _id: new ObjectId(user_id) },
+        { $push: { posts: { _id: new ObjectId(post_id) } } }
+    )
+  },
+
   async updateOverallAccuracyScoreForUser(user_id, new_score) {
     user_id = idValidation.validateId(user_id);
 

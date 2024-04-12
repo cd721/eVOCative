@@ -1,0 +1,15 @@
+<article id="word_page" class="main_container">
+    <h1>[ {{word.word}} ]</h1>
+    <p class="definition">{{word.definition}}</p>
+    <p class="date_added">{{word.dateFormatted.month}} {{word.dateFormatted.day}}, {{word.dateFormatted.year}}</p>
+    <div class="tags">
+        <h4>Tags</h4>
+        <ul>
+            {{#each word.tags}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <a class="link_back" href="/words">Back to All Words</a>
+</article>

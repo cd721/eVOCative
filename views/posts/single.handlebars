@@ -1,15 +1,21 @@
-<article class="post">
-  <h1>{{ post.title }}</h1>
-  <address>Posted by {{poster_name}}</address>
+<article id="post_page" class="main_container">
+  <div id="post_info">
+    <h1>{{ post.title }}</h1>
+    <address>Posted by {{poster_name}} on {{post.post_date}}</address>
+  </div>
+  
   <p>{{ post.post }}</p>
 
   {{#if post.tags.length}}
-  <h3>Tags</h3>
-  <ul>
-    {{#each post.tags}}
-    <li><a href="/forum/tag/{{this}}">{{this}}</a></li>
-    {{/each}}
-  </ul>
+  <div class="tags">
+    <h4>Tags</h4>
+    <ul>
+      {{#each post.tags}}
+        <li><a href="/forum/tag/{{this}}">{{this}}</a></li>
+      {{/each}}
+    </ul>
   {{/if}}
-  <a href="/forum">Back to All Posts</a>
+  </div>
+  
+  <a class="link_back" href="/forum">Back to All Posts</a>
 </article>
