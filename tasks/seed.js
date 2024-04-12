@@ -12,16 +12,30 @@ await db.dropDatabase();
 const catherine = await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "password");
 
 const firstPost = await posts.addPost(catherine._id.toString(), "My first post", "This is my post", ["mine", "cool"]);
+await users.addPostForUser(catherine._id.toString(), firstPost._id.toString());
 
-let firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
-await users.removeWordForUser(catherine._id.toString(),firstWord._id.toString());
-firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
+const firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
+const secondWord = await words.addWord("water", "a drink that keeps you alive", ["drinks", "necessary"], []);
+const thirdWord = await words.addWord("juice", "a drink with way too much sugar", ["drinks", "unnecessary"], []);
+const fourthWord = await words.addWord("milk", "a drink from cows", ["drinks", "animal products"], []);
 
+
+// checking if it catches words already existing
+try {
+    firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
+} catch (e) {
+    console.log(e);
+}
 
 const commentOnMyPost = await comments.addComment(firstPost._id.toString(), catherine._id.toString(), "I like it");
 
 await users.addWordForUser(catherine._id.toString(), firstWord._id.toString());
+await users.addWordForUser(catherine._id.toString(), secondWord._id.toString());
+await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
+await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
+
 await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), firstWord._id.toString(), 1);
+await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), secondWord._id.toString(), 1);
 
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
