@@ -1,5 +1,8 @@
 <h1>Register</h1>
 
+{{#if error}}
+<p>{{error}}</p>
+{{/if}}
 <form action="/register" method="POST" id="signup">
   <label for="fname">First Name:
     <input id="fname" name="fname" type="text" placeholder="EX: John" /></label>
