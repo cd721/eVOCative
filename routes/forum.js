@@ -18,13 +18,10 @@ router.route('/')
 router.route('/new')
     .get(async (req, res) => {
 
-
-
         try {
-           return res.render("posts/new");
+            return res.render("posts/new");
         } catch (e) {
             return res.status(500).json({ error: e });
-
 
         }
     })
