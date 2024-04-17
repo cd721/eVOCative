@@ -24,7 +24,6 @@ const exportedMethods = {
     if (duplicateUser)
       throw `user already exists with the username ${username}`;
 
-    console.log("good username");
     return username;
   },
 
