@@ -13,6 +13,14 @@ const exportedMethods = {
     return email;
   },
 
+  usernameDoesNotAlreadyExist(username){
+    //TODO: ensure usernames are unique
+  },
+
+  validateUsername(username){
+    //TODO: ensure usernames are valid
+  },
+
   validatePassword(password) {
     password = gen.validateGen('Password', password);
     return password;

@@ -2,7 +2,6 @@ import { Router } from "express";
 import idValidation from "../validation/idValidation.js";
 import userData from "../data/users/users.js";
 import * as valid from "../data/users/userValidation.js";
-
 const router = Router();
 
 const checkPassword = (password, confirmPassword) => {
@@ -21,13 +20,15 @@ router.route("/").get(async (req, res) => {
 
 router.route("/").post(async (req, res) => {
   let newUser = req.body;
+  
   try {
     await userData.addUser(
       newUser.fname,
       newUser.lname,
       newUser.email,
       newUser.username,
-      newUser.password
+      newUser.password,
+
     );
     return res.render("login");
   } catch (e) {

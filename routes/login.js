@@ -18,6 +18,9 @@ router
     let username = login.loginUser;
     let password = login.loginPass;
     let userList;
+    let firstName = "Catherine"
+      ; let lastName = "DeMario";
+    let userId = "";
 
     try {
       username = userValidation.validateName(username);
@@ -38,15 +41,20 @@ router
     }
 
     if (errorList.length > 0) {
-      res.render("login", {
+      return res.render("login", {
         errors: errorList,
         hasErrors: true,
         username: username,
         log: login,
-      });
-      return;
+      }
+      );
+
+
     } else {
       console.log("it work!");
+      req.session.user = userData.getUserByUsername(username);
+
+      return res.redirect("/private");
     }
   });
 export default router;

@@ -1,14 +1,16 @@
 import { ObjectId } from 'mongodb';
+import bcrypt from 'bcrypt'
 
 let exportedMethods = {
 
-    createNewUser(firstName, lastName, email, hashedPassword) {
+    createNewUser(firstName, lastName, email, hashedPassword, username) {
         let newUser = {
             _id: new ObjectId(),
 
             firstName: firstName,
             lastName: lastName,
             email: email,
+            username: username,
             hashedPassword: hashedPassword,
 
             start_date: new Date(),
@@ -24,9 +26,12 @@ let exportedMethods = {
 
         return newUser;
     },
-    hashPassword(password) {
-        //TODO: implement
-        return password;
+    async hashPassword(password) {
+        const plaintextPassword = password;
+        const saltRounds = 16;
+        const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
+      
+        return hashedPassword;
     }
 };
 
