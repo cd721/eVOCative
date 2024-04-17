@@ -36,7 +36,7 @@ let exportedMethods = {
   async addUser(firstName, lastName, email, username, password) {
     firstName = userValidation.validateName(firstName);
     lastName = userValidation.validateName(lastName);
-    username = userValidation.usernameDoesNotAlreadyExist(username);
+    username = await userValidation.usernameDoesNotAlreadyExist(username);
     email = userValidation.validateEmail(email);
 
     const hashedPassword = await helpers.hashPassword(password);
@@ -77,7 +77,7 @@ let exportedMethods = {
 
     //TODO: should return?
   },
-  
+
   async addPostForUser(user_id, post_id) {
     user_id = idValidation.validateId(user_id);
     post_id = idValidation.validateId(post_id);
@@ -85,9 +85,9 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateInfo = await userCollection.updateOne(
-        { _id: new ObjectId(user_id) },
-        { $push: { posts: { _id: new ObjectId(post_id) } } }
-    )
+      { _id: new ObjectId(user_id) },
+      { $push: { posts: { _id: new ObjectId(post_id) } } }
+    );
   },
 
   async updateOverallAccuracyScoreForUser(user_id, new_score) {

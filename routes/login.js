@@ -18,8 +18,8 @@ router
     let username = login.loginUser;
     let password = login.loginPass;
     let userList;
-    let firstName = "Catherine"
-      ; let lastName = "DeMario";
+    let firstName = "Catherine";
+    let lastName = "DeMario";
     let userId = "";
 
     try {
@@ -41,17 +41,14 @@ router
     }
 
     if (errorList.length > 0) {
+      console.log(errorlist);
       return res.render("login", {
         errors: errorList,
         hasErrors: true,
         username: username,
         log: login,
-      }
-      );
-
-
+      });
     } else {
-      
       req.session.user = await userData.getUserByUsername(username);
       console.log(req.session.user);
       const userId = req.session.user._id.toString();
