@@ -41,7 +41,6 @@ router
     }
 
     if (errorList.length > 0) {
-      console.log(errorlist);
       return res.render("login", {
         errors: errorList,
         hasErrors: true,
