@@ -1,25 +1,27 @@
 {{!
-    Login Page for eVOCative. Will check for error with the fourm.
-    Client-Side java is required for the form, but submmission will take place for logging in
+Login Page for eVOCative. Will check for error with the fourm.
+Client-Side java is required for the form, but submmission will take place for logging in
 }}
 
 <h1>Login</h1>
 
 <form action="login" method="POST">
     <p>Username</p>
-        <input type="text" name="loginUser" id="loginUser" value={{log.loginUser}}>
+    <input type="text" name="loginUser" id="loginUser" value={{log.loginUser}}>
     <p>Password</p>
-        <input type="password" name="loginPass" id="loginPass">
+    <input type="password" name="loginPass" id="loginPass">
 
     <input type="submit" id="submitButton">
 
+    <p><a href="/register">Don't have an account? Sign up here.</a></p>
+
     {{#if hasErrors}}
-        <ul class="error-list">
-            {{#each errorList}}
-            <li>
+    <ul class="error-list">
+        {{#each errorList}}
+        <li>
             {{this}}
-            </li>
-            {{/each}}
-        </ul>
+        </li>
+        {{/each}}
+    </ul>
     {{/if}}
 </form>
