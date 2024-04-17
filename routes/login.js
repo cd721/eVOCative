@@ -4,7 +4,7 @@ import userData from "../data/users/users.js";
 const router = Router();
 
 router
-  .route("")
+  .route("/")
   .get(async (req, res) => {
     try {
       return res.render("login");

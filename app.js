@@ -93,7 +93,7 @@ app.use("/login", (req, res, next) => {
   if (req.session.user) {
     //is the user already logged in
     const userId = req.session.user._id.toString();
-    return res.redirect("/users/" + userId);
+    return res.redirect(`/users/${userId}`);
   } else {
     req.method = "POST";
     next();
@@ -104,7 +104,7 @@ app.use("/register", (req, res, next) => {
   if (req.session.user) {
     //is the user already logged in
     const userId = req.session.user._id.toString();
-    return res.redirect("/users/" + userId);
+    return res.redirect(`/users/${userId}`);
   } else {
     req.method = "POST";
     next();

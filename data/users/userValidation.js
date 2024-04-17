@@ -4,6 +4,9 @@ import { users } from "../../config/mongoCollections.js";
 const exportedMethods = {
   validateName(name) {
     name = gen.validateGen("Name", name);
+    // does it have a number
+    if (/\d/.test(name))
+      throw `${name || "given string"} cannot contain a number`;
     return name;
   },
 
