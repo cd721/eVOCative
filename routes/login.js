@@ -18,8 +18,8 @@ router
     let username = login.loginUser;
     let password = login.loginPass;
     let userList;
-    let firstName = "Catherine"
-      ; let lastName = "DeMario";
+    let firstName = "Catherine";
+    let lastName = "DeMario";
     let userId = "";
 
     try {
@@ -41,20 +41,18 @@ router
     }
 
     if (errorList.length > 0) {
+      console.log(errorlist);
       return res.render("login", {
         errors: errorList,
         hasErrors: true,
         username: username,
         log: login,
-      }
-      );
-
-
+      });
     } else {
-      console.log("it work!");
-      req.session.user = userData.getUserByUsername(username);
-
-      return res.redirect("/private");
+      req.session.user = await userData.getUserByUsername(username);
+      console.log(req.session.user);
+      const userId = req.session.user._id.toString();
+      return res.redirect(`/users/${userId}`);
     }
   });
 export default router;
