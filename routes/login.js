@@ -51,10 +51,11 @@ router
 
 
     } else {
-      console.log("it work!");
-      req.session.user = userData.getUserByUsername(username);
-
-      return res.redirect("/private");
+      
+      req.session.user = await userData.getUserByUsername(username);
+      console.log(req.session.user);
+      const userId = req.session.user._id.toString();
+      return res.redirect(`/users/${userId}`);
     }
   });
 export default router;
