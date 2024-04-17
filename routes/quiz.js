@@ -16,7 +16,7 @@ router.route("/").get(async (req, res) => {
 router.route("/definitionToWord").get(async (req, res) => {
   let user;
   try {
-    const user_id = "6618756767602f596b367c12"; // This will be grabbed from the session id!
+    const user_id = req.session.user._id; // This will be grabbed from the session id!
     user = await userData.getUserById(user_id);
   } catch (e) {
 
@@ -25,6 +25,11 @@ router.route("/definitionToWord").get(async (req, res) => {
   }
 
 let randomWordForUser;
+if (user.words.length === 0) {
+  return res.render(
+    "quiz/noWords"
+  );
+}
 
   try {
      randomWordForUser =
