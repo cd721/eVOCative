@@ -9,9 +9,13 @@ This is the handlebars file for the home page of eVOCative. The page users are t
 
 {{! Button for user to sign out}}
 
-<a id="register_link" href="/register">Don't have an account? Sign up here.</a>
-<a id="login_link" href="/login">Click here to log in instead</a>
-<a id="logout_link" href="/logout">Log out!</a>
+
+
+{{#if user}}
+{{> logoutLink}}
+{{else}}
+{{> accountLinks}}
+{{/if}}
 
 {{! after 'Word of the day: ' add the word of the day from the database}}
 <h2> Word of the Day:</h2>
