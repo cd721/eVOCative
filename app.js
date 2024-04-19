@@ -92,22 +92,29 @@ app.use("/posts", (req, res, next) => {
 app.use("/login", (req, res, next) => {
   if (req.session.user) {
     //is the user already logged in
-    const userId = req.session.user._id.toString();
+    const userId = req.session.user._id;
     return res.redirect(`/users/${userId}`);
   } else {
-    req.method = "POST";
     next();
   }
 });
 
 app.use("/register", (req, res, next) => {
   if (req.session.user) {
-    //is the user already logged in
-    const userId = req.session.user._id.toString();
+    const userId = req.session.user._id;
     return res.redirect(`/users/${userId}`);
   } else {
-    req.method = "POST";
     next();
+  }
+});
+
+// Logout middleware
+// makes sure only users that are logged in can access it
+app.use('/logout', (req, res, next) => {
+  if (!req.session.user) {
+      return res.redirect('/login');
+  } else {
+      next();
   }
 });
 

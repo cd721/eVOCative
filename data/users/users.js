@@ -5,6 +5,7 @@ import idValidation from "../../validation/idValidation.js";
 import generalValidation from "../../validation/generalValidation.js";
 import wordData from "../words/words.js";
 import helpers from "./helpers.js";
+import bcrypt from 'bcrypt';
 
 let exportedMethods = {
   async getAllUsers() {
@@ -36,8 +37,12 @@ let exportedMethods = {
   async addUser(firstName, lastName, email, username, password) {
     firstName = userValidation.validateName(firstName);
     lastName = userValidation.validateName(lastName);
+
+    username = userValidation.validateUsername(username);
     username = await userValidation.usernameDoesNotAlreadyExist(username);
+
     email = userValidation.validateEmail(email);
+    password = userValidation.validatePassword(password)
 
     const hashedPassword = await helpers.hashPassword(password);
 
@@ -50,14 +55,43 @@ let exportedMethods = {
     );
 
     const userCollection = await users();
-
     const newInsertInformation = await userCollection.insertOne(newUser);
 
     if (!newInsertInformation.insertedId) {
       throw "Insert failed!";
     }
 
-    return await this.getUserById(newInsertInformation.insertedId.toString());
+    // return await this.getUserById(newInsertInformation.insertedId.toString());
+
+    return { signupCompleted: true };
+  },
+
+  async loginUser(username, password) {
+    username = userValidation.validateUsername(username);
+    password = userValidation.validatePassword(password);
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ username });
+    if (!user) throw `An account with this username does not exist!`;
+    
+    const valid = await bcrypt.compare(password, user.hashedPassword);
+    if (!valid) throw 'Password may be wrong, please try again.';
+
+    let role;
+    if (await this.isAdmin(user._id.toString())) {
+      role = 'admin';
+    } else {
+      role = 'user';
+    }
+
+    return {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      role: user.role
+    }
   },
 
   async addWordForUser(user_id, word_id) {
@@ -172,5 +206,7 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
+
+  
 };
 export default exportedMethods;

@@ -5,23 +5,23 @@ Client-Side java is required for the form, but submmission will take place for l
 
 <h1>Login</h1>
 
-<form action="login" method="POST">
-    <p>Username</p>
-    <input type="text" name="loginUser" id="loginUser" value={{log.loginUser}}>
-    <p>Password</p>
-    <input type="password" name="loginPass" id="loginPass">
-
-    <input type="submit" id="submitButton">
-
-    <p><a href="/register">Don't have an account? Sign up here.</a></p>
-
-    {{#if hasErrors}}
-    <ul class="error-list">
-        {{#each errorList}}
-        <li>
-            {{this}}
-        </li>
-        {{/each}}
-    </ul>
+<form action="/login" method="POST" id="signin">
+    {{#if errors}}
+            {{#each errors}}
+                <p class="error-top">{{this}}</p>
+            {{/each}}
     {{/if}}
+
+    <div class="input-container">
+        <label for="username">Username:</label>
+        <input name="username" id="username" type="text">
+    </div>
+
+    <div class="input-container">
+        <label for="password">Password:</label>
+        <input name="password" id="password" type="password">
+    </div>
+        
+    <button type="submit">Login</button>
 </form>
+<a id="register_link" href="/register">Don't have an account? Sign up here.</a>

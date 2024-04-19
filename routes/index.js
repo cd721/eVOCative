@@ -17,10 +17,16 @@ const constructorMethod = (app) => {
   app.use("/register", registerRoutes);
   app.use('/words', wordRoutes);
 
+  app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+  });
+
   app.get("/about", (req, res) => {
     res.sendFile(path.resolve("static/about.html"));
   });
   app.use("/public", staticDir("public"));
+
   app.get("/", (req, res) => {
     res.render("home");
   });
