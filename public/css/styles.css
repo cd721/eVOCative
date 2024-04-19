@@ -5,51 +5,70 @@
 }
 
 html {
-    background-color: #e7c796;
+    background-color: #fcfef1;
 
     font-family: Roboto, sans-serif;
-    color: #062c30;
+    color: #292929;
 }
 
 .hidden {
     display: none;
 }
 
-/* nav bar + footer*/
-
+/* ################### nav bar + footer ################### */
 nav, footer {
-    background-color: #066163;
-    padding: 10px 5px;
+    align-items: center;
+    
+    padding: 1em 2em;
+    background-color: #005d9e;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav img {
+    height: 60px;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
+    display: flex;
 }
-
+  
 nav li {
-    display: inline;
+    margin-left: 20px;
 }
-
+  
 nav li a {
-    padding: 11px;
-
+    color: #fcfef1;
     text-decoration: none;
-    color: white;
-}
+    transition: color 0.3s ease;
 
+    font-size: 1.2em;
+}
+  
 nav li a:hover {
-    background-color: red;
+    color: #a0bcd1;
 }
 
+/* footer*/
 footer {
+    display: block;
+    justify-content: center;
+
+    background-color: #0073a4;
+
     text-align: center;
+    color: #fcfef1;
 }
 
-footer a, footer p {
-    color: white;
+footer a {
+    color: #fcfef1;
 }
 
-/* body stuff */
+/* ################### body stuff ################### */
 
 body {
     display: flex;
@@ -65,8 +84,90 @@ h1 {
     text-align: center;
 }
 
+/* ################### home ################### */
+#banner {
+    height: 40rem;
+    
+    /* image from: https://create.vista.com/unlimited/stock-photos/5677367/stock-photo-laptop-computer-as-a-book/ */
+    background-image: url(../images/stock-photo-laptop-computer-as-a-book.jpg);
+    background-size: cover;
+    background-position-x: 1.1em;
+    background-position-y: -6.6em;
+    background-repeat: no-repeat;
 
-/* container generals */
+    border-bottom: 8px solid #fd703c;
+
+    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#banner-content {
+    padding-top: 10em;
+    padding-left: 7em;
+}
+
+#banner-content h1 {
+    text-align: left;
+    font-size: 4em;
+
+    margin-bottom: 20px;
+}
+
+#banner div p {
+    font-size: 1.5em;
+    color: #737373
+}
+
+#authentibar {
+    margin-top: 40px;
+}
+
+#authentibar a {
+    text-decoration: none;
+    margin: 0px 10px; 
+}
+
+#authentibar button {
+    padding: 10px 20px; 
+    background-color: #fd703c; 
+
+    font-size: 1.2em; 
+    color: #fcfef1; 
+    
+    border-radius: 10px;  
+    
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+#authentibar button:hover {
+    background-color: #ff9e6d; 
+}
+
+#features {
+    display: flex;
+    justify-content: space-between;
+
+    text-align: center;
+    color: #fcfef1;
+
+    padding: 20px;
+
+    width: 65%;
+    margin: 0px auto;
+}
+
+#features div {
+    flex: 1;
+
+    margin: 2em;
+    padding: 100px 50px;
+    
+    background-color: #292929;
+    border-radius: 10px;
+}
+
+
+/* ################### container generals ################### */
 .date_added {
     color: #066163; 
     text-align: center;

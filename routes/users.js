@@ -4,8 +4,7 @@ import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
 router.route('/').get(async (req, res) => {
     try {
-        const userList = await userData.get();
-        console.log(userList)
+        const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
         return res.status(500).json({ error: e });
