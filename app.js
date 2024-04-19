@@ -36,6 +36,7 @@ app.set("view engine", "handlebars");
 // MIDDLEWARE
 app.use(express.json());
 
+
 app.use(
   session({
     name: "AuthCookie", //name of cookie on client
@@ -45,6 +46,18 @@ app.use(
     cookie: { maxAge: 60000 }, //how long until session expires
   })
 );
+
+app.use("/", (req, res, next) => {
+
+  if (req.session.user && req.path !== "/logout") {
+    //if the user is  logged in and is not trying to logout
+    return res.render("home", {user:req.session.user});
+  
+  } else {
+    next();
+  }
+});
+
 
 //Authentication middleware
 //cannot access certain pages unless logged in
@@ -92,21 +105,29 @@ app.use("/posts", (req, res, next) => {
 app.use("/login", (req, res, next) => {
   if (req.session.user) {
     //is the user already logged in
-    const userId = req.session.user._id.toString();
+    const userId = req.session.user._id;
     return res.redirect(`/users/${userId}`);
   } else {
-    req.method = "POST";
     next();
   }
 });
 
 app.use("/register", (req, res, next) => {
   if (req.session.user) {
-    //is the user already logged in
-    const userId = req.session.user._id.toString();
+    const userId = req.session.user._id;
     return res.redirect(`/users/${userId}`);
   } else {
-    req.method = "POST";
+    next();
+  }
+});
+
+// Logout middleware
+// makes sure only users that are logged in can access it
+app.use('/logout', (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  } else {
+    console.log(req.session.user);
     next();
   }
 });

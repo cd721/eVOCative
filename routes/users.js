@@ -50,7 +50,6 @@ router.route('/:userId/remove/:wordId')
             user_id = idValidation.validateId(user_id);
         } catch (e) {
             return res.status(400).render("error");
-
         }
 
         try {

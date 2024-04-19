@@ -8,13 +8,14 @@ This is the handlebars file for the home page of eVOCative. The page users are t
   Welcome to eVOCative! The path to better vocabulary begins here</p>
 
 {{! Button for user to sign out}}
-<form action="/login" method="GET">
-  <button type="submit">Sign In</button>
-</form>
 
-<form action="/register" method="GET">
-  <button type="submit">Sign Up</button>
-</form>
+
+
+{{#if user}}
+{{> logoutLink}}
+{{else}}
+{{> accountLinks}}
+{{/if}}
 
 {{! after 'Word of the day: ' add the word of the day from the database}}
 <h2> Word of the Day:</h2>
