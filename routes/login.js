@@ -4,7 +4,7 @@ import userData from "../data/users/users.js";
 const router = Router();
 
 router
-  .route("")
+  .route("/")
   .get(async (req, res) => {
     try {
       return res.render("login");
@@ -41,7 +41,6 @@ router
     }
 
     if (errorList.length > 0) {
-      console.log(errorlist);
       return res.render("login", {
         errors: errorList,
         hasErrors: true,
