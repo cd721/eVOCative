@@ -51,6 +51,7 @@ router
     } else {
       req.session.user = await userData.getUserByUsername(username);
       console.log(req.session.user);
+      //TODO: revise?
       const userId = req.session.user._id.toString();
       return res.redirect(`/users/${userId}`);
     }
