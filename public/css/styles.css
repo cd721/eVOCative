@@ -15,6 +15,10 @@ html {
     display: none;
 }
 
+
+/* ################### site wide ################### */
+
+
 /* ################### nav bar + footer ################### */
 nav, footer {
     align-items: center;
@@ -28,13 +32,13 @@ nav {
     justify-content: space-between;
 }
 
-nav img {
-    height: 60px;
-}
-
 nav ul {
     list-style: none;
     display: flex;
+}
+
+nav .logo_home {
+    height: 60px;
 }
   
 nav li {
@@ -100,12 +104,12 @@ h1 {
     box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-#banner-content {
+#banner_content {
     padding-top: 10em;
     padding-left: 7em;
 }
 
-#banner-content h1 {
+#banner_content h1 {
     text-align: left;
     font-size: 4em;
 
@@ -166,6 +170,100 @@ h1 {
     border-radius: 10px;
 }
 
+/* ################### login/register/logout ################### */
+.error_text {
+    color: red;
+
+    font-size: 0.70em;
+    margin-top: 5px;
+}
+
+.auth_container {
+    margin: 70px auto;
+    padding: 10px 25px 20px;
+
+    max-width: 350px;
+    
+    border-radius: 8px;
+    border: 1px solid #292929;
+} 
+
+.logo_home {
+    height: 40px;
+
+    margin-bottom: 10px;
+}
+
+.auth_container h1 {
+    margin-bottom: 20px;
+}
+
+#signout h3 {
+    text-align: center;
+}
+
+form h3 {
+    font-size: 1.2em;
+
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+
+    border-bottom: 1px solid #292929;
+}
+
+#personal_info, #passwords {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.input_container {
+    margin-bottom: 20px;
+}
+
+.input_container label {
+    display: block;
+    margin-bottom: 5px;
+
+}
+
+.input_container input {
+    width: 100%;
+    padding: 4px;
+}
+
+.auth_container button {
+    width: 100%;
+    padding: 8px;
+
+    cursor: pointer;
+
+    background-color: #fd703c;
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
+    font-weight: bold;
+    color: #fcfef1;
+}
+
+.auth_container button:hover {
+    background-color: #ff9e6d;
+}
+
+.auth_container a {
+    display: block;
+    margin-top: 20px;
+
+    text-align: center;
+    color: #5c67f2;
+    text-decoration: none;
+}
+
+.auth_container a:hover {
+    text-decoration: underline;
+}
 
 /* ################### container generals ################### */
 .date_added {

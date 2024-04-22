@@ -5,6 +5,10 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 
+// arrays for organization
+const noFrames = ['/login', '/register', '/logout']
+
+
 const rewriteUnsupportedBrowserMethods = async (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
   // To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
@@ -47,17 +51,41 @@ app.use(
   })
 );
 
-app.use("/", (req, res, next) => {
 
-  if (req.session.user && req.path !== "/logout") {
-    //if the user is  logged in and is not trying to logout
-    return res.render("home", {user:req.session.user});
+// right now, this applies to everything, so any route accessed leads to 'home'
+// app.use("/", (req, res, next) => {
+
+//   if (req.session.user && req.path !== "/logout") {
+//     //if the user is  logged in and is not trying to logout
+//     return res.render("home", {user:req.session.user});
   
+//   } else {
+//     next();
+//   }
+// });
+
+
+
+//Handlebars middleware
+// for the handlebars to figure out if the user is logged in or not
+app.use((req, res, next) => {
+  if (req.session.user) {
+    res.locals.isAuthenticated = true;
   } else {
-    next();
+    res.locals.isAuthenticated = false;
   }
+  next();
 });
 
+// for handlebars to determine if there should be a header/footer on the page
+app.use((req, res, next) => {
+  if (noFrames.includes(req.path)) {
+    res.locals.noFrame = true;
+  } else {
+    res.locals.noFrame = false;
+  }
+  next();
+});
 
 //Authentication middleware
 //cannot access certain pages unless logged in
