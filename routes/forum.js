@@ -34,7 +34,7 @@ router.route('/new')
     .post(async (req, res) => {
         try {
             let postDetails = req.body;
-            let poster_id = "6618756767602f596b367c12";//req.session.user._id;
+            let poster_id = req.session.user._id;
             let title = postDetails.title;
             let post = postDetails.post;
             let tags = postDetails.tags.split(",").map(tag => tag.trim());
