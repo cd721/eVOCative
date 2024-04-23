@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 let exportedMethods = {
 
     createNewPost(poster_id, title, post, tags) {
+        poster_id = poster_id.toString();
         let newPost = {
             _id: new ObjectId(),
             title: title,
