@@ -19,65 +19,39 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/").post(async (req, res) => {
-  let newUser = req.body;
-
+  let { firstName, lastName, email, username, password, confirmPassword } = req.body;
+  
+  let errors = [];
   try {
-    await userValidation.validateEmail(newUser.email);
-  } catch (e) {
-    return res.render("register", {
-      error: e,
-      fname: newUser.fname,
-      lname: newUser.lname,
-    });
-  }
+    firstName = userValidation.validateName(firstName);
+    lastName = userValidation.validateName(lastName);
+    email = userValidation.validateEmail(email);
+    username = userValidation.validateUsername(username);
+    password = userValidation.validatePassword(password);
+    checkPassword(password, confirmPassword);
 
-  try {
-    await userValidation.emailDoesNotAlreadyExist(newUser.email);
-  } catch (e) {
-    return res.render("register", {
-      error: e,
-      fname: newUser.fname,
-      lname: newUser.lname,
-    });
-  }
-
-  try {
-    await userValidation.usernameDoesNotAlreadyExist(newUser.username);
-  } catch (e) {
-    return res.render("register", {
-      error: e,
-      fname: newUser.fname,
-      lname: newUser.lname,
-      email: newUser.email,
-      username: newUser.username,
-    });
-  }
-
-  try {
-    checkPassword(newUser.password, newUser.confirmPassword);
-  } catch (e) {
-    return res.render("register", {
-      error: e,
-      fname: newUser.fname,
-      lname: newUser.lname,
-      email: newUser.email,
-    });
-  }
-
-  let userAdded;
-
-  try {
-    userAdded = await userData.addUser(
-      newUser.fname,
-      newUser.lname,
-      newUser.email,
-      newUser.username,
-      newUser.password
+    const user = await userData.addUser(
+      firstName,
+      lastName,
+      email,
+      username,
+      password
     );
-    return res.redirect(`users/${userAdded._id}`);
+
+    if (user.signupCompleted) {
+      return res.redirect('/login');
+    } else {
+      return res.status(500).render('register', {
+        error: 'Internal server error.'
+      });
+    }
+
   } catch (e) {
-    console.log(e);
-    return res.status(400).render("error", { error: e });
+    errors.push(e)
+    return res.status(400).render('register', {
+      errors,
+      data: req.body
+    });
   }
 });
 

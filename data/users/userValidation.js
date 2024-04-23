@@ -5,6 +5,9 @@ import emailValidator from "email-validator";
 const exportedMethods = {
   validateName(name) {
     name = gen.validateGen("Name", name);
+    // does it have a number
+    if (/\d/.test(name))
+      throw `${name || "given string"} cannot contain a number`;
     return name;
   },
 

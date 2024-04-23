@@ -27,7 +27,8 @@ router
 
         try {
             let words = await userData.getWordsForUser(user_id);
-            if (userData.isAdmin(user_id)) {
+            const userIsAdmin = await userData.isAdmin(user_id);
+            if (userIsAdmin) {
                 return res.render("users/adminProfile", { title: "Admin Profile", user: user, user_id: user_id, words: words });
             }
             return res.render("users/profile", { title: "User Profile", user: user, user_id: user_id, words: words });
@@ -49,7 +50,6 @@ router.route('/:userId/remove/:wordId')
             user_id = idValidation.validateId(user_id);
         } catch (e) {
             return res.status(400).render("error");
-
         }
 
         try {

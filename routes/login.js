@@ -3,8 +3,7 @@ import userValidation from "../data/users/userValidation.js";
 import userData from "../data/users/users.js";
 const router = Router();
 
-router
-  .route("")
+router.route("/")
   .get(async (req, res) => {
     try {
       return res.render("login");
@@ -13,46 +12,35 @@ router
     }
   })
   .post(async (req, res) => {
-    let login = req.body;
-    let errorList = [];
-    let username = login.loginUser;
-    let password = login.loginPass;
-    let userList;
-    let firstName = "Catherine";
-    let lastName = "DeMario";
-    let userId = "";
-
+    let { username, password } = req.body;
+      
+    let errors = [];
     try {
       username = userValidation.validateName(username);
-    } catch (e) {
-      errorList.push(e);
-    }
-
-    try {
       password = userValidation.validatePassword(password);
-    } catch (e) {
-      errorList.push(e);
-    }
 
-    try {
-      userList = await userData.getAllUsers();
-    } catch (e) {
-      errorList.push(e);
-    }
+      const user = await userData.loginUser(username, password);
+      if (user) {
+        req.session.user = {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          role: user.role
+        }
 
-    if (errorList.length > 0) {
-      console.log(errorlist);
-      return res.render("login", {
-        errors: errorList,
-        hasErrors: true,
-        username: username,
-        log: login,
+        return res.redirect(`/users/${user._id.toString()}`);
+        
+      } else {
+        throw 'Invalid username or password!';
+      } 
+    } catch (e) {
+      errors.push(e);
+      return res.status(400).render('login', {
+        errors
       });
-    } else {
-      req.session.user = await userData.getUserByUsername(username);
-      console.log(req.session.user);
-      const userId = req.session.user._id.toString();
-      return res.redirect(`/users/${userId}`);
     }
-  });
+});
+
 export default router;
