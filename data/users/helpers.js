@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt'
-
+import helpers from '../../helpers/helpers.js'
 let exportedMethods = {
 
     createNewUser(firstName, lastName, email, hashedPassword, username) {
@@ -17,7 +17,7 @@ let exportedMethods = {
             streak: 0,
             longest_streak: 0,
             is_admin: false,
-            received_todays_word: false,
+            date_last_word_was_received: null,
             posts: [],
             words: [],
             accuracy_score: 0,
