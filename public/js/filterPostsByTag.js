@@ -1,5 +1,6 @@
 // (function () {
 const form = document.getElementById("tag-filter-form");
+const clearForm = document.getElementById("clear-filtered-tags");
 const tagsTextArea = document.getElementById("tagFilter");
 const postsList = document.getElementById("postsList");
 if (form) {
@@ -29,6 +30,22 @@ if (form) {
             postArticles[i].hidden = false;
           }
         }
+      }
+    }
+  });
+}
+
+if (clearForm) {
+  clearForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    tagsTextArea.value = "";
+
+    //Reset the existing posts that are there
+    if (postsList) {
+      // let postLiElements = postsList.children[0].children;
+      let postArticles = document.querySelectorAll(".post");
+      for (let i = 0; i < postArticles.length; i++) {
+        postArticles[i].hidden = false;
       }
     }
   });

@@ -23,9 +23,11 @@
   "homepage": "https://github.com/cd721/eVOCative#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "email-validator": "^2.0.4",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.18.0",
-    "mongodb": "^6.5.0"
+    "mongodb": "^6.5.0",
+    "xss": "^1.0.15"
   }
 }
