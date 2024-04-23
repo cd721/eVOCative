@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userValidation from "../data/users/userValidation.js";
 import userData from "../data/users/users.js";
+import xss from "xss";
 const router = Router();
 
 router.route("/")
@@ -12,7 +13,8 @@ router.route("/")
     }
   })
   .post(async (req, res) => {
-    let { username, password } = req.body;
+    let username = xss(req.body.username);
+    let password = xss(req.body.password);
       
     let errors = [];
     try {
