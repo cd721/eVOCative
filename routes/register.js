@@ -26,13 +26,17 @@ router.route("/").post(async (req, res) => {
   let username = xss(req.body.username);
   let password = xss(req.body.password);
   let confirmPassword = xss(req.body.confirmPassword);
-  
+
   let errors = [];
   try {
     firstName = userValidation.validateName(firstName);
     lastName = userValidation.validateName(lastName);
     email = userValidation.validateEmail(email);
+    email = await userValidation.emailDoesNotAlreadyExist(email);
+
     username = userValidation.validateUsername(username);
+    username = await userValidation.usernameDoesNotAlreadyExist(username);
+
     password = userValidation.validatePassword(password);
     checkPassword(password, confirmPassword);
 
