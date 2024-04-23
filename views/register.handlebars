@@ -1,8 +1,8 @@
 <h1>Register</h1>
 
-{{#if error}}
-<p class="error-text">{{error}}</p>
-{{/if}}
+{{#each errors}}
+<p class="error-text">{{this}}</p>
+{{/each}}
 <form action="/register" method="POST" id="signup">
   <div class="input-container">
     <label for="firstName">First Name:</label>

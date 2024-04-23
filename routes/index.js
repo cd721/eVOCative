@@ -5,11 +5,15 @@ import loginRoutes from "./login.js";
 import logoutRoutes from "./logout.js";
 import registerRoutes from "./register.js";
 import wordRoutes from './words.js';
+import homeRoutes from './home.js'
+import wordData from '../data/words/words.js';
 
 import path from "path";
 import { static as staticDir } from "express";
 
 const constructorMethod = (app) => {
+  app.use('/home', homeRoutes);
+
   app.use("/forum", forumRoutes);
   app.use("/quiz", quizRoutes);
   app.use("/posts", forumRoutes);
@@ -27,7 +31,8 @@ const constructorMethod = (app) => {
   app.use("/public", staticDir("public"));
 
   app.get("/", (req, res) => {
-    res.render("home");
+
+    res.redirect("/home");
   });
 
   app.use("*", (req, res) => {

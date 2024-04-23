@@ -73,7 +73,7 @@ let exportedMethods = {
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
-    
+
     const valid = await bcrypt.compare(password, user.hashedPassword);
     if (!valid) throw 'Password may be wrong, please try again.';
 
@@ -102,7 +102,8 @@ let exportedMethods = {
 
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
-      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } }
+      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } },
+      { $set: { date_last_word_was_received: new Date() } }
     );
 
     if (!updateInfo.acknowledged) {
@@ -176,6 +177,12 @@ let exportedMethods = {
     return user.is_admin;
   },
 
+  async getDateLastWordWasReceived(user_id) {
+    const user = await this.getUserById(user_id);
+
+    return user.date_last_word_was_received;
+  },
+
   async getWordsForUser(user_id) {
     const user = await this.getUserById(user_id);
 
@@ -207,6 +214,6 @@ let exportedMethods = {
     return updateUserInfo;
   },
 
-  
+
 };
 export default exportedMethods;

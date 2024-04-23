@@ -40,6 +40,7 @@ router.route('/new')
             let tags = xss(req.body.tags);
             tags = tags.split(",").map(tag => tag.trim());
             console.log({poster_id: poster_id, title: title, post: post, tags: tags});
+
             await postData.addPost(poster_id, title, post, tags);
             return res.redirect("/forum");
 
