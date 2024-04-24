@@ -100,14 +100,20 @@ router.route("/definitionToWord").get(async (req, res) => {
       }
     }
 
-    let correctInd = buttonOrder.indexOf(1);
+    let correctInd ;
+    for(let i =0;i<buttonDefs.length;i++){
+      if(buttonDefs[i] == randomWord.definition){
+        correctInd = i;
+        console.log(correctInd)
+      }
+    }
 
     return res.render("quiz/definitionToWord", {
       curWord: randomWord,
-      def1: buttonDefs[0],
-      def2: buttonDefs[1],
-      def3: buttonDefs[2],
-      def4: buttonDefs[3],
+      def0: buttonDefs[0],
+      def1: buttonDefs[1],
+      def2: buttonDefs[2],
+      def3: buttonDefs[3],
       correctInd: correctInd,
     });
   } catch (e) {
