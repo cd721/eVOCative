@@ -31,7 +31,24 @@ app.engine(
   "handlebars",
   exphbs.engine({
     defaultLayout: "main",
-    helpers: {},
+
+    helpers: {
+      // date formatters
+      dateWordIndex: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
+        })
+      },
+
+      dateWordSingle: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        })
+      }
+    },
     partialsDir: ["views/partials/"],
   })
 );
