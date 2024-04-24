@@ -31,8 +31,10 @@ router
             //add new word of the day to user word bank automatically
             let date_last_word_was_received = await userData.getDateLastWordWasReceived(user_id);
 
+            let recievedWOD = false;
             if(!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
                 await userData.addWordOfDay(user_id);
+                recievedWOD = true;
             };
 
             let words = await userData.getWordsForUser(user_id);
@@ -44,7 +46,7 @@ router
             if (userIsAdmin) {
                 return res.render("users/adminProfile", { title: "Admin Profile", user: safeUserData, words: words });
             }
-            return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words });
+            return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
             return res.status(500).json({ error: e });
