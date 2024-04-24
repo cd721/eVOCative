@@ -19,7 +19,7 @@ console.log(josie);
 
 const firstPost = await posts.addPost(catherine._id.toString(), "My first post", "This is my post", ["mine", "cool"]);
 await users.addPostForUser(catherine._id.toString(), firstPost._id.toString());
-const anotherPost = await posts.addPost(josie._id.toString(), "I'm making a word post!", "Wow this app is really awesome! I like words!", ["josie, happy"]);
+const anotherPost = await posts.addPost(josie._id.toString(), "I'm making a word post!", "Wow this app is really awesome! I like words!", ["josie", "happy"]);
 await users.addPostForUser(josie._id.toString(), anotherPost._id.toString());
 
 const firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
