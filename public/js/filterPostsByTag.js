@@ -2,10 +2,12 @@
 const form = document.getElementById("tag-filter-form");
 const clearForm = document.getElementById("clear-filtered-tags");
 const tagsTextArea = document.getElementById("tagFilter");
-const postsList = document.getElementById("postsList");
+const postsList = document.getElementById("posts_list");
 if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    form.reset();
+
 
     const tagString = tagsTextArea.value;
     let tagsUserWantsToSee;
@@ -16,22 +18,24 @@ if (form) {
 
     //Clear the existing posts that are there
     if (postsList) {
-      let postLiElements = postsList.children[0].children;
-      let postArticles = document.querySelectorAll(".post");
-      for (let i = 0; i < postArticles.length; i++) {
-        let id = postArticles[i].id;
-        let tagAside = document.querySelector(`article#${id} aside`);
-        let tagList = tagAside.innerHTML;
+      let postPreviews = document.querySelectorAll(".post_preview");
+      for (let i = 0; i < postPreviews.length; i++) {
+        let postSection = postPreviews[i].querySelector(".individual_post")
+        let id = postSection.id;
+        let tagAs = [...document.querySelectorAll(`section#${id} li a`)];
+        let tagList = tagAs.map(a => a.innerHTML);
 
         for (let tagUserWants of tagsUserWantsToSee) {
           if (!tagList.includes(tagUserWants)) {
-            postArticles[i].hidden = true;
-          } else {
-            postArticles[i].hidden = false;
+            postPreviews[i].classList.add("hidden");
+            postPreviews[i].childNodes.forEach(node => node.classList.add("hidden"))
+
           }
         }
       }
     }
+
+
   });
 }
 
@@ -43,9 +47,12 @@ if (clearForm) {
     //Reset the existing posts that are there
     if (postsList) {
       // let postLiElements = postsList.children[0].children;
-      let postArticles = document.querySelectorAll(".post");
-      for (let i = 0; i < postArticles.length; i++) {
-        postArticles[i].hidden = false;
+      let postPreviews = document.querySelectorAll(".post_preview");
+      for (let i = 0; i < postPreviews[i].length; i++) {
+
+        postPreviews[i].classList.remove("hidden");
+        postPreviews[i].childNodes.forEach(node => node.classList.add("hidden"))
+
       }
     }
   });

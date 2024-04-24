@@ -20,9 +20,10 @@ html {
 
 
 /* ################### nav bar + footer ################### */
-nav, footer {
+nav,
+footer {
     align-items: center;
-    
+
     padding: 1em 2em;
     background-color: #005d9e;
 }
@@ -37,15 +38,15 @@ nav ul {
     display: flex;
 }
 
-/* also controls how tall the header is in general */ 
+/* also controls how tall the header is in general */
 nav .logo_home {
     height: 40px;
 }
-  
+
 nav li {
     margin-left: 20px;
 }
-  
+
 nav li a {
     color: #fcfef1;
     text-decoration: none;
@@ -53,7 +54,7 @@ nav li a {
 
     font-size: 1.2em;
 }
-  
+
 nav li a:hover {
     color: #a0bcd1;
 }
@@ -92,7 +93,7 @@ h1 {
 /* ################### home ################### */
 #banner {
     height: 40rem;
-    
+
     /* image from: https://create.vista.com/unlimited/stock-photos/5677367/stock-photo-laptop-computer-as-a-book/ */
     background-image: url(../images/stock-photo-laptop-computer-as-a-book.jpg);
     background-size: cover;
@@ -128,24 +129,24 @@ h1 {
 
 #authentibar a {
     text-decoration: none;
-    margin: 0px 10px; 
+    margin: 0px 10px;
 }
 
 #authentibar button {
-    padding: 10px 20px; 
-    background-color: #fd703c; 
+    padding: 10px 20px;
+    background-color: #fd703c;
 
-    font-size: 1.2em; 
-    color: #fcfef1; 
-    
-    border-radius: 10px;  
-    
-    cursor: pointer; 
-    transition: all 0.3s ease; 
+    font-size: 1.2em;
+    color: #fcfef1;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 #authentibar button:hover {
-    background-color: #ff9e6d; 
+    background-color: #ff9e6d;
 }
 
 #features {
@@ -166,7 +167,7 @@ h1 {
 
     margin: 2em;
     padding: 100px 50px;
-    
+
     background-color: #292929;
     border-radius: 10px;
 }
@@ -184,10 +185,10 @@ h1 {
     padding: 10px 25px 20px;
 
     max-width: 350px;
-    
+
     border-radius: 8px;
     border: 1px solid #292929;
-} 
+}
 
 .logo_home {
     height: 40px;
@@ -212,7 +213,8 @@ form h3 {
     border-bottom: 1px solid #292929;
 }
 
-#personal_info, #passwords {
+#personal_info,
+#passwords {
     display: flex;
     justify-content: space-between;
 
@@ -276,7 +278,7 @@ form h3 {
     margin: 0px auto;
 }
 
-.profile > div {
+.profile>div {
     padding-bottom: 10px;
     border-bottom: 2px solid #292929;
 }
@@ -300,17 +302,17 @@ form h3 {
 /* user stats */
 #user-stats ul {
     list-style-type: none;
-    
+
     display: flex;
     flex-wrap: wrap;
 
-    gap: 20px; 
+    gap: 20px;
 }
 
 #user-stats li {
     flex: 1;
     min-width: 130px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
     padding: 15px;
 
     background-color: #a0bcd1;
@@ -327,15 +329,15 @@ form h3 {
     background-color: #0073a4;
 
     margin-bottom: 20px;
-}   
+}
 
 #user-words ul {
     list-style-type: none;
-    
+
     display: flex;
     flex-wrap: wrap;
 
-    gap: 20px; 
+    gap: 20px;
 
     padding: 20px;
 }
@@ -370,13 +372,13 @@ form h3 {
 
 /* ################### container generals ################### */
 .date_added {
-    color: #066163; 
+    color: #066163;
     text-align: center;
     font-size: 0.9em;
 }
 
 .main_container {
-    background: #e2e2e2; 
+    background: #e2e2e2;
     width: 65%;
     margin: 20px auto 0px;
 
@@ -385,13 +387,13 @@ form h3 {
 }
 
 .tags {
-    margin: 50px 0px 20px; 
-    padding: 10px; 
-    background: #f2f2f2; 
+    margin: 50px 0px 20px;
+    padding: 10px;
+    background: #f2f2f2;
 
     text-align: center;
 
-    border-radius: 8px; 
+    border-radius: 8px;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -401,23 +403,23 @@ form h3 {
 }
 
 .tags ul {
-    list-style: none; 
+    list-style: none;
 }
 
 .tags li {
-    display: inline-block; 
-    padding: 5px 15px; 
-    margin: 5px; 
+    display: inline-block;
+    padding: 5px 15px;
+    margin: 5px;
 
-    background-color: #eb4d55; 
-    
+    background-color: #eb4d55;
 
-    color: #ffffff; 
-    
-    border-radius: 4px; 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); 
-    
-    cursor: pointer; 
+
+    color: #ffffff;
+
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
@@ -428,12 +430,12 @@ form h3 {
 /* ################### WORDS ################### */
 /* word page */
 #word_page h1 {
-    font-size: 5em; 
-    color: #eb4d55; 
+    font-size: 5em;
+    color: #eb4d55;
 
-    background: #f2f2f2; 
+    background: #f2f2f2;
     padding: 20px 0px;
-    margin-bottom: 50px; 
+    margin-bottom: 50px;
 
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -448,9 +450,9 @@ form h3 {
 
 /* word index */
 #word_index h1 {
-    background: #f2f2f2; 
+    background: #f2f2f2;
     padding: 20px 0px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 
     font-size: 2.5em;
 
@@ -467,7 +469,7 @@ form h3 {
 
     gap: 20px;
     padding: 20px;
-    
+
 }
 
 #word_index li {
@@ -485,7 +487,7 @@ form h3 {
 }
 
 #word_index li:hover {
-    transform: translateY(-5px); 
+    transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -501,19 +503,7 @@ form h3 {
 /* ################### POSTS ################### */
 /* post page */
 #post_page #post_info {
-    font-size: 1.5em; 
-
-    background: #f2f2f2; 
-    padding: 30px 20px;
-    margin-bottom: 20px; 
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#post_page h1 {
-    margin-bottom: 10px;
-    text-align: left;
+    font-size: 1.5em;
 }
 
 #post_page p {
@@ -523,19 +513,44 @@ form h3 {
 }
 
 #post_page address {
-    color: #066163; 
+    color: #066163;
     font-size: 0.6em;
 }
 
-#post_page .tags a {
-    text-decoration: none;
-    color: inherit;
+
+/* Forum Page */
+#forum_page .individual_post {
+    font-size: 1.0em;
+
+
+}
+
+#posts_list li {
+    list-style: none;
+}
+
+/* Common styling for all forum pages  */
+#post_page #post_info,
+#forum_page .individual_post {
+    background: #f2f2f2;
+    padding: 30px 20px;
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+#post_page h1,
+#posts_list h2 {
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 /* ################### REGISTRATION ################### */
 /* register page */
 
 .error-text {
-    color:red;
+    color: red;
     margin: 10px;
 }
