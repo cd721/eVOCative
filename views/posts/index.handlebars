@@ -1,9 +1,9 @@
-<section>
+<article id="forum_page" class="main_container">
     <h1>Posts</h1>
     <h2><a href="/forum/new">Make a new post</a></h2>
 
     <p>Filter by tag:</p>
-    <form action="/forum" id="tag-filter-form">
+    <form action="/forum" id="tag-filter-form" class="input_container">
         <label for="tagFilter">Enter the tags you want to see:
             <textarea value="tagFilter" id="tagFilter" name="tagFilter" rows="2"></textarea>
             {{!-- <select id="tagFilter" name="tagFilter">
@@ -19,19 +19,22 @@
         <button type="submit">Clear Filters</button>
     </form>
     <br>
-    <div id="postsList">
+    <div id="posts_list">
         <ul>
             {{#each posts}}
-            <li>
-                <article class="post" id="article{{_id}}">
-                    <h2><a href="/forum/{{_id}}">{{title}}</a></h2>
-                    {{{post}}}
-                    <aside class="tags-for-post">Tags: {{tags}}</aside>
-                </article>
-            </li>
-            <br>
+            <div class="post_preview">
+                <li>
+                    <section class="individual_post" id="section{{_id}}">
+                        <h2><a href="/forum/{{_id}}">{{title}}</a></h2>
+                        {{{post}}}
+                        {{> tags this}}
+                    </section>
+                </li>
+            </div>
             {{/each}}
+            <br>
+
         </ul>
-    </div>
-</section>
-<script src="/public/js/filterPostsByTag.js"></script>
+
+        </section>
+        <script src="/public/js/filterPostsByTag.js"></script>

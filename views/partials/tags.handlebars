@@ -1,0 +1,10 @@
+{{#if this.tags.length}}
+<div class="tags">
+    <h4>Tags</h4>
+    <ul>
+        {{#each this.tags}}
+        <li class="post_list_item"><a href="/forum/tag/{{this}}">{{this}}</a></li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>
