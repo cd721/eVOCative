@@ -37,8 +37,9 @@ nav ul {
     display: flex;
 }
 
+/* also controls how tall the header is in general */ 
 nav .logo_home {
-    height: 60px;
+    height: 40px;
 }
   
 nav li {
@@ -62,7 +63,7 @@ footer {
     display: block;
     justify-content: center;
 
-    background-color: #0073a4;
+    background-color: #005d9e;
 
     text-align: center;
     color: #fcfef1;
@@ -96,7 +97,7 @@ h1 {
     background-image: url(../images/stock-photo-laptop-computer-as-a-book.jpg);
     background-size: cover;
     background-position-x: 1.1em;
-    background-position-y: -6.6em;
+    background-position-y: -5.6em;
     background-repeat: no-repeat;
 
     border-bottom: 8px solid #fd703c;
@@ -263,6 +264,108 @@ form h3 {
 
 .auth_container a:hover {
     text-decoration: underline;
+}
+
+
+/* ################### profiles ################### */
+.profile {
+    display: flex;
+    flex-direction: column;
+
+    width: 60%;
+    margin: 0px auto;
+}
+
+.profile > div {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #292929;
+}
+
+.profile h2 {
+    font-size: 25px;
+    margin: 10px 0px;
+
+    color: #fd703c;
+}
+
+/* user info */
+#user-info h3 {
+    margin-top: 20px;
+}
+
+#user-info h4 {
+    color: #737373;
+}
+
+/* user stats */
+#user-stats ul {
+    list-style-type: none;
+    
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px; 
+}
+
+#user-stats li {
+    flex: 1;
+    min-width: 130px;
+    margin-bottom: 10px; 
+    padding: 15px;
+
+    background-color: #a0bcd1;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+}
+
+/* user words */
+.words-container {
+    border-radius: 8px;
+    border: 2px solid #292929;
+
+    background-color: #0073a4;
+
+    margin-bottom: 20px;
+}   
+
+#user-words ul {
+    list-style-type: none;
+    
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px; 
+
+    padding: 20px;
+}
+
+#user-words li {
+    flex: 1;
+    padding: 15px;
+
+    background-color: #e6f4f1;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+
+    transition: background-color 0.3s ease;
+}
+
+#user-words li:hover {
+    background-color: #ff9e6d;
+}
+
+#user-words li a {
+    text-decoration: none;
+    color: #292929;
+}
+
+#no-words {
+    text-align: center;
+    padding: 40px;
+
+    background-color: #e6f4f1;
 }
 
 /* ################### container generals ################### */

@@ -47,6 +47,13 @@ app.engine(
             day: 'numeric',
             year: 'numeric'
         })
+      },
+
+      dateProfile: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+          month: 'long',
+          year: 'numeric'
+        })
       }
     },
     partialsDir: ["views/partials/"],
@@ -55,9 +62,6 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // MIDDLEWARE
-app.use(express.json());
-
-
 app.use(
   session({
     name: "AuthCookie", //name of cookie on client
@@ -67,17 +71,6 @@ app.use(
     cookie: { maxAge: 60000 }, //how long until session expires
   })
 );
-
-app.use("/", (req, res, next) => {
-  if (req.session.user &&( req.path === "/" ||req.path === "/home")) {
-    //if the user is  logged in and is not trying to logout
-    return res.render("home", { user: req.session.user });
-  } else {
-    next();
-  }
-});
-
-
 
 //Handlebars middleware
 // for the handlebars to figure out if the user is logged in or not
@@ -100,8 +93,27 @@ app.use((req, res, next) => {
   next();
 });
 
+// allows handlebars to access the user's info
+// check routes/login.js for what is in req.session.user
+app.use((req, res, next) => {
+  if (req.session.user) {
+    res.locals.sessionUser = req.session.user;
+  }
+  next();
+});
+
 //Authentication middleware
 //cannot access certain pages unless logged in
+
+app.use("/", (req, res, next) => {
+  if (req.path === "/" || req.path === "/home") {
+    //if the user is  logged in and is not trying to logout
+    return res.render("home", { user: req.session.user });
+  } else {
+    next();
+  }
+});
+
 app.use("/words", (req, res, next) => {
   if (!req.session.user) {
     //if the user is not logged in
