@@ -108,7 +108,7 @@ app.use((req, res, next) => {
 app.use("/", (req, res, next) => {
   if (req.path === "/" || req.path === "/home") {
     //if the user is  logged in and is not trying to logout
-    return res.render("home", { user: req.session.user });
+    return res.render("home", { user: req.session.user, notAuthUser: !res.locals.isAuthenticated });
   } else {
     next();
   }
