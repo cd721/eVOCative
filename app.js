@@ -43,9 +43,9 @@ app.engine(
 
       dateWordSingle: (date) => {
         return new Date(date).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
         })
       },
 
@@ -54,6 +54,9 @@ app.engine(
           month: 'long',
           year: 'numeric'
         })
+      },
+      json: (context) => {
+        return JSON.stringify(context);
       }
     },
     partialsDir: ["views/partials/"],
