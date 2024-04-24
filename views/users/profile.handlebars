@@ -1,22 +1,51 @@
-{{> loggedInUser}}
-
-<h1>{{user.firstName}} {{user.lastName}}</h1>
-<h2>My accuracy score is: {{user.accuracy_score}}</h2>
-<section>
-    <h2>My Words</h2>
-    {{#each words}}
-    <article class="wordsForUser">
-        <h2><a href="/words/{{_id}}">{{word.word}}</a></h2>
-        <h3>Tags</h3>
+<div class="profile">
+    <div id="user-info">
+        <h3>{{user.firstName}} {{user.lastName}}</h3>
+        <h4>@{{user.username}}</h4>
+        <p>User since {{dateProfile user.start_date}}</p>
+    </div>
+    <div id="user-stats">
+        <h2>Statistics</h2>
         <ul>
-            {{#each word.tags}}
-            <li><a href="/words/tag/{{this}}">{{word.words}}</a></li>
-            {{/each}}
+            <li>
+                <p>Streak</p>
+                <h4>{{user.streak}} days</h4>
+            </li>
+            <li>
+                <p>Longest Streak</p>
+                <h4>{{user.longest_streak}} days</h4>
+            </li>
+            <li>
+                <p>Accuracy Score</p>
+                <h4>{{user.accuracy_score}}%</h4>
+            </li>
+            <li>
+                <p>Total Words</p>
+                <h4>{{user.words.length}} words</h4>
+            </li>
         </ul>
-        <h4>My accuracy score for {{word.word}} is {{word.accuracy_score}}.</h4>
-        <p><a href="/users/{{../user_id}}/remove/{{_id}}">Remove {{this.word}} from my word bank</a></p>
-        {{!-- TODO: user can only remove word when signed in --}}
-    </article>
-    {{/each}}
-</section>
-<aside>I've been using eVOCactive since {{user.start_date}}.</aside>
+    </div>
+
+    <div id="user-words">
+        <h2>Word Bank</h2>
+        {{#if words}}
+        <div class="words-container">
+            <ul>
+                {{#each words}}
+                <li>
+                    <a href="/words/{{this._id}}">
+                        <h4>{{this.word}}</h4>
+                        <p>{{this.definition}}</p>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        {{else}}
+        <div id="no-words" class="words-container">
+            <h3>No words yet!</h3>
+            <a href="/words">Add some words</a>
+        </div>
+        {{/if}}
+        </div>
+    </div>
+</div>

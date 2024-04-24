@@ -10,29 +10,44 @@
   </head>
 
   <body>
+    {{#if noFrame}}
+    <!-- no header for some pages, like login and register -->
+    {{else}}
     <header>
       <nav>
+        <a href="/">
+          <img class="logo_home" src="../../public/images/fullTransparent2.png" alt="eVOCative Logo">
+        </a>
         <ul>
-          <li><a href="/">Home</a></li>
-          <!-- <li><a href="/profile">Profile</a></li> -->
+          {{#if isAuthenticated}}
+          <li><a href="/users/{{sessionUser._id}}">Profile</a></li>
           <li><a href="/quiz">Quiz</a></li>
           <li><a href="/words">Words</a></li>
           <li><a href="/forum">Forum</a></li>
+
+          <li><a href="/logout">Logout</a></li>
+          {{else}}
           <li><a href="/about">About Us</a></li>
+          {{/if}}
         </ul>
       </nav>
     </header>
+    {{/if}}
 
     <main>
       {{{body}}}
     </main>
 
+    {{#if noFrame}}
+
+    {{else}}
     <footer>
       <p>Josephine Cerino, Catherine DeMario, Justerini Mejia, Jamie Rollins, Justin Vilchez</p>
       <address>
         <a href="https://github.com/cd721/eVOCative">Our GitHub Repo</a>
       </address>
     </footer>
+    {{/if}}
     
   </body>
 </html>

@@ -9,7 +9,9 @@ import tickets from '../data/tickets/tickets.js';
 const db = await dbConnection();
 await db.dropDatabase();
 
-const catherine = await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario","password");
+await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario","password");
+const catherine = await users.getUserByUsername("cdemario");
+console.log(catherine);
 
 const firstPost = await posts.addPost(catherine._id.toString(), "My first post", "This is my post", ["mine", "cool"]);
 await users.addPostForUser(catherine._id.toString(), firstPost._id.toString());

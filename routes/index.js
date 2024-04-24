@@ -6,7 +6,6 @@ import logoutRoutes from "./logout.js";
 import registerRoutes from "./register.js";
 import wordRoutes from './words.js';
 import homeRoutes from './home.js'
-import wordData from '../data/words/words.js';
 
 import path from "path";
 import { static as staticDir } from "express";
