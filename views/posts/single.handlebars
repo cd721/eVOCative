@@ -6,16 +6,7 @@
 
   <p>{{ post.post }}</p>
 
-  {{#if post.tags.length}}
-  <div class="tags">
-    <h4>Tags</h4>
-    <ul>
-      {{#each post.tags}}
-      <li><a href="/forum/tag/{{this}}">{{this}}</a></li>
-      {{/each}}
-    </ul>
-    {{/if}}
-  </div>
+  {{> tags post}}
   <br>
 
   <div class="comments_list">
