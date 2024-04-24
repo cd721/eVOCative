@@ -5,7 +5,7 @@ import idValidation from "../../validation/idValidation.js";
 import generalValidation from "../../validation/generalValidation.js";
 import wordData from "../words/words.js";
 import helpers from "./helpers.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 let exportedMethods = {
   async getAllUsers() {
@@ -42,7 +42,7 @@ let exportedMethods = {
     username = await userValidation.usernameDoesNotAlreadyExist(username);
 
     email = userValidation.validateEmail(email);
-    password = userValidation.validatePassword(password)
+    password = userValidation.validatePassword(password);
 
     const hashedPassword = await helpers.hashPassword(password);
 
@@ -75,13 +75,13 @@ let exportedMethods = {
     if (!user) throw `An account with this username does not exist!`;
 
     const valid = await bcrypt.compare(password, user.hashedPassword);
-    if (!valid) throw 'Password may be wrong, please try again.';
+    if (!valid) throw "Password may be wrong, please try again.";
 
     let role;
     if (await this.isAdmin(user._id.toString())) {
-      role = 'admin';
+      role = "admin";
     } else {
-      role = 'user';
+      role = "user";
     }
 
     return {
@@ -90,8 +90,8 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: user.role
-    }
+      role: user.role,
+    };
   },
 
   async addWordForUser(user_id, word_id) {
@@ -177,6 +177,24 @@ let exportedMethods = {
     return user.is_admin;
   },
 
+  async makeUserAdmin(user_id) {
+    user_id = idValidation.validateId(user_id, "User Id");
+    const userCollection = await users();
+    const updateData = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          "is_admin": true,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateData) throw "Update failed!";
+
+    return updateData;
+  },
+
   async getDateLastWordWasReceived(user_id) {
     const user = await this.getUserById(user_id);
 
@@ -213,7 +231,5 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
-
-
 };
 export default exportedMethods;

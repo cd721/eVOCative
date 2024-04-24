@@ -13,8 +13,14 @@ await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario","
 const catherine = await users.getUserByUsername("cdemario");
 console.log(catherine);
 
+await users.addUser("Josie", "Cerino", "jcerino@stevens.edu", "jcerino", "pwrd123");
+const josie = await users.getUserByUsername("jcerino");
+console.log(josie);
+
 const firstPost = await posts.addPost(catherine._id.toString(), "My first post", "This is my post", ["mine", "cool"]);
 await users.addPostForUser(catherine._id.toString(), firstPost._id.toString());
+const anotherPost = await posts.addPost(josie._id.toString(), "I'm making a word post!", "Wow this app is really awesome! I like words!", ["josie, happy"]);
+await users.addPostForUser(josie._id.toString(), anotherPost._id.toString());
 
 const firstWord = await words.addWord("coffee", "a beverage made by brewing coffee beans", ["drinks", "yummy"], []);
 const secondWord = await words.addWord("water", "a drink that keeps you alive", ["drinks", "necessary"], []);
@@ -34,7 +40,7 @@ const commentOnMyPost = await comments.addComment(firstPost._id.toString(), cath
 await users.addWordForUser(catherine._id.toString(), firstWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), secondWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
-await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
+await users.addWordForUser(catherine._id.toString(), fourthWord._id.toString());
 
 await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), firstWord._id.toString(), 1);
 await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), secondWord._id.toString(), 1);
@@ -42,6 +48,7 @@ await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), secondWo
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
 
+await users.makeUserAdmin(josie._id.toString());
 
 
 console.log('Done seeding database');

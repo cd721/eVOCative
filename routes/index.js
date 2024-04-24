@@ -5,14 +5,15 @@ import loginRoutes from "./login.js";
 import logoutRoutes from "./logout.js";
 import registerRoutes from "./register.js";
 import wordRoutes from './words.js';
-import homeRoutes from './home.js'
+import homeRoutes from './home.js';
+import adminRoutes from './admin.js';
 
 import path from "path";
 import { static as staticDir } from "express";
 
 const constructorMethod = (app) => {
+  app.use('/admin', adminRoutes);
   app.use('/home', homeRoutes);
-
   app.use("/forum", forumRoutes);
   app.use("/quiz", quizRoutes);
   app.use("/posts", forumRoutes);
