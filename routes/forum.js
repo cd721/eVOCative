@@ -11,12 +11,12 @@ router.route('/')
             const postList = await postData.getAllPosts();
 
             //Make the list of tags more readable
-            for (let i = 0; i < postList.length; i++) {
-                postList[i].tags = postList[i].tags.join(", ");
-            }
+            // for (let i = 0; i < postList.length; i++) {
+            //     postList[i].tags = postList[i].tags.join(", ");
+            // }
 
-            console.log(postList)
-            return res.render("posts/index", { posts: postList });
+            //console.log(postList)
+            return res.render("posts/index", { posts: postList }, );
         } catch (e) {
             return res.status(500).json({ error: e });
         }

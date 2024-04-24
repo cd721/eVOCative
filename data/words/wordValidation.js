@@ -5,7 +5,6 @@ const exportedMethods = {
     word = word.trim();
     if (word.length === 0)
       throw `Error: Word cannot be empty or just spaces`;
-    if (word.split(" ").length > 1) throw `Error: Word must be a single word with no spaces`;
     return word;
   },
   validateDefinition(title) {
