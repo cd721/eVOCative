@@ -428,3 +428,11 @@ form h3 {
     text-decoration: none;
     color: inherit;
 }
+
+/* ################### REGISTRATION ################### */
+/* register page */
+
+.error-text {
+    color:red;
+    margin: 10px;
+}

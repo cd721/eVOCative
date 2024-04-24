@@ -2,6 +2,7 @@ import { Router } from "express";
 import idValidation from "../validation/idValidation.js";
 import userData from "../data/users/users.js";
 import userValidation from "../data/users/userValidation.js";
+import xss from "xss";
 const router = Router();
 
 const checkPassword = (password, confirmPassword) => {
@@ -19,14 +20,23 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/").post(async (req, res) => {
-  let { firstName, lastName, email, username, password, confirmPassword } = req.body;
-  
+  let firstName = xss(req.body.firstName);
+  let lastName = xss(req.body.lastName);
+  let email = xss(req.body.email);
+  let username = xss(req.body.username);
+  let password = xss(req.body.password);
+  let confirmPassword = xss(req.body.confirmPassword);
+
   let errors = [];
   try {
     firstName = userValidation.validateName(firstName);
     lastName = userValidation.validateName(lastName);
     email = userValidation.validateEmail(email);
+    email = await userValidation.emailDoesNotAlreadyExist(email);
+
     username = userValidation.validateUsername(username);
+    username = await userValidation.usernameDoesNotAlreadyExist(username);
+
     password = userValidation.validatePassword(password);
     checkPassword(password, confirmPassword);
 

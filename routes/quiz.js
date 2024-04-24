@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
 import wordData from "../data/words/words.js";
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 
 const router = Router();
 
@@ -16,18 +16,19 @@ router.route("/").get(async (req, res) => {
 router.route("/definitionToWord").get(async (req, res) => {
   let user;
   try {
-    const user_id = "6618756767602f596b367c12"; // This will be grabbed from the session id!
+    const user_id = req.session.user._id; // This will be grabbed from the session id!
     user = await userData.getUserById(user_id);
   } catch (e) {
-
     return res.status(500).json({ error: e });
-
   }
 
-let randomWordForUser;
+  let randomWordForUser;
+  if (user.words.length === 0) {
+    return res.render("quiz/noWords");
+  }
 
   try {
-     randomWordForUser =
+    randomWordForUser =
       user.words[Math.floor(Math.random() * user.words.length)];
 
     if (!randomWordForUser) {
@@ -35,20 +36,15 @@ let randomWordForUser;
     }
   } catch (e) {
     return res.status(500).json({ error: e });
-
   }
 
   let randomWord;
   let words;
   try {
-
     randomWord = await wordData.getWordById(randomWordForUser._id.toString());
 
     words = await wordData.getAllWords();
-
-  } catch (e) {
-
-  }
+  } catch (e) {}
 
   try {
     let randomDef1 = words[Math.floor(Math.random() * words.length)];
@@ -106,15 +102,14 @@ let randomWordForUser;
 
     let correctInd = buttonOrder.indexOf(1);
 
-    return res.render(
-      "quiz/definitionToWord",
-      { curWord: randomWord ,
-       def1: buttonDefs[0] ,
-       def2: buttonDefs[1] ,
-       def3: buttonDefs[2] ,
-       def4: buttonDefs[3] ,
-       correctInd: correctInd }
-    );
+    return res.render("quiz/definitionToWord", {
+      curWord: randomWord,
+      def1: buttonDefs[0],
+      def2: buttonDefs[1],
+      def3: buttonDefs[2],
+      def4: buttonDefs[3],
+      correctInd: correctInd,
+    });
   } catch (e) {
     return res.status(500).json({ error: e });
   }

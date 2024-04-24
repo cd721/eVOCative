@@ -1,5 +1,6 @@
 import gen from "../../validation/generalValidation.js";
 import { users } from "../../config/mongoCollections.js";
+import emailValidator from "email-validator";
 
 const exportedMethods = {
   validateName(name) {
@@ -12,7 +13,7 @@ const exportedMethods = {
 
   validateEmail(email) {
     email = gen.validateGen("Email", email);
-    if (email.split("@").length < 2) {
+    if (!emailValidator.validate(email)) {
       throw `Error: Email must be a valid email address`;
     }
     return email;
@@ -28,6 +29,18 @@ const exportedMethods = {
       throw `user already exists with the username ${username}`;
 
     return username;
+  },
+
+  async emailDoesNotAlreadyExist(email) {
+    //TODO: ensure emails are unique
+    let userCollection = await users();
+    let duplicateUser = await userCollection.findOne({
+      email: { $regex: new RegExp(`^${email}$`, "i") },
+    });
+    if (duplicateUser)
+      throw `user already exists with the email ${email}`;
+
+    return email;
   },
 
   validateUsername(username) {

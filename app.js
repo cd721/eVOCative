@@ -68,18 +68,14 @@ app.use(
   })
 );
 
-
-// right now, this applies to everything, so any route accessed leads to 'home'
-// app.use("/", (req, res, next) => {
-
-//   if (req.session.user && req.path !== "/logout") {
-//     //if the user is  logged in and is not trying to logout
-//     return res.render("home", {user:req.session.user});
-  
-//   } else {
-//     next();
-//   }
-// });
+app.use("/", (req, res, next) => {
+  if (req.session.user &&( req.path === "/" ||req.path === "/home")) {
+    //if the user is  logged in and is not trying to logout
+    return res.render("home", { user: req.session.user });
+  } else {
+    next();
+  }
+});
 
 
 

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
+import xss from "xss";
 
 import postData from '../data/posts/posts.js'
 const router = Router();
@@ -33,12 +34,13 @@ router.route('/new')
     })
     .post(async (req, res) => {
         try {
-            let postDetails = req.body;
-            let poster_id = "6618756767602f596b367c12";//req.session.user._id;
-            let title = postDetails.title;
-            let post = postDetails.post;
-            let tags = postDetails.tags.split(",").map(tag => tag.trim());
-            console.log(postDetails)
+            let poster_id = req.session.user._id;
+            let title = xss(req.body.title);
+            let post = xss(req.body.post);
+            let tags = xss(req.body.tags);
+            tags = tags.split(",").map(tag => tag.trim());
+            console.log({poster_id: poster_id, title: title, post: post, tags: tags});
+
             await postData.addPost(poster_id, title, post, tags);
             return res.redirect("/forum");
 
