@@ -4,8 +4,7 @@ import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
 router.route('/').get(async (req, res) => {
     try {
-        const userList = await userData.get();
-        console.log(userList)
+        const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
         return res.status(500).json({ error: e });
@@ -17,27 +16,30 @@ router
     .get(async (req, res) => {
         let user_id = req.params.id;
         let user;
+
         try {
             user_id = idValidation.validateId(user_id);
             user = await userData.getUserById(user_id);
+
         } catch (e) {
             return res.status(400).render("error");
-
         }
 
         try {
             let words = await userData.getWordsForUser(user_id);
             const userIsAdmin = await userData.isAdmin(user_id);
+
+            // destructure so that sensitive fields are not sent to handlebars
+            const { hashedPassword, email, ...safeUserData } = user; 
+            
             if (userIsAdmin) {
-                return res.render("users/adminProfile", { title: "Admin Profile", user: user, user_id: user_id, words: words });
+                return res.render("users/adminProfile", { title: "Admin Profile", user: safeUserData, words: words });
             }
-            return res.render("users/profile", { title: "User Profile", user: user, user_id: user_id, words: words });
+            return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words });
 
         } catch (e) {
             return res.status(500).json({ error: e });
         }
-
-
     })
     ;
 

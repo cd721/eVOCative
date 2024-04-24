@@ -1,40 +1,63 @@
-<h1>Register</h1>
+<form action="/register" method="POST" id="signup" class="auth_container">
+  <a href="/">
+    <img class="logo_home" src="../../public/images/fullTransparent1.png" alt="eVOCative Logo, link to home page">
+  </a>
+  <h1>Register</h1>
+  {{#if errors}}
+            {{#each errors}}
+                <p class="error_top">{{this}}</p>
+            {{/each}}
+  {{/if}}
 
-{{#each errors}}
-<p class="error-text">{{this}}</p>
-{{/each}}
-<form action="/register" method="POST" id="signup">
-  <div class="input-container">
-    <label for="firstName">First Name:</label>
-    <input id="firstName" name="firstName" type="text" placeholder="EX: John" />
-  </div>
+  <h3>Personal Information</h3>
+  <div id="personal_info">
+    <div class="input_container">
+      <label for="firstName">First Name:</label>
+      <input id="firstName" name="firstName" type="text" placeholder="EX: John" />
+      <p class="error_text" id="error_firstName"></p>
+    </div>
 
-  <div class="input-container">
-    <label for="lastName">Last Name:</label>
-    <input id="lastName" name="lastName" type="text" placeholder="EX: Doe" />
-  </div>
-    
-  <div class="input-container">
-    <label for="email">Email:</label>
-    <input id="email" name="email" type="email" placeholder="EX: jdoe@gmail.com"/>
-  </div>
-    
-  <div class="input-container">
-    <label for="username">Username:</label>
-    <input id="username" name="username" type="text"/>
-  </div>
-    
-  <div class="input-container">
-    <label for="password">Password:</label>
-    <input id="password" name="password" type="password"/>
+    <div class="input_container">
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" name="lastName" type="text" placeholder="EX: Doe" />
+      <p class="error_text" id="error_lastName"></p>
+    </div>
   </div>
   
-  <div class="input-container">
-    <label for="confirmPassword">Confirm Password:</label>
-    <input id="confirmPassword" name="confirmPassword" type="password"/>
+  <h3>Account Details</h3>
+  <div id="account_details">
+    <div class="input_container">
+      <label for="email">Email:</label>
+      <input id="email" name="email" type="email" placeholder="EX: jdoe@gmail.com"/>
+      <p class="error_text" id="error_email"></p>
+    </div>
+      
+    <div class="input_container">
+      <label for="username">Username:</label>
+      <input id="username" name="username" type="text"/>
+      <p class="error_text" id="error_username"></p>
+    </div>
+      
+    <div id="passwords">
+      <div class="input_container">
+        <label for="password">Password:</label>
+        <input id="password" name="password" type="password"/>
+        <p class="error_text" id="error_password"></p>
+      </div>
+      
+      <div class="input_container">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input id="confirmPassword" name="confirmPassword" type="password"/>
+        <p class="error_text" id="error_confirmPassword"></p>
+      </div>
+    </div>
+    
   </div>
 
-  <button type="submit">Register</button>
+  <button type="submit">Create Account</button>
+
+  <a id="login_link" href="/login">Click here to log in instead</a>
 </form>
 
-<a id="login_link" href="/login">Click here to log in instead</a>
+
+<script src="/public/js/authentication.js"></script>

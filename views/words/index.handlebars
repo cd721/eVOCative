@@ -4,8 +4,8 @@
         {{#each words}}
         <li>
             <a href="/words/{{this._id}}">
-                    <h2>{{this.word}}</h2>
-                    <p class="date_added">{{this.dateFormatted.month}} {{this.dateFormatted.day}}</p>
+                <h2>{{this.word}}</h2>
+                <p class="date_added">{{dateWordIndex this.dateAdded}}</p>
             </a>
         </li>
         {{/each}}

@@ -5,51 +5,75 @@
 }
 
 html {
-    background-color: #e7c796;
+    background-color: #fcfef1;
 
     font-family: Roboto, sans-serif;
-    color: #062c30;
+    color: #292929;
 }
 
 .hidden {
     display: none;
 }
 
-/* nav bar + footer*/
 
+/* ################### site wide ################### */
+
+
+/* ################### nav bar + footer ################### */
 nav, footer {
-    background-color: #066163;
-    padding: 10px 5px;
+    align-items: center;
+    
+    padding: 1em 2em;
+    background-color: #005d9e;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
+    display: flex;
 }
 
+/* also controls how tall the header is in general */ 
+nav .logo_home {
+    height: 40px;
+}
+  
 nav li {
-    display: inline;
+    margin-left: 20px;
 }
-
+  
 nav li a {
-    padding: 11px;
-
+    color: #fcfef1;
     text-decoration: none;
-    color: white;
-}
+    transition: color 0.3s ease;
 
+    font-size: 1.2em;
+}
+  
 nav li a:hover {
-    background-color: red;
+    color: #a0bcd1;
 }
 
+/* footer*/
 footer {
+    display: block;
+    justify-content: center;
+
+    background-color: #005d9e;
+
     text-align: center;
+    color: #fcfef1;
 }
 
-footer a, footer p {
-    color: white;
+footer a {
+    color: #fcfef1;
 }
 
-/* body stuff */
+/* ################### body stuff ################### */
 
 body {
     display: flex;
@@ -65,8 +89,286 @@ h1 {
     text-align: center;
 }
 
+/* ################### home ################### */
+#banner {
+    height: 40rem;
+    
+    /* image from: https://create.vista.com/unlimited/stock-photos/5677367/stock-photo-laptop-computer-as-a-book/ */
+    background-image: url(../images/stock-photo-laptop-computer-as-a-book.jpg);
+    background-size: cover;
+    background-position-x: 1.1em;
+    background-position-y: -5.6em;
+    background-repeat: no-repeat;
 
-/* container generals */
+    border-bottom: 8px solid #fd703c;
+
+    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#banner_content {
+    padding-top: 10em;
+    padding-left: 7em;
+}
+
+#banner_content h1 {
+    text-align: left;
+    font-size: 4em;
+
+    margin-bottom: 20px;
+}
+
+#banner div p {
+    font-size: 1.5em;
+    color: #737373
+}
+
+#authentibar {
+    margin-top: 40px;
+}
+
+#authentibar a {
+    text-decoration: none;
+    margin: 0px 10px; 
+}
+
+#authentibar button {
+    padding: 10px 20px; 
+    background-color: #fd703c; 
+
+    font-size: 1.2em; 
+    color: #fcfef1; 
+    
+    border-radius: 10px;  
+    
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+#authentibar button:hover {
+    background-color: #ff9e6d; 
+}
+
+#features {
+    display: flex;
+    justify-content: space-between;
+
+    text-align: center;
+    color: #fcfef1;
+
+    padding: 20px;
+
+    width: 65%;
+    margin: 0px auto;
+}
+
+#features div {
+    flex: 1;
+
+    margin: 2em;
+    padding: 100px 50px;
+    
+    background-color: #292929;
+    border-radius: 10px;
+}
+
+/* ################### login/register/logout ################### */
+.error_text {
+    color: red;
+
+    font-size: 0.70em;
+    margin-top: 5px;
+}
+
+.auth_container {
+    margin: 70px auto;
+    padding: 10px 25px 20px;
+
+    max-width: 350px;
+    
+    border-radius: 8px;
+    border: 1px solid #292929;
+} 
+
+.logo_home {
+    height: 40px;
+
+    margin-bottom: 10px;
+}
+
+.auth_container h1 {
+    margin-bottom: 20px;
+}
+
+#signout h3 {
+    text-align: center;
+}
+
+form h3 {
+    font-size: 1.2em;
+
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+
+    border-bottom: 1px solid #292929;
+}
+
+#personal_info, #passwords {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.input_container {
+    margin-bottom: 20px;
+}
+
+.input_container label {
+    display: block;
+    margin-bottom: 5px;
+
+}
+
+.input_container input {
+    width: 100%;
+    padding: 4px;
+}
+
+.auth_container button {
+    width: 100%;
+    padding: 8px;
+
+    cursor: pointer;
+
+    background-color: #fd703c;
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
+    font-weight: bold;
+    color: #fcfef1;
+}
+
+.auth_container button:hover {
+    background-color: #ff9e6d;
+}
+
+.auth_container a {
+    display: block;
+    margin-top: 20px;
+
+    text-align: center;
+    color: #5c67f2;
+    text-decoration: none;
+}
+
+.auth_container a:hover {
+    text-decoration: underline;
+}
+
+
+/* ################### profiles ################### */
+.profile {
+    display: flex;
+    flex-direction: column;
+
+    width: 60%;
+    margin: 0px auto;
+}
+
+.profile > div {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #292929;
+}
+
+.profile h2 {
+    font-size: 25px;
+    margin: 10px 0px;
+
+    color: #fd703c;
+}
+
+/* user info */
+#user-info h3 {
+    margin-top: 20px;
+}
+
+#user-info h4 {
+    color: #737373;
+}
+
+/* user stats */
+#user-stats ul {
+    list-style-type: none;
+    
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px; 
+}
+
+#user-stats li {
+    flex: 1;
+    min-width: 130px;
+    margin-bottom: 10px; 
+    padding: 15px;
+
+    background-color: #a0bcd1;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+}
+
+/* user words */
+.words-container {
+    border-radius: 8px;
+    border: 2px solid #292929;
+
+    background-color: #0073a4;
+
+    margin-bottom: 20px;
+}   
+
+#user-words ul {
+    list-style-type: none;
+    
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px; 
+
+    padding: 20px;
+}
+
+#user-words li {
+    flex: 1;
+    padding: 15px;
+
+    background-color: #e6f4f1;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+
+    transition: background-color 0.3s ease;
+}
+
+#user-words li:hover {
+    background-color: #ff9e6d;
+}
+
+#user-words li a {
+    text-decoration: none;
+    color: #292929;
+}
+
+#no-words {
+    text-align: center;
+    padding: 40px;
+
+    background-color: #e6f4f1;
+}
+
+/* ################### container generals ################### */
 .date_added {
     color: #066163; 
     text-align: center;

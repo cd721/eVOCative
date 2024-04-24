@@ -5,6 +5,10 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 
+// arrays for organization
+const noFrames = ['/login', '/register', '/logout']
+
+
 const rewriteUnsupportedBrowserMethods = async (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
   // To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
@@ -27,16 +31,37 @@ app.engine(
   "handlebars",
   exphbs.engine({
     defaultLayout: "main",
-    helpers: {},
+
+    helpers: {
+      // date formatters
+      dateWordIndex: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
+        })
+      },
+
+      dateWordSingle: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        })
+      },
+
+      dateProfile: (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+          month: 'long',
+          year: 'numeric'
+        })
+      }
+    },
     partialsDir: ["views/partials/"],
   })
 );
 app.set("view engine", "handlebars");
 
 // MIDDLEWARE
-app.use(express.json());
-
-
 app.use(
   session({
     name: "AuthCookie", //name of cookie on client
@@ -47,23 +72,48 @@ app.use(
   })
 );
 
-app.use("/", (req, res, next) => {
+//Handlebars middleware
+// for the handlebars to figure out if the user is logged in or not
+app.use((req, res, next) => {
+  if (req.session.user) {
+    res.locals.isAuthenticated = true;
+  } else {
+    res.locals.isAuthenticated = false;
+  }
+  next();
+});
 
-  if (req.path === "/" ||req.path === "/home") {
+// for handlebars to determine if there should be a header/footer on the page
+app.use((req, res, next) => {
+  if (noFrames.includes(req.path)) {
+    res.locals.noFrame = true;
+  } else {
+    res.locals.noFrame = false;
+  }
+  next();
+});
+
+// allows handlebars to access the user's info
+// check routes/login.js for what is in req.session.user
+app.use((req, res, next) => {
+  if (req.session.user) {
+    res.locals.sessionUser = req.session.user;
+  }
+  next();
+});
+
+//Authentication middleware
+//cannot access certain pages unless logged in
+
+app.use("/", (req, res, next) => {
+  if (req.path === "/" || req.path === "/home") {
     //if the user is  logged in and is not trying to logout
     return res.render("home", { user: req.session.user });
-
   } else {
-    // console.log(res.session.user);
-    // res.redirect(`/users/${req.session.user._id}`);
-   
     next();
   }
 });
 
-
-//Authentication middleware
-//cannot access certain pages unless logged in
 app.use("/words", (req, res, next) => {
   if (!req.session.user) {
     //if the user is not logged in
