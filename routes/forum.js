@@ -8,6 +8,12 @@ router.route('/')
     .get(async (req, res) => {
         try {
             const postList = await postData.getAllPosts();
+
+            //Make the list of tags more readable
+            for (let i = 0; i < postList.length; i++) {
+                postList[i].tags = postList[i].tags.join(", ");
+            }
+
             console.log(postList)
             return res.render("posts/index", { posts: postList });
         } catch (e) {
@@ -23,6 +29,21 @@ router.route('/new')
         } catch (e) {
             return res.status(500).json({ error: e });
 
+        }
+    })
+    .post(async (req, res) => {
+        try {
+            let postDetails = req.body;
+            let poster_id = "6618756767602f596b367c12";//req.session.user._id;
+            let title = postDetails.title;
+            let post = postDetails.post;
+            let tags = postDetails.tags.split(",").map(tag => tag.trim());
+            console.log(postDetails)
+            await postData.addPost(poster_id, title, post, tags);
+            return res.redirect("/forum");
+
+        } catch (e) {
+            return res.status(500).json({ error: e });
         }
     })
 
