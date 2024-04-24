@@ -52,5 +52,12 @@ let exportedMethods = {
 
     return await this.getWordById(newInsertInformation.insertedId.toString());
   },
+
+  async getWordOfDay() {
+    const wordCollection = await words();
+    const word = await wordCollection.aggregate([{ $sample: { size: 1 } }]).toArray();
+
+    return word[0];
+  }
 };
 export default exportedMethods;

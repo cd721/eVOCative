@@ -2,6 +2,8 @@ import { Router } from 'express';
 const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
+import helpers from '../helpers/helpers.js';
+
 router.route('/').get(async (req, res) => {
     try {
         const userList = await userData.getAllUsers();
@@ -26,6 +28,13 @@ router
         }
 
         try {
+            //add new word of the day to user word bank automatically
+            let date_last_word_was_received = await userData.getDateLastWordWasReceived(user_id);
+
+            if(!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
+                await userData.addWordOfDay(user_id);
+            };
+
             let words = await userData.getWordsForUser(user_id);
             const userIsAdmin = await userData.isAdmin(user_id);
 

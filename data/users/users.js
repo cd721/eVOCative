@@ -5,7 +5,7 @@ import idValidation from "../../validation/idValidation.js";
 import generalValidation from "../../validation/generalValidation.js";
 import wordData from "../words/words.js";
 import helpers from "./helpers.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 let exportedMethods = {
   async getAllUsers() {
@@ -42,7 +42,7 @@ let exportedMethods = {
     username = await userValidation.usernameDoesNotAlreadyExist(username);
 
     email = userValidation.validateEmail(email);
-    password = userValidation.validatePassword(password)
+    password = userValidation.validatePassword(password);
 
     const hashedPassword = await helpers.hashPassword(password);
 
@@ -75,13 +75,13 @@ let exportedMethods = {
     if (!user) throw `An account with this username does not exist!`;
 
     const valid = await bcrypt.compare(password, user.hashedPassword);
-    if (!valid) throw 'Password may be wrong, please try again.';
+    if (!valid) throw "Password may be wrong, please try again.";
 
     let role;
     if (await this.isAdmin(user._id.toString())) {
-      role = 'admin';
+      role = "admin";
     } else {
-      role = 'user';
+      role = "user";
     }
 
     return {
@@ -90,8 +90,8 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: user.role
-    }
+      role: user.role,
+    };
   },
 
   async addWordForUser(user_id, word_id) {
@@ -100,10 +100,14 @@ let exportedMethods = {
 
     const userCollection = await users();
 
+    const addedDate = new Date();
+
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
-      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } },
-      { $set: { date_last_word_was_received: new Date() } }
+      {
+        $set: { date_last_word_was_received: addedDate },
+        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } },
+      }
     );
 
     if (!updateInfo.acknowledged) {
@@ -111,6 +115,25 @@ let exportedMethods = {
     }
 
     //TODO: should return?
+  },
+
+  async addWordOfDay(user_id) {
+    user_id = idValidation.validateId(user_id);
+
+    let newWord = await wordData.getWordOfDay();
+
+    //check if new word is already in user's word bank
+    const userCollection = await users();
+    let duplicateWord = await userCollection.findOne({
+      _id: new ObjectId(user_id),
+      words: { $elemMatch: { _id: new ObjectId(newWord._id) } },
+    });
+    if (duplicateWord) {
+      //re-reun this function to get a new word
+      return this.addWordOfDay(user_id);
+    } else {
+      return this.addWordForUser(user_id, newWord._id.toString());
+    }
   },
 
   async addPostForUser(user_id, post_id) {
@@ -213,7 +236,5 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
-
-
 };
 export default exportedMethods;

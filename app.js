@@ -68,7 +68,7 @@ app.use(
     secret: "some secret string!", //for encryption
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }, //how long until session expires
+    cookie: { maxAge: 3600000 }, //how long until session expires
   })
 );
 
