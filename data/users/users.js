@@ -1,4 +1,4 @@
-import { users } from "../../config/mongoCollections.js";
+import { users, words } from "../../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import userValidation from "./userValidation.js";
 import idValidation from "../../validation/idValidation.js";
@@ -98,12 +98,14 @@ let exportedMethods = {
     user_id = idValidation.validateId(user_id);
     word_id = idValidation.validateId(word_id);
 
+    const today = new Date();
+
     const userCollection = await users();
 
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
-      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } } },
-      { $set: { date_last_word_was_received: new Date() } }
+      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, date_user_received_word: today } } },
+      { $set: { date_last_word_was_received: today } }
     );
 
     if (!updateInfo.acknowledged) {
@@ -183,12 +185,25 @@ let exportedMethods = {
     return user.date_last_word_was_received;
   },
 
+  async getDateUserReceivedWord(user_id, word_id) {
+    const userCollection = await users();
+    const wordsForUser = await this.getWordsForUser(user_id);
+    for (let word of wordsForUser) {
+      if(word._id.toString() === word_id){
+        return word.date_user_received_word;
+      }
+    }
+
+    return null;//TODO: handle this better
+  }
+  ,
   async getWordsForUser(user_id) {
     const user = await this.getUserById(user_id);
 
     let wordsList = [];
     for (let word of user.words) {
       let wordInfo = await wordData.getWordById(word._id.toString());
+      wordInfo.date_user_received_word = word.date_user_received_word;
       wordsList.push(wordInfo);
     }
     return wordsList;
