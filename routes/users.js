@@ -2,10 +2,11 @@ import { Router } from 'express';
 const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
+import helpers from '../helpers/helpers.js';
+
 router.route('/').get(async (req, res) => {
     try {
-        const userList = await userData.get();
-        console.log(userList)
+        const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
         return res.status(500).json({ error: e });
@@ -17,26 +18,39 @@ router
     .get(async (req, res) => {
         let user_id = req.params.id;
         let user;
+
         try {
             user_id = idValidation.validateId(user_id);
             user = await userData.getUserById(user_id);
+
         } catch (e) {
             return res.status(400).render("error");
-
         }
 
         try {
+            //add new word of the day to user word bank automatically
+            let date_last_word_was_received = await userData.getDateLastWordWasReceived(user_id);
+
+            let recievedWOD = false;
+            if(!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
+                await userData.addWordOfDay(user_id);
+                recievedWOD = true;
+            };
+
             let words = await userData.getWordsForUser(user_id);
-            if (userData.isAdmin(user_id)) {
-                return res.render("users/adminProfile", { title: "Admin Profile", user: user, user_id: user_id, words: words });
+            const userIsAdmin = await userData.isAdmin(user_id);
+
+            // destructure so that sensitive fields are not sent to handlebars
+            const { hashedPassword, email, ...safeUserData } = user; 
+            
+            if (userIsAdmin) {
+                return res.render("users/adminProfile", { title: "Admin Profile", user: safeUserData, words: words });
             }
-            return res.render("users/profile", { title: "User Profile", user: user, user_id: user_id, words: words });
+            return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
             return res.status(500).json({ error: e });
         }
-
-
     })
     ;
 
@@ -49,7 +63,6 @@ router.route('/:userId/remove/:wordId')
             user_id = idValidation.validateId(user_id);
         } catch (e) {
             return res.status(400).render("error");
-
         }
 
         try {

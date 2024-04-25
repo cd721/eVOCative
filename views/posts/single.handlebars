@@ -3,19 +3,24 @@
     <h1>{{ post.title }}</h1>
     <address>Posted by {{poster_name}} on {{post.post_date}}</address>
   </div>
-  
+
   <p>{{ post.post }}</p>
 
-  {{#if post.tags.length}}
-  <div class="tags">
-    <h4>Tags</h4>
-    <ul>
-      {{#each post.tags}}
-        <li><a href="/forum/tag/{{this}}">{{this}}</a></li>
-      {{/each}}
-    </ul>
-  {{/if}}
+  {{> tags post}}
+  <br>
+
+  <div class="comments_list">
+
   </div>
-  
+  <br>
+  <div class="new_comment">
+    <h4>Leave a comment on this post</h4>
+
+    <form>
+      <textarea></textarea>
+      <button>Add comment</button>
+    </form>
+  </div>
+
   <a class="link_back" href="/forum">Back to All Posts</a>
 </article>

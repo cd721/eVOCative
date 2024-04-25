@@ -1,25 +1,46 @@
-{{! 
+{{!
 This is the handlebars file for the home page of eVOCative. The page users are taken to after they sign in.
 }}
 
-<h1> eVOCative </h1>
+<div id="banner">
+  <div id="banner_content">
+      <h1>Evocative</h1>
+      <p>bringing strong images, memories, or feelings to mind</p>
 
-<p class="statement">
-  Welcome to eVOCative! The path to better vocabulary begins here</p>
+        <div id="authentibar">
+          {{#if notAuthUser}}
+          <a id="register_link" href="/register"><button>Register</button></a>
+          <a id="login_link" href="/login"><button>Log In</button></a>
+          {{else}}
+          <a id="logout_link" href="/logout"><button>Log Out</button></a>
+          {{/if}}
+        </div>
+  </div>
+</div>
 
-{{! Button for user to sign out}}
-<form action="/login" method="GET">
-  <button type="submit">Sign In</button>
-</form>
+<div id="features">
+  <div>
+    <h2>Learn words every day</h2>
+    <p> The path to better vocabulary begins here</p>
+  </div>
+  <div>
+    <h2>Take quizzes to learn</h2>
+    <p>Match words to definitions or vice versa!</p>
+  </div>
+</div>
 
-<form action="/register" method="GET">
-  <button type="submit">Sign Up</button>
-</form>
+{{!-- {{#if user}}
+{{> logoutLink}}
+{{else}}
+{{> accountLinks}}
+{{/if}}
 
 {{! after 'Word of the day: ' add the word of the day from the database}}
-<h2> Word of the Day:</h2>
+{{#if word}}
+<h2> Word of the Day: {{word}}</h2>
+{{/if}}
 
 {{! Button for user to access word bank}}
 <form action="/wordbank" method="GET">
   <button type="submit">Word Bank</button>
-</form>
+</form> --}}

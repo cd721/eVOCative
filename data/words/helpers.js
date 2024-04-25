@@ -15,11 +15,6 @@ let exportedMethods = {
       accuracy_score: 0,
 
       dateAdded: today,
-      dateFormatted: {
-        month: today.toLocaleDateString('en-US', { month : 'long'}),
-        day: today.toLocaleDateString('en-US', { day : 'numeric'}),
-        year: today.toLocaleDateString('en-US', { year : 'numeric'})
-      }
     };
 
     return newWord;
