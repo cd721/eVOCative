@@ -1,13 +1,27 @@
 <h1>Match the definition to its word</h1>
 
 <h2>{{curWord.word}}</h2>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def0}}, {{json correctInd}})"
-    id="buttonDef1">{{def0}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def1}}, {{json correctInd}})"
-    id="buttonDef2">{{def1}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def2}}, {{json correctInd}})"
-    id="buttonDef3">{{def2}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def3}}, {{json correctInd}})"
-    id="buttonDef4">{{def3}}</button>
+<form action="/quiz/definitionToWord" method="POST" id="defToWordForm">
+    <label for="buttonDef0">{{def0}}</label>
+    <input type="radio" id="buttonDef0" name="buttonDef0">
+<br>
+    <label for="buttonDef1">{{def1}}</label>
+    <input type="radio" id="buttonDef1" name="buttonDef1">
+<br>
+    <label for="buttonDef2">{{def2}}</label>
+    <input type="radio" id="buttonDef2" name="buttonDef2">
+<br>
+    <label for="buttonDef3">{{def3}}</label>
+    <input type="radio" id="buttonDef3" name="buttonDef3">
+<br>
+    <input type="submit" id="button" value="Check my answer">
 
+
+</form>
+
+<div id="messageSpace"></div>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="../../public/js/quizVerification.js"></script>
+
+{{!-- TODO: ensure form has necessary attributes --}}
