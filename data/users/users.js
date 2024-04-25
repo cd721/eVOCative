@@ -102,10 +102,14 @@ let exportedMethods = {
 
     const userCollection = await users();
 
+    const addedDate = new Date();
+
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
-      { $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, date_user_received_word: today } } },
-      { $set: { date_last_word_was_received: today } }
+      {
+        $set: { date_last_word_was_received: addedDate },
+        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } },
+      }
     );
 
     if (!updateInfo.acknowledged) {
@@ -113,6 +117,25 @@ let exportedMethods = {
     }
 
     //TODO: should return?
+  },
+
+  async addWordOfDay(user_id) {
+    user_id = idValidation.validateId(user_id);
+
+    let newWord = await wordData.getWordOfDay();
+
+    //check if new word is already in user's word bank
+    const userCollection = await users();
+    let duplicateWord = await userCollection.findOne({
+      _id: new ObjectId(user_id),
+      words: { $elemMatch: { _id: new ObjectId(newWord._id) } },
+    });
+    if (duplicateWord) {
+      //re-reun this function to get a new word
+      return this.addWordOfDay(user_id);
+    } else {
+      return this.addWordForUser(user_id, newWord._id.toString());
+    }
   },
 
   async addPostForUser(user_id, post_id) {
