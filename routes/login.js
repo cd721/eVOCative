@@ -18,7 +18,7 @@ router.route("/")
       
     let errors = [];
     try {
-      username = userValidation.validateName(username);
+      username = userValidation.validateUsername(username);
       password = userValidation.validatePassword(password);
 
       const user = await userData.loginUser(username, password);

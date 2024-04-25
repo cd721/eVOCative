@@ -3,6 +3,11 @@ import { users } from "../../config/mongoCollections.js";
 import emailValidator from "email-validator";
 
 const exportedMethods = {
+  validateUsername(username) {
+    // Changed validation to separate username from name.
+    username = gen.validateGen("Name", username);
+    return username;
+  },
   validateName(name) {
     name = gen.validateGen("Name", name);
     // does it have a number
