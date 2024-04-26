@@ -128,6 +128,8 @@ router.route("/definitionToWord")
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
       console.log(req.selectedIndex);
 
+     
+//TODO: //update accuracy score for user
       if (req.selectedIndex === req.session.correctIndex) {
         return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
       } else {

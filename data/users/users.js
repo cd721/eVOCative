@@ -70,6 +70,8 @@ let exportedMethods = {
     username = userValidation.validateUsername(username);
     password = userValidation.validatePassword(password);
 
+    username = username.toLowerCase();
+    
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;

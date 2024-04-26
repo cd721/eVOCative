@@ -9,6 +9,8 @@
   quizForm.submit(function (event) {
     event.preventDefault();
 
+    quizForm.trigger("reset");
+
     let selectedIndex;
     for (let i = 0; i < buttons.length; i++) {
       if (buttons[i].is(':checked')) {
@@ -36,7 +38,7 @@
 
   function quizVerificationToWord(correctInd, buttonUserClicked) {
 
-    
+
     let buttonDef0 = document.getElementById("buttonDef0");
     let buttonDef1 = document.getElementById("buttonDef1");
     let buttonDef2 = document.getElementById("buttonDef2");
@@ -48,14 +50,14 @@
     const youGotIt = document.createElement("p");
     youGotIt.hidden = true;
     youGotIt.innerHTML = "That's correct! You got it!";
-    
+
     messageSpace.append(youGotIt);
 
     const youWrong = document.createElement("p");
     youWrong.hidden = true;
-    
+
     youWrong.innerHTML = "Sorry, that's incorrect";
-    
+
     messageSpace.append(youWrong);
 
     if (correctInd === 0) {
