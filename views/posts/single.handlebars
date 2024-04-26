@@ -16,11 +16,29 @@
   <div class="new_comment">
     <h4>Leave a comment on this post</h4>
 
-    <form>
-      <textarea></textarea>
-      <button>Add comment</button>
+    <form action="/forum/{{post._id}}" method="POST" id="submit_comment">
+      <label for="comment">Comment:</label>
+      <textarea name="comment" placeholder="enter comment"></textarea>
+      <input type="hidden" name="postID" value="{{post._id}}">
+      <input type="submit" value="Add Comment">
     </form>
   </div>
 
   <a class="link_back" href="/forum">Back to All Posts</a>
+
+  <div class="comments">
+    {{#if comments}}
+      <h4 id="CommentSection">Comment Section</h4> <br />
+      <ul class="comment_list_username">
+        {{#each comments}}
+          <li>
+            {{this.name}}
+            <ul class="comment_list_body">
+              <li>{{this.body}}</li>
+            </ul>
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
 </article>

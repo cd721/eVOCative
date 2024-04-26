@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 import commentValidation from './commentValidation.js';
 import idValidation from "../../validation/idValidation.js";
 import helpers from './helpers.js'
+import usersData from '../users/users.js';
 
 let exportedMethods = {
     async getCommentById(id) {
@@ -23,7 +24,11 @@ let exportedMethods = {
         commenter_id = idValidation.validateId(commenter_id, "Comment ID");
         body = commentValidation.validateBody(body);
 
-        let newComment = helpers.createNewComment(commenter_id, body);
+        let commenter = await usersData.getUserById(commenter_id);
+        commenter = commenter.username
+
+
+        let newComment = helpers.createNewComment(commenter_id, body, commenter);
 
 
         const postCollection = await posts();
