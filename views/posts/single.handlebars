@@ -33,6 +33,7 @@
         {{#each comments}}
           <li>
             {{this.name}}
+            <p id="commentDate">{{this.comment_date}}</p>
             <ul class="comment_list_body">
               <li>{{this.body}}</li>
             </ul>

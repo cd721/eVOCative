@@ -68,7 +68,10 @@ router.route('/:id')
             const poster = await userData.getUserById(post.poster_id.toString());
             const poster_name = `${poster.firstName} ${poster.lastName}`;
 
-            return res.render("posts/single", { post: post, poster_name: poster_name, comments: post.comments});
+            let comments = post.comments;
+            comments = comments.reverse();
+
+            return res.render("posts/single", { post: post, poster_name: poster_name, comments: comments});
 
         } catch (e) {
             return res.status(500).json({ error: e });

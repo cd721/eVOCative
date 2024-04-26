@@ -519,6 +519,11 @@ form h3 {
     font-size: 1.5em;
 }
 
+#commentDate{
+    font-size: 0.7em !important;
+    color: #066163;
+}
+
 .comment_list_username{
     list-style-type: none;
     font-weight: bold;
