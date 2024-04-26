@@ -5,7 +5,10 @@
   let buttonDef1 = $("#buttonDef1");
   let buttonDef2 = $("#buttonDef2");
   let buttonDef3 = $("#buttonDef3");
+
   let buttons = [buttonDef0, buttonDef1, buttonDef2, buttonDef3];
+
+  let wordBeingPlayed = $("#wordBeingPlayed").html();
   quizForm.submit(function (event) {
     event.preventDefault();
 
@@ -24,7 +27,8 @@
     let requestConfig = {
       method: 'POST',
       url: `/quiz/definitionToWord`,
-      selectedIndex: selectedIndex
+      selectedIndex: selectedIndex,
+      wordBeingPlayed: wordBeingPlayed
     };
 
     $.ajax(requestConfig).then(function (data) {
@@ -39,11 +43,6 @@
   function quizVerificationToWord(correctInd, buttonUserClicked) {
 
 
-    let buttonDef0 = document.getElementById("buttonDef0");
-    let buttonDef1 = document.getElementById("buttonDef1");
-    let buttonDef2 = document.getElementById("buttonDef2");
-    let buttonDef3 = document.getElementById("buttonDef3");
-
     let messageSpace = document.getElementById("messageSpace")
       ;
 
@@ -51,35 +50,35 @@
     youGotIt.hidden = true;
     youGotIt.innerHTML = "That's correct! You got it!";
 
-    messageSpace.append(youGotIt);
+    messageSpace.appendChild(youGotIt);
 
     const youWrong = document.createElement("p");
     youWrong.hidden = true;
 
     youWrong.innerHTML = "Sorry, that's incorrect";
 
-    messageSpace.append(youWrong);
+    messageSpace.appendChild(youWrong);
 
     if (correctInd === 0) {
-      buttonDef0.style.color = "green";
-      buttonDef1.style.color = "red";
-      buttonDef2.style.color = "red";
-      buttonDef3.style.color = "red";
+      $('label[for="buttonDef0"]').css('color', 'green');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'red');
     } else if (correctInd === 1) {
-      buttonDef0.style.color = "red";
-      buttonDef1.style.color = "green";
-      buttonDef2.style.color = "red";
-      buttonDef3.style.color = "red";
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'green');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'red');
     } else if (correctInd === 2) {
-      buttonDef0.style.color = "red";
-      buttonDef1.style.color = "red";
-      buttonDef2.style.color = "green";
-      buttonDef3.style.color = "red";
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'green');
+      $('label[for="buttonDef3"]').css('color', 'red');
     } else if (correctInd === 3) {
-      buttonDef0.style.color = "red";
-      buttonDef1.style.color = "red";
-      buttonDef2.style.color = "red";
-      buttonDef3.style.color = "green";
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'green');
     }
 
 

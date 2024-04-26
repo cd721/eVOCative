@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
 import wordData from "../data/words/words.js";
+import quizHelpers from "../helpers/quizHelpers.js";
 import { ObjectId } from "mongodb";
 
 const router = Router();
@@ -125,18 +126,28 @@ router.route("/definitionToWord")
   }).post(async (req, res) => {
 
     try {
+
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
       console.log(req.selectedIndex);
 
-     
-//TODO: //update accuracy score for user
+      //Increase number of times played
+      const word_id = wordData.getWordByWord(req.session.wordBeingPlayed);
+      await wordData.updateTimesPlayed(word_id);
+
+
+      ////update accuracy score for user
       if (req.selectedIndex === req.session.correctIndex) {
+        await quizHelpers.updateAccuracyScores(user._id, word_id, true);
         return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
       } else {
+
+        await quizHelpers.updateAccuracyScores(user._id, word_id, false);
         return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
 
       }
-      //reset correct index?
+
+
+      //TODO: reset correct index?
 
 
 
