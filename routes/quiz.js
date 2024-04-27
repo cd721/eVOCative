@@ -46,7 +46,10 @@ router.route("/definitionToWord")
       randomWord = await wordData.getWordById(randomWordForUser._id.toString());
 
       words = await wordData.getAllWords();
-    } catch (e) { }
+    } catch (e) {
+      return res.status(500).json({ error: e });
+
+    }
 
     try {
       let randomDef1 = words[Math.floor(Math.random() * words.length)];
@@ -159,10 +162,128 @@ router.route("/definitionToWord")
   });
 
 router.route("/wordToDefinition").get(async (req, res) => {
+  let user;
   try {
-    return res.render("quiz/wordToDefinition");
+    const user_id = req.session.user._id; // This will be grabbed from the session id!
+    user = await userData.getUserById(user_id);
   } catch (e) {
     return res.status(500).json({ error: e });
   }
+
+  let randomWordForUser;
+  if (user.words.length === 0) {
+    return res.render("quiz/noWords");
+  }
+
+  try {
+    randomWordForUser =
+      user.words[Math.floor(Math.random() * user.words.length)];
+
+    if (!randomWordForUser) {
+      throw "The user has no words";
+    }
+  } catch (e) {
+    return res.status(500).json({ error: e });
+  }
+
+
+  let randomWord;
+  let words;
+
+  let randomDefinition;
+  try {
+    randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+    randomDefinition = randomWord.definition;
+    words = await wordData.getAllWords();
+  } catch (e) {
+    return res.status(500).json({ error: e });
+
+  }
+  try {
+    let randomDef1 = words[Math.floor(Math.random() * words.length)];
+    while (randomDef1.word === randomWord.word) {
+      randomDef1 = words[Math.floor(Math.random() * words.length)];
+    }
+
+    let randomDef2 = words[Math.floor(Math.random() * words.length)];
+    while (
+      randomDef2.word === randomWord.word ||
+      randomDef2.word === randomDef1.word
+    ) {
+      randomDef2 = words[Math.floor(Math.random() * words.length)];
+    }
+
+    let randomDef3 = words[Math.floor(Math.random() * words.length)];
+    while (
+      randomDef3.word === randomWord.word ||
+      randomDef3.word === randomDef1.word ||
+      randomDef3.word === randomDef2.word
+    ) {
+      randomDef3 = words[Math.floor(Math.random() * words.length)];
+    }
+
+
+    
+    let buttonOrder = [0, 0, 0, 0];
+    let spotsLeft = [1, 2, 3, 4];
+    let ind;
+
+
+    buttonOrder[0] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
+    ind = spotsLeft.indexOf(buttonOrder[0]);
+    spotsLeft.splice(ind, 1);
+
+    buttonOrder[1] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
+    ind = spotsLeft.indexOf(buttonOrder[1]);
+    spotsLeft.splice(ind, 1);
+
+    buttonOrder[2] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
+    ind = spotsLeft.indexOf(buttonOrder[2]);
+    spotsLeft.splice(ind, 1);
+
+    buttonOrder[3] = spotsLeft[0];
+
+    let buttonDefs = [];
+    for (let elem of buttonOrder) {
+      if (elem === 1) {
+        buttonDefs.push(randomWord.word);
+      } else if (elem === 2) {
+        buttonDefs.push(randomDef1.word);
+      } else if (elem === 3) {
+        buttonDefs.push(randomDef2.word);
+      } else {
+        buttonDefs.push(randomDef3.word);
+      }
+    }
+
+    let correctInd;
+    for (let i = 0; i < buttonDefs.length; i++) {
+      if (buttonDefs[i] == randomWord.word) {
+        correctInd = i;
+        console.log(correctInd)
+      }
+    }
+
+    req.session.correctIndex = correctInd; //TODO: what if the user has a quiz open in multiple tabs?
+
+    return res.render("quiz/wordToDefinition", {
+      curDefinition: randomDefinition,
+      word0: buttonDefs[0],
+      word1: buttonDefs[1],
+      word2: buttonDefs[2],
+      word3: buttonDefs[3],
+      correctInd: correctInd,
+    });
+
+  } catch (e) {
+
+  }
+}).post(async (req, res) => {
+ 
+
+
+
+
+
 });
 export default router;
