@@ -70,6 +70,8 @@ let exportedMethods = {
     username = userValidation.validateUsername(username);
     password = userValidation.validatePassword(password);
 
+    username = username.toLowerCase();
+
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
@@ -108,7 +110,7 @@ let exportedMethods = {
       { _id: new ObjectId(user_id) },
       {
         $set: { date_last_word_was_received: addedDate },
-        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0 } },
+        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, times_played: 0 } },
       }
     );
 
@@ -126,15 +128,26 @@ let exportedMethods = {
 
     //check if new word is already in user's word bank
     const userCollection = await users();
-    let duplicateWord = await userCollection.findOne({
+
+    let userWhoAlreadyHasTheWord = await userCollection.findOne({
       _id: new ObjectId(user_id),
       words: { $elemMatch: { _id: new ObjectId(newWord._id) } },
     });
-    if (duplicateWord) {
-      //re-reun this function to get a new word
-      return this.addWordOfDay(user_id);
-    } else {
-      return this.addWordForUser(user_id, newWord._id.toString());
+
+    const wordCollection = await words();
+
+    let wordsUserHas = (await this.getWordsForUser(user_id)
+    );
+
+    //If the user alrady has the word
+    if (wordsUserHas.length < wordCollection.count()) {
+      if (!userWhoAlreadyHasTheWord) {
+        await this.addWordForUser(user_id, newWord._id.toString());
+      } else {
+        await this.addWordOfDay(user_id);
+
+      }
+
     }
   },
 
@@ -172,18 +185,66 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
-  async updateAccuracyScoreForWordForUser(user_id, word_id, new_score) {
+  async getOverallAccuracyScoreForUser(user_id) {
     user_id = idValidation.validateId(user_id);
-    word_id = idValidation.validateId(word_id);
+
+    const userCollection = await users();
+
+    const accuracyScoreForUser = await userCollection.findOne(
+      { _id: new ObjectId(user_id) },
+      { projection: { _id: 0, 'accuracy_score': 1 } }
+
+    );
+
+
+    return accuracyScoreForUser;
+  },
+  async updateTimesPlayedForUser(user_id) {
+    user_id = idValidation.validateId(user_id);
+
+    const userCollection = await users();
+
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $inc: {
+          "times_played": 1,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
+  async getTimesPlayedForUser(user_id) {
+    user_id = idValidation.validateId(user_id);
+
+    const userCollection = await users();
+
+    const result = await userCollection.findOne(
+      { _id: new ObjectId(user_id) },
+      { projection: { _id: 0, 'times_played': 1 } }
+    );
+
+
+
+    return result;
+  },
+  async updateAccuracyScoreForUser(user_id, new_score) {
+    user_id = idValidation.validateId(user_id);
 
     new_score = generalValidation.validateAccuracyScore(new_score);
     const userCollection = await users();
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(user_id), "words._id": new ObjectId(word_id) },
+      { _id: new ObjectId(user_id) },
       {
         $set: {
-          "words.$.accuracy_score": new_score,
+          "accuracy_score": new_score,
         },
       },
       { returnDocument: "after" }
@@ -230,7 +291,7 @@ let exportedMethods = {
     const userCollection = await users();
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
-      if(word._id.toString() === word_id){
+      if (word._id.toString() === word_id) {
         return word.date_user_received_word;
       }
     }
