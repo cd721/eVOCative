@@ -28,6 +28,14 @@ let exportedMethods = {
     return existingWord;
   },
 
+  async getWordByDefinition(definition) {
+    //TODO: validate def, consider storing lowercase in DB
+    const wordCollection = await words();
+    definition = definition.trim();
+    const existingWord = await wordCollection.findOne({ definition: definition });
+    return existingWord;
+  },
+
   async addWord(word, definition, tags, translations) {
     word = wordValidation.validateWord(word);
     definition = wordValidation.validateDefinition(definition);
@@ -74,7 +82,7 @@ let exportedMethods = {
     return updateInfo;
   },
 
-  async updateAccuracyScore(word_id,new_score) {
+  async updateAccuracyScore(word_id, new_score) {
     //TODO: validate
     const wordCollection = await words();
 

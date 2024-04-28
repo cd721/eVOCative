@@ -1,14 +1,22 @@
 
 (function ($) {
-  let quizForm = $('#defToWordForm');
-  let buttonDef0 = $("#buttonDef0");
-  let buttonDef1 = $("#buttonDef1");
-  let buttonDef2 = $("#buttonDef2");
-  let buttonDef3 = $("#buttonDef3");
+  let quizForm = $('#quizForm');
+  let buttonDef0 = $("#button0");
+  let buttonDef1 = $("#button1");
+  let buttonDef2 = $("#button2");
+  let buttonDef3 = $("#button3");
 
   let buttons = [buttonDef0, buttonDef1, buttonDef2, buttonDef3];
 
-  let wordBeingPlayed = $("#wordBeingPlayed").html();
+  let wordBeingPlayed = $("#wordBeingPlayed");
+  let definitionBeingPlayed = $("#definitionBeingPlayed");
+  
+  if (wordBeingPlayed) {
+    wordBeingPlayed = wordBeingPlayed.html();
+  } else if (definitionBeingPlayed) {
+    definitionBeingPlayed = definitionBeingPlayed.html();
+  }
+
   quizForm.submit(function (event) {
     event.preventDefault();
 
@@ -24,12 +32,22 @@
 
     //Send data to server for processing so user can't do some hacky stuff on the client side to 
     //mess with their score
-    let requestConfig = {
-      method: 'POST',
-      url: `/quiz/definitionToWord`,
-      selectedIndex: selectedIndex,
-      wordBeingPlayed: wordBeingPlayed
-    };
+    let requestConfig;
+    if (wordBeingPlayed) {
+       requestConfig = {
+        method: 'POST',
+        url: `/quiz/definitionToWord`,
+        selectedIndex: selectedIndex,
+        wordBeingPlayed: wordBeingPlayed,
+      };
+    } else if (definitionBeingPlayed) {
+       requestConfig = {
+        method: 'POST',
+        url: `/quiz/wordToDefinition`,
+        selectedIndex: selectedIndex,
+        definitionBeingPlayed: definitionBeingPlayed
+      };
+    }
 
     $.ajax(requestConfig).then(function (data) {
       console.log(data.correct);

@@ -134,7 +134,7 @@ router.route("/definitionToWord")
       console.log(req.selectedIndex);
 
       //Increase number of times played
-      const word_id = wordData.getWordByWord(req.session.wordBeingPlayed);
+      const word_id =await  wordData.getWordByWord(req.session.wordBeingPlayed);
       await wordData.updateTimesPlayed(word_id);
 
 
@@ -223,7 +223,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     }
 
 
-    
+
     let buttonOrder = [0, 0, 0, 0];
     let spotsLeft = [1, 2, 3, 4];
     let ind;
@@ -279,10 +279,34 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
   }
 }).post(async (req, res) => {
- 
+  try {
+
+    //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
+    console.log(req.selectedIndex);
+
+    //Increase number of times played
+    const word_id =await wordData.getWordByDefinition(req.session.definitionBeingPlayed);
+    await wordData.updateTimesPlayed(word_id);
+
+    ////update accuracy score for user
+    if (req.selectedIndex === req.session.correctIndex) {
+      await quizHelpers.updateAccuracyScores(user._id, word_id, true);
+      return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
+    } else {
+
+      await quizHelpers.updateAccuracyScores(user._id, word_id, false);
+      return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
+
+    }
 
 
+    //TODO: reset correct index?
 
+  } catch (e) {
+    //reset correct index?
+    return res.status(500).json({ error: e });
+
+  }
 
 
 });
