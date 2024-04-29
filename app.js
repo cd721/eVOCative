@@ -156,6 +156,16 @@ app.use("/posts", (req, res, next) => {
   }
 });
 
+//Authentication middleware for report page
+// app.use("/report", (req, res, next) => {
+//   if (!req.session.user) {
+//     //if the user is not logged in
+//     return res.redirect("/");
+//   } else {
+//     next(); //calls next middleware in stack, if the last then calls route
+//   }
+// });
+
 //Login middleware
 //if the user is logged in then redirect to these routes
 app.use("/login", (req, res, next) => {
