@@ -9,7 +9,7 @@ import tickets from '../data/tickets/tickets.js';
 const db = await dbConnection();
 await db.dropDatabase();
 
-await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario","password");
+await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario", "password");
 const catherine = await users.getUserByUsername("cdemario");
 console.log(catherine);
 
@@ -42,11 +42,32 @@ await users.addWordForUser(catherine._id.toString(), secondWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), fourthWord._id.toString());
 
-await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), firstWord._id.toString(), 1);
-await users.updateAccuracyScoreForWordForUser(catherine._id.toString(), secondWord._id.toString(), 1);
+await users.updateAccuracyScoreForUser(catherine._id.toString(),  1);
+
+const accuracyScoreForCatherine = await users.getOverallAccuracyScoreForUser(catherine._id.toString());
+console.log(accuracyScoreForCatherine);
+
+//Update times played and accuracy
+await users.updateTimesPlayedForUser(catherine._id.toString());
+await words.updateTimesPlayed(firstWord._id.toString());
+
+const timesCatherinePlayed = await users.getTimesPlayedForUser(catherine._id.toString());
+const timesFirstWordWasPlayed = await words.getTimesPlayed(firstWord._id.toString());
+await users.updateAccuracyScoreForUser(catherine._id.toString(),.5);
+await words.updateAccuracyScore(firstWord._id.toString(), .5);
+
+//Print times a word was played for a user and in general
+console.log(timesCatherinePlayed);
+console.log(timesFirstWordWasPlayed);
+
+//Print the accuracy scores
+console.log(await users.getOverallAccuracyScoreForUser(catherine._id.toString()));
+console.log(await words.getAccuracyScore(firstWord._id.toString()));
+
 
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
+
 
 await users.makeUserAdmin(josie._id.toString());
 

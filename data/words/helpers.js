@@ -15,6 +15,8 @@ let exportedMethods = {
       accuracy_score: 0,
 
       dateAdded: today,
+
+      times_played: 0
     };
 
     return newWord;

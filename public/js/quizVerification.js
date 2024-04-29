@@ -1,55 +1,121 @@
 
-// buttons.forEach(button => button.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   quizVerificationToWord()
+(function ($) {
+  let quizForm = $('#quizForm');
+  let buttonDef0 = $("#button0");
+  let buttonDef1 = $("#button1");
+  let buttonDef2 = $("#button2");
+  let buttonDef3 = $("#button3");
 
-
-// }));
-function quizVerificationToWord(word, def, correctInd) {
-  let buttonDef0 = document.getElementById("buttonDef1");
-  let buttonDef1 = document.getElementById("buttonDef2");
-  let buttonDef2 = document.getElementById("buttonDef3");
-  let buttonDef3 = document.getElementById("buttonDef4");
   let buttons = [buttonDef0, buttonDef1, buttonDef2, buttonDef3];
-  if (word.definition === def) {
-    // do some funny db stuff to update user's averages
-  } else {
-    // do some other funny stuff to update user's averages
+
+  let wordBeingPlayed = $("#wordBeingPlayed");
+  let definitionBeingPlayed = $("#definitionBeingPlayed");
+  
+  if (wordBeingPlayed) {
+    wordBeingPlayed = wordBeingPlayed.html();
+  } else if (definitionBeingPlayed) {
+    definitionBeingPlayed = definitionBeingPlayed.html();
   }
 
-  if (correctInd === 0) {
-    buttonDef0.style.color = "green";
-    buttonDef1.style.color = "red";
-    buttonDef2.style.color = "red";
-    buttonDef3.style.color = "red";
-  } else if (correctInd === 1) {
-    buttonDef0.style.color = "red";
-    buttonDef1.style.color = "green";
-    buttonDef2.style.color = "red";
-    buttonDef3.style.color = "red";
-  } else if (correctInd === 2) {
-    buttonDef0.style.color = "red";
-    buttonDef1.style.color = "red";
-    buttonDef2.style.color = "green";
-    buttonDef3.style.color = "red";
-  } else if (correctInd === 3) {
-    buttonDef0.style.color = "red";
-    buttonDef1.style.color = "red";
-    buttonDef2.style.color = "red";
-    buttonDef3.style.color = "green";
+  quizForm.submit(function (event) {
+    event.preventDefault();
+
+    quizForm.trigger("reset");
+
+    let selectedIndex;
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].is(':checked')) {
+        selectedIndex = i;
+      }
+    }
+
+
+    //Send data to server for processing so user can't do some hacky stuff on the client side to 
+    //mess with their score
+    let requestConfig;
+    if (wordBeingPlayed) {
+       requestConfig = {
+        method: 'POST',
+        url: `/quiz/definitionToWord`,
+        selectedIndex: selectedIndex,
+        wordBeingPlayed: wordBeingPlayed,
+      };
+    } else if (definitionBeingPlayed) {
+       requestConfig = {
+        method: 'POST',
+        url: `/quiz/wordToDefinition`,
+        selectedIndex: selectedIndex,
+        definitionBeingPlayed: definitionBeingPlayed
+      };
+    }
+
+    $.ajax(requestConfig).then(function (data) {
+      console.log(data.correct);
+      console.log(data.correctIndex);
+
+      quizVerificationToWord(data.correctIndex, selectedIndex);
+
+    });
+  });
+
+  function quizVerificationToWord(correctInd, buttonUserClicked) {
+
+
+    let messageSpace = document.getElementById("messageSpace")
+      ;
+
+    const youGotIt = document.createElement("p");
+    youGotIt.hidden = true;
+    youGotIt.innerHTML = "That's correct! You got it!";
+
+    messageSpace.appendChild(youGotIt);
+
+    const youWrong = document.createElement("p");
+    youWrong.hidden = true;
+
+    youWrong.innerHTML = "Sorry, that's incorrect";
+
+    messageSpace.appendChild(youWrong);
+
+    if (correctInd === 0) {
+      $('label[for="buttonDef0"]').css('color', 'green');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'red');
+    } else if (correctInd === 1) {
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'green');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'red');
+    } else if (correctInd === 2) {
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'green');
+      $('label[for="buttonDef3"]').css('color', 'red');
+    } else if (correctInd === 3) {
+      $('label[for="buttonDef0"]').css('color', 'red');
+      $('label[for="buttonDef1"]').css('color', 'red');
+      $('label[for="buttonDef2"]').css('color', 'red');
+      $('label[for="buttonDef3"]').css('color', 'green');
+    }
+
+
+
+    if (buttonUserClicked === correctInd) {
+
+
+      youGotIt.hidden = false;
+    } else {
+
+
+      youWrong.hidden = false;
+    }
+
+
+
+
+
   }
 
-  const youGotIt = document.createElement("p");
-  youGotIt.innerHTML = "That's correct! You got it!";
 
-  const youWrong = document.createElement("p");
-
-  youGotIt.innerHTML = "Sorry, that's incorrect";
-
-
-  document.append(youGotIt);
-  document.append(youWrong);
-
-}
-
-
+})(window.jQuery);;

@@ -1,16 +1,33 @@
 <h1>Match the definition to its word</h1>
 
-<h2>{{curWord.word}}</h2>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def0}}, {{json correctInd}})"
-    id="buttonDef1">{{def0}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def1}}, {{json correctInd}})"
-    id="buttonDef2">{{def1}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def2}}, {{json correctInd}})"
-    id="buttonDef3">{{def2}}</button>
-<button onclick="quizVerificationToWord({{json curWord}}, {{json def3}}, {{json correctInd}})"
-    id="buttonDef4">{{def3}}</button>
+<h2 id="wordBeingPlayed">{{curWord.word}}</h2>
+<form id="quizForm">
+    <label for="button0">{{def0}}</label>
+    <input type="radio" id="button0" name="buttonDef">
+    <br>
+    <label for="button1">{{def1}}</label>
+    <input type="radio" id="button1" name="buttonDef">
+    <br>
+    <label for="button2">{{def2}}</label>
+    <input type="radio" id="button2" name="buttonDef">
+    <br>
+    <label for="button3">{{def3}}</label>
+    <input type="radio" id="button3" name="buttonDef">
+    <br>
+    <input type="submit" id="button" value="Check my answer">
 
+
+
+</form>
+
+<div id="messageSpace"></div>
 
 <a href="/report/word/{{json curWord._id}}">Report the word: {{curWord.word}}</a>
 
 <script src="../../public/js/quizVerification.js"></script>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+
+{{!-- TODO: ensure form has necessary attributes --}}
