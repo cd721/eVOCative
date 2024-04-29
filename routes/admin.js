@@ -33,7 +33,7 @@ router.route('/addNewWord')
         let definition = xss(req.body.definition);
         let tags = xss(req.body.tags);
         tags = tags.split(",").map(tag => tag.trim());
-        
+
         try {
             word = wordValidation.validateWord(word);
             definition = wordValidation.validateDefinition(definition);
@@ -45,5 +45,31 @@ router.route('/addNewWord')
             return res.status(500).json({ error: e });
         }
     });
+
+router.route('/checkTickets')
+    .get(async (req, res) => {
+
+        let user_id;
+        let user;
+        try {
+            user_id = req.session.user._id; // This will be grabbed from the session id!
+            user = await userData.getUserById(user_id);
+            console.log(user_id)
+        } catch (e) {
+            return res.status(500).json({ error: e });
+        }
+
+        try {
+            //TODO: better handling
+            if (!userData.isAdmin(user_id)) {
+                return res.status(403).json({ error: Forbidden });
+            }
+
+            return res.render("tickets/checkTickets")
+        } catch (e) {
+            return res.status(500).json({ error: e });
+
+        }
+    })
 
 export default router;
