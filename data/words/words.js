@@ -28,6 +28,14 @@ let exportedMethods = {
     return existingWord;
   },
 
+  async getWordByDefinition(definition) {
+    //TODO: validate def, consider storing lowercase in DB
+    const wordCollection = await words();
+    definition = definition.trim();
+    const existingWord = await wordCollection.findOne({ definition: definition });
+    return existingWord;
+  },
+
   async addWord(word, definition, tags, translations) {
     word = wordValidation.validateWord(word);
     definition = wordValidation.validateDefinition(definition);
@@ -51,6 +59,78 @@ let exportedMethods = {
     }
 
     return await this.getWordById(newInsertInformation.insertedId.toString());
+  },
+
+  async updateTimesPlayed(word_id) {
+    //TODO: validate
+    const wordCollection = await words();
+
+    const updateInfo = await wordCollection.findOneAndUpdate(
+      { _id: new ObjectId(word_id), },
+      {
+        $inc: {
+          times_played: 1,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateInfo) {
+      throw "Update failed!";
+    }
+
+    return updateInfo;
+  },
+
+  async updateAccuracyScore(word_id, new_score) {
+    //TODO: validate
+    const wordCollection = await words();
+
+    const updateInfo = await wordCollection.findOneAndUpdate(
+      { _id: new ObjectId(word_id), },
+      {
+        $set: {
+          accuracy_score: new_score,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateInfo) {
+      throw "Update failed!";
+    }
+
+    return updateInfo;
+  },
+  async getTimesPlayed(word_id) {
+    //TODO: validate
+    const wordCollection = await words();
+
+    const result = await wordCollection.findOne(
+      { _id: new ObjectId(word_id), },
+
+      { projection: { _id: 0, 'times_played': 1 } }
+
+    );
+
+
+    return result;
+  },
+
+  async getAccuracyScore(word_id) {
+    //TODO: validate
+    const wordCollection = await words();
+
+    const result = await wordCollection.findOne(
+      { _id: new ObjectId(word_id), },
+
+      { projection: { _id: 0, 'accuracy_score': 1 } }
+
+    );
+
+
+
+    return result;
   },
 
   async getWordOfDay() {

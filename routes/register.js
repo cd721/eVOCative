@@ -40,6 +40,7 @@ router.route("/").post(async (req, res) => {
     password = userValidation.validatePassword(password);
     checkPassword(password, confirmPassword);
 
+    username = username.toLowerCase();
     const user = await userData.addUser(
       firstName,
       lastName,
