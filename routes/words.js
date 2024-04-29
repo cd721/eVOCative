@@ -28,7 +28,7 @@ router.route('/:id')
 
         if (req.session.user) {
             let user = req.session.user;
-            
+
             try {
                 word_id = idValidation.validateId(word_id);
                 word = await wordData.getWordById(word_id);
@@ -38,7 +38,7 @@ router.route('/:id')
             }
 
             try {
-                return res.render('words/word', { title: "Word", word: word });
+                return res.render('words/word', { title: "Word", word: word, wordId: word_id });
             } catch (e) {
                 return res.status(500).json({ error: e });
             }

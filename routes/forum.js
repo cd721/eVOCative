@@ -71,7 +71,7 @@ router.route('/:id')
             let comments = post.comments;
             comments = comments.reverse();
 
-            return res.render("posts/single", { post: post, poster_name: poster_name, comments: comments});
+            return res.render("posts/single", { post: post, poster_name: poster_name, comments: comments, postId: post_id});
 
         } catch (e) {
             return res.status(500).json({ error: e });

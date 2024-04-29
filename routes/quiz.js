@@ -117,6 +117,7 @@ router.route("/definitionToWord")
 
       return res.render("quiz/definitionToWord", {
         curWord: randomWord,
+        wordId: randomWord._id.toString(),
         def0: buttonDefs[0],
         def1: buttonDefs[1],
         def2: buttonDefs[2],
@@ -267,7 +268,8 @@ router.route("/wordToDefinition").get(async (req, res) => {
     req.session.correctIndex = correctInd; //TODO: what if the user has a quiz open in multiple tabs?
 
     return res.render("quiz/wordToDefinition", {
-      curDefinition: randomDefinition,
+      curWord: randomWord,
+      wordId: randomWord._id.toString(),
       word0: buttonDefs[0],
       word1: buttonDefs[1],
       word2: buttonDefs[2],
@@ -276,6 +278,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     });
 
   } catch (e) {
+    return res.status(500).json({ error: e });
 
   }
 }).post(async (req, res) => {

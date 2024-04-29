@@ -6,10 +6,12 @@
         <h4>Tags</h4>
         <ul>
             {{#each word.tags}}
-                <li>{{this}}</li>
+            <li>{{this}}</li>
             {{/each}}
         </ul>
     </div>
 
     <a class="link_back" href="/words">Back to All Words</a>
+    <a href="/report/word/{{json wordId}}">Report the word: {{word.word}}</a>
+
 </article>

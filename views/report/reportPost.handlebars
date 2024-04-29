@@ -1,7 +1,7 @@
-<article id="report_page" class="main_container">
-    <h1>Report Content</h1>
+<article id="report_post_page" class="main_container">
+    <h1>Report Post</h1>
 
-    <form action="/report" method="POST" id="report">
+    <form action="/report/post" method="POST" id="reportPost">
 
         {{#if errors}}
         {{#each errors}}
@@ -9,10 +9,10 @@
         {{/each}}
         {{/if}}
 
-        
+
 
         <div class="input_container">
-            <label for="explanation">Explain why you want to report this content:</label>
+            <label for="explanation">Explain why you want to report this post:</label>
             <textarea name="explanation" id="explanation" value="explanation" rows="4"></textarea>
             <p class="error_text" id="error_explanation"></p>
         </div>

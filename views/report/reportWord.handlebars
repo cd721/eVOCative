@@ -1,0 +1,23 @@
+<article id="report_word_page" class="main_container">
+    <h1>Report Word</h1>
+
+    <form action="/report/word" method="POST" id="reportWord">
+
+        {{#if errors}}
+        {{#each errors}}
+        <p class="error_top">{{this}}</p>
+        {{/each}}
+        {{/if}}
+
+        
+
+        <div class="input_container">
+            <label for="explanation">Explain why you want to report this word:</label>
+            <textarea name="explanation" id="explanation" value="explanation" rows="4"></textarea>
+            <p class="error_text" id="error_explanation"></p>
+        </div>
+
+        <button type="submit">Make a Report</button>
+    </form>
+
+</article>
