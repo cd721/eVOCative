@@ -126,7 +126,7 @@ app.use("/words", (req, res, next) => {
   }
 });
 
-//Authentication middleware
+//Authentication middleware for quiz
 app.use("/quiz", (req, res, next) => {
   if (!req.session.user) {
     //if the user is not logged in

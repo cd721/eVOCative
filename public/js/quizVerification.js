@@ -10,17 +10,30 @@
 
   let wordBeingPlayed = $("#wordBeingPlayed");
   let definitionBeingPlayed = $("#definitionBeingPlayed");
-  
+
   if (wordBeingPlayed) {
     wordBeingPlayed = wordBeingPlayed.html();
   } else if (definitionBeingPlayed) {
     definitionBeingPlayed = definitionBeingPlayed.html();
   }
 
+  const nextQuestion = document.getElementById("nextQuestion");
+  nextQuestion.hidden = true;
+  let messageSpace = document.getElementById("messageSpace")
+    ;
+
+  const youGotIt = document.getElementById("correct");
+  youGotIt.hidden = true;
+
+
+  const youWrong = document.getElementById("wrong");
+  youWrong.hidden = true;
+
+
+
   quizForm.submit(function (event) {
     event.preventDefault();
 
-    quizForm.trigger("reset");
 
     let selectedIndex;
     for (let i = 0; i < buttons.length; i++) {
@@ -34,18 +47,24 @@
     //mess with their score
     let requestConfig;
     if (wordBeingPlayed) {
-       requestConfig = {
+      requestConfig = {
         method: 'POST',
-        url: `/quiz/definitionToWord`,
-        selectedIndex: selectedIndex,
-        wordBeingPlayed: wordBeingPlayed,
+        url: `/quiz/definitionToWord`,contentType: 'application/json',
+        data: JSON.stringify({
+          selectedIndex: selectedIndex,
+          wordBeingPlayed: wordBeingPlayed.html()
+        })
+        
       };
     } else if (definitionBeingPlayed) {
-       requestConfig = {
+      requestConfig = {
         method: 'POST',
-        url: `/quiz/wordToDefinition`,
-        selectedIndex: selectedIndex,
-        definitionBeingPlayed: definitionBeingPlayed
+        url: `/quiz/wordToDefinition`,contentType: 'application/json',
+        data: JSON.stringify({
+          selectedIndex: selectedIndex,
+          definitionBeingPlayed: definitionBeingPlayed.html()
+        })
+
       };
     }
 
@@ -56,47 +75,35 @@
       quizVerificationToWord(data.correctIndex, selectedIndex);
 
     });
+    quizForm.trigger("reset");
+
   });
 
   function quizVerificationToWord(correctInd, buttonUserClicked) {
 
 
-    let messageSpace = document.getElementById("messageSpace")
-      ;
 
-    const youGotIt = document.createElement("p");
-    youGotIt.hidden = true;
-    youGotIt.innerHTML = "That's correct! You got it!";
-
-    messageSpace.appendChild(youGotIt);
-
-    const youWrong = document.createElement("p");
-    youWrong.hidden = true;
-
-    youWrong.innerHTML = "Sorry, that's incorrect";
-
-    messageSpace.appendChild(youWrong);
 
     if (correctInd === 0) {
-      $('label[for="buttonDef0"]').css('color', 'green');
-      $('label[for="buttonDef1"]').css('color', 'red');
-      $('label[for="buttonDef2"]').css('color', 'red');
-      $('label[for="buttonDef3"]').css('color', 'red');
+      $('label[for="button0"]').css('color', 'green');
+      $('label[for="button1"]').css('color', 'red');
+      $('label[for="button2"]').css('color', 'red');
+      $('label[for="button3"]').css('color', 'red');
     } else if (correctInd === 1) {
-      $('label[for="buttonDef0"]').css('color', 'red');
-      $('label[for="buttonDef1"]').css('color', 'green');
-      $('label[for="buttonDef2"]').css('color', 'red');
-      $('label[for="buttonDef3"]').css('color', 'red');
+      $('label[for="button0"]').css('color', 'red');
+      $('label[for="button1"]').css('color', 'green');
+      $('label[for="button2"]').css('color', 'red');
+      $('label[for="button3"]').css('color', 'red');
     } else if (correctInd === 2) {
-      $('label[for="buttonDef0"]').css('color', 'red');
-      $('label[for="buttonDef1"]').css('color', 'red');
-      $('label[for="buttonDef2"]').css('color', 'green');
-      $('label[for="buttonDef3"]').css('color', 'red');
+      $('label[for="button0"]').css('color', 'red');
+      $('label[for="button1"]').css('color', 'red');
+      $('label[for="button2"]').css('color', 'green');
+      $('label[for="button3"]').css('color', 'red');
     } else if (correctInd === 3) {
-      $('label[for="buttonDef0"]').css('color', 'red');
-      $('label[for="buttonDef1"]').css('color', 'red');
-      $('label[for="buttonDef2"]').css('color', 'red');
-      $('label[for="buttonDef3"]').css('color', 'green');
+      $('label[for="button0"]').css('color', 'red');
+      $('label[for="button1"]').css('color', 'red');
+      $('label[for="button2"]').css('color', 'red');
+      $('label[for="button3"]').css('color', 'green');
     }
 
 
@@ -111,6 +118,7 @@
       youWrong.hidden = false;
     }
 
+    nextQuestion.hidden = false;
 
 
 

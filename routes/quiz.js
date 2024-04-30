@@ -131,15 +131,15 @@ router.route("/definitionToWord")
     try {
 
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-      console.log(req.selectedIndex);
+      console.log(req.data.selectedIndex);
 
       //Increase number of times played
-      const word_id =await  wordData.getWordByWord(req.session.wordBeingPlayed);
+      const word_id =await  wordData.getWordByWord(req.data.wordBeingPlayed);
       await wordData.updateTimesPlayed(word_id);
 
 
       ////update accuracy score for user
-      if (req.selectedIndex === req.session.correctIndex) {
+      if (req.data.selectedIndex === req.session.correctIndex) {
         await quizHelpers.updateAccuracyScores(user._id, word_id, true);
         return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
       } else {
@@ -282,14 +282,14 @@ router.route("/wordToDefinition").get(async (req, res) => {
   try {
 
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-    console.log(req.selectedIndex);
+    console.log(req.body.selectedIndex);
 
     //Increase number of times played
-    const word_id =await wordData.getWordByDefinition(req.session.definitionBeingPlayed);
+    const word_id._id =await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
     await wordData.updateTimesPlayed(word_id);
 
     ////update accuracy score for user
-    if (req.selectedIndex === req.session.correctIndex) {
+    if (req.body.selectedIndex === req.session.correctIndex) {
       await quizHelpers.updateAccuracyScores(user._id, word_id, true);
       return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
     } else {
