@@ -21,7 +21,8 @@ let exportedMethods = {
             posts: [],
             words: [],
             accuracy_score: 0,
-            selected_language: "French"
+            selected_language: "French",
+            times_played: 0//times the user played any quiz games
         };
 
         return newUser;
@@ -30,7 +31,7 @@ let exportedMethods = {
         const plaintextPassword = password;
         const saltRounds = 16;
         const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
-      
+
         return hashedPassword;
     }
 };

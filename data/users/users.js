@@ -72,6 +72,8 @@ let exportedMethods = {
 
     username = username.toLowerCase();
 
+    username = username.toLowerCase();
+
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
@@ -110,6 +112,7 @@ let exportedMethods = {
       { _id: new ObjectId(user_id) },
       {
         $set: { date_last_word_was_received: addedDate },
+        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, times_played: 0 } },
         $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, times_played: 0 } },
       }
     );
@@ -245,6 +248,7 @@ let exportedMethods = {
       {
         $set: {
           "accuracy_score": new_score,
+          "accuracy_score": new_score,
         },
       },
       { returnDocument: "after" }
@@ -291,6 +295,7 @@ let exportedMethods = {
     const userCollection = await users();
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
+      if (word._id.toString() === word_id) {
       if (word._id.toString() === word_id) {
         return word.date_user_received_word;
       }
