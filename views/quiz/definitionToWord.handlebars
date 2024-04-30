@@ -1,25 +1,29 @@
 <h1>Match the definition to its word</h1>
 
 <h2 id="wordBeingPlayed">{{curWord.word}}</h2>
-<form  id="quizForm">
+<form id="quizForm">
     <label for="button0">{{def0}}</label>
     <input type="radio" id="button0" name="buttonDef">
-<br>
+    <br>
     <label for="button1">{{def1}}</label>
     <input type="radio" id="button1" name="buttonDef">
-<br>
+    <br>
     <label for="button2">{{def2}}</label>
     <input type="radio" id="button2" name="buttonDef">
-<br>
+    <br>
     <label for="button3">{{def3}}</label>
     <input type="radio" id="button3" name="buttonDef">
-<br>
+    <br>
     <input type="submit" id="button" value="Check my answer">
 
 
 </form>
 
-<div id="messageSpace"></div>
+<div id="messageSpace">
+    <p id="correct" hidden>You got it!</p>
+    <p id="wrong" hidden>Sorry, that was incorrect. Better luck next time!</p>
+    <a id="nextQuestion" href="/quiz/defintiionToWord" hidden>Click here for the next question.</a>
+</div>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="../../public/js/quizVerification.js"></script>
