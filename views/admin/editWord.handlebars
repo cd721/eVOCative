@@ -1,0 +1,10 @@
+<h1>Add a new word to the database!</h1>
+<form method="POST" action="/admin/editWord/{{id}}" id="edit-word-form">
+    <label for="word">Word:</label>
+    <input type="text" name="word" id="word" value="{{word}}">
+    <label for="definition">Definition:</label>
+    <input type="textarea" name="definition" id="definition" value="{{definition}}">
+    <label for="tags">Tags: (Separate unique tags with a ,)</label>
+    <input type="text" name="tags" id="tags" value="{{tags}}">
+    <button type="submit">Edit Word</button>
+</form>
