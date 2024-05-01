@@ -1,0 +1,19 @@
+<section>
+  <h1>Tickets</h1>
+  {{#if newTicket}}
+    <a href="/report/new">Create A New Ticket?</a>
+  {{/if}}
+  {{#each tickets}}
+    <article class="ticket">
+      <h2>{{body}}</h2>
+      <h3>{{type}}</h3>
+      <p>Submitted by: {{submitter.username}} on {{submission_date}}</p>
+      <p>Resolved: {{resolved}}</p>
+    </article>
+    {{#if isAdmin}}
+      <form action="/admin/tickets/{{_id}}" method="POST">
+        <button type="submit">Mark As Resolved?</button>
+      </form>
+    {{/if}}
+  {{/each}}
+</section>

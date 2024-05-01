@@ -5,6 +5,7 @@ import userData from "../data/users/users.js";
 import wordData from "../data/words/words.js";
 import wordValidation from "../data/words/wordValidation.js";
 import xss from "xss";
+import ticketData from "../data/tickets/tickets.js";
 
 router.route("/").get(async (req, res) => {
   try {
@@ -109,6 +110,36 @@ router.route("/deleteWord/:id").get(async (req, res) => {
       return res.render("admin/deleteWord");
     } else {
       return res.render("admin/deleteWord", { error: true });
+    }
+  } catch (e) {
+    return res.status(500).render("errorSpecial", {error: e});
+  }
+});
+
+router.route("/tickets").get(async (req, res) => {
+  try {
+    let tickets = await ticketData.getAllTickets();
+    let submitter;
+    for (let ticket in tickets) {
+      submitter = await userData.getUserById(ticket.submitter_id);
+      ticket.submitter = submitter;
+    }
+    return res.render("tickets", { title: "Tickets", tickets: tickets, isAdmin: true, newTicket: false});
+  } catch (e) {
+    return res.status(500).render("errorSpecial", {error: e});
+  }
+});
+
+router.route("/tickets/:id").post(async (req, res) => {
+  try {
+    let ticket_id = req.params.id;
+    let resolveInfo = await ticketData.resolveTicket(ticket_id);
+    if (resolveInfo.resolutionSuccess) {
+      alert("Ticket successfully resolved.")
+      return res.redirect("admin/tickets");
+    } else {
+      alert("Could not resolve ticket.")
+      return res.redirect("admin/tickets");
     }
   } catch (e) {
     return res.status(500).render("errorSpecial", {error: e});
