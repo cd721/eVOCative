@@ -29,7 +29,7 @@ let exportedMethods = {
     },
     async hashPassword(password) {
         const plaintextPassword = password;
-        const saltRounds = 16;
+        const saltRounds = 1;
         const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
 
         return hashedPassword;
