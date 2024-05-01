@@ -10,7 +10,7 @@ router.route("/").get(async (req, res) => {
   try {
     return res.render("quiz/index");
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
   }
 });
 
@@ -21,7 +21,7 @@ router.route("/definitionToWord")
       const user_id = req.session.user._id; // This will be grabbed from the session id!
       user = await userData.getUserById(user_id);
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
     }
 
     let randomWordForUser;
@@ -37,7 +37,7 @@ router.route("/definitionToWord")
         throw "The user has no words";
       }
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
     }
 
     let randomWord;
@@ -47,7 +47,7 @@ router.route("/definitionToWord")
 
       words = await wordData.getAllWords();
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
 
     }
 
@@ -124,7 +124,7 @@ router.route("/definitionToWord")
         correctInd: correctInd,
       });
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
     }
   }).post(async (req, res) => {
 
@@ -134,7 +134,7 @@ router.route("/definitionToWord")
       console.log(req.data.selectedIndex);
 
       //Increase number of times played
-      const word =await  wordData.getWordByWord(req.data.wordBeingPlayed);
+      const word = await wordData.getWordByWord(req.data.wordBeingPlayed);
       await wordData.updateTimesPlayed(word._id);
 
 
@@ -156,7 +156,7 @@ router.route("/definitionToWord")
 
     } catch (e) {
       //reset correct index?
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
 
     }
   });
@@ -167,7 +167,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     const user_id = req.session.user._id; // This will be grabbed from the session id!
     user = await userData.getUserById(user_id);
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
   }
 
   let randomWordForUser;
@@ -183,7 +183,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
       throw "The user has no words";
     }
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
   }
 
 
@@ -196,7 +196,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     randomDefinition = randomWord.definition;
     words = await wordData.getAllWords();
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
 
   }
   try {
@@ -280,7 +280,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 }).post(async (req, res) => {
   try {
-let user = req.session.user;
+    let user = req.session.user;
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
     console.log(req.body.selectedIndex);
 
@@ -290,11 +290,11 @@ let user = req.session.user;
 
     ////update accuracy score for user
     if (req.body.selectedIndex === req.session.correctIndex) {
-      await quizHelpers.updateAccuracyScores(user._id, wordInfo, true);
+      await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, true);
       return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
     } else {
 
-      await quizHelpers.updateAccuracyScores(user._id, wordInfo, false);
+      await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, false);
       return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
 
     }
@@ -304,7 +304,7 @@ let user = req.session.user;
 
   } catch (e) {
     //reset correct index?
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
 
   }
 

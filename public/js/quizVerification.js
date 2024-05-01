@@ -49,17 +49,17 @@
     if (wordBeingPlayed) {
       requestConfig = {
         method: 'POST',
-        url: `/quiz/definitionToWord`,contentType: 'application/json',
+        url: `/quiz/definitionToWord`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
           wordBeingPlayed: wordBeingPlayed.html()
         })
-        
+
       };
     } else if (definitionBeingPlayed) {
       requestConfig = {
         method: 'POST',
-        url: `/quiz/wordToDefinition`,contentType: 'application/json',
+        url: `/quiz/wordToDefinition`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
           definitionBeingPlayed: definitionBeingPlayed.html()
