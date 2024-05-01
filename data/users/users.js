@@ -104,13 +104,13 @@ let exportedMethods = {
 
     const userCollection = await users();
 
-    const addedDate = new Date();
+    const addedDate = today;
 
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
       {
         $set: { date_last_word_was_received: addedDate },
-        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, times_played: 0 } },
+        $push: { words: { _id: new ObjectId(word_id), accuracy_score: 0, times_played: 0, date_user_received_word: today } },
       }
     );
 
@@ -121,23 +121,39 @@ let exportedMethods = {
     //TODO: should return?
   },
 
+  async userAlreadyHasWord(user_id, word_id) {
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+    let hasWordAlready;
+    //check if new word is already in user's word bank
+    try {
+      const userCollection = await users();
+      hasWordAlready = await userCollection.findOne({
+        _id: new ObjectId(user_id),
+        words: { $elemMatch: { _id: new ObjectId(word_id) } },
+      });
+    } catch (e) {
+      throw "Internal Server Error";
+    }
+
+    return hasWordAlready;
+
+  },
+
   async addWordOfDay(user_id) {
+    user_id = user_id.toString();
     user_id = idValidation.validateId(user_id);
 
-    let newWord = await wordData.getWordOfDay();
-
-    //check if new word is already in user's word bank
-    const userCollection = await users();
-    let duplicateWord = await userCollection.findOne({
-      _id: new ObjectId(user_id),
-      words: { $elemMatch: { _id: new ObjectId(newWord._id) } },
-    });
-    if (duplicateWord) {
+    let newWord
+    let hasWordAlready;
+    do {
       //re-reun this function to get a new word
-      return this.addWordOfDay(user_id);
-    } else {
-      return this.addWordForUser(user_id, newWord._id.toString());
-    }
+      newWord = await wordData.getWordOfDay();
+      hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
+
+    } while (hasWordAlready);
+    return this.addWordForUser(user_id, newWord._id.toString());
+
   },
 
   async addPostForUser(user_id, post_id) {
@@ -194,7 +210,7 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(user_id)},
+      { _id: new ObjectId(user_id) },
       {
         $inc: {
           "times_played": 1,
@@ -230,7 +246,7 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(user_id)},
+      { _id: new ObjectId(user_id) },
       {
         $set: {
           "accuracy_score": new_score,

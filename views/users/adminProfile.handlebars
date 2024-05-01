@@ -2,7 +2,7 @@
 
 <h1>{{user.firstName}} {{user.lastName}}</h1>
 <h2>I'm an admin.</h2>
-<h2>My accuracy score is: {{user.accuracy_score}}</h2>
+<h2>My accuracy score is: {{toPercentage user.accuracy_score}}%</h2>
 <section>
     <h2>My Words</h2>
     {{#each words}}
@@ -14,7 +14,7 @@
             <li><a href="/words/tag/{{this}}">{{this}}</a></li>
             {{/each}}
         </ul>
-        <h4>My accuracy score for {{this.word}} is {{this.accuracy_score}}.</h4>
+        <h4>My accuracy score for {{this.word}} is {{toPercentage this.accuracy_score}}%.</h4>
         <p><a href="/users/{{../user_id}}/remove/{{_id}}">Remove {{this.word}} from my word bank</a></p>
         {{!-- TODO: user can only remove word when signed in --}}
 

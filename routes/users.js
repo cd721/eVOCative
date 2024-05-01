@@ -16,7 +16,7 @@ router.route('/').get(async (req, res) => {
 router
     .route('/:id')
     .get(async (req, res) => {
-        let user_id = req.params.id;
+        let user_id = req.params.id.toString();
         let user;
 
         try {

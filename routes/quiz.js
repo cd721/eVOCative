@@ -285,7 +285,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     console.log(req.body.selectedIndex);
 
     //Increase number of times played
-    const word_id._id =await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
+    const word_id =await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
     await wordData.updateTimesPlayed(word_id);
 
     ////update accuracy score for user
