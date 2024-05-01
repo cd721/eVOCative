@@ -161,9 +161,9 @@ let exportedMethods = {
 
     let newWord
     let hasWordAlready;
-    
-    let wordsUserHas = await this.getWordsForUser(user_id);
 
+    const wordsUserHas = await this.getWordsForUser(user_id);
+const wordCollection = await wordData.getAllWords();
     do {
       //re-reun this function to get a new word
       if (wordsUserHas.length >= wordCollection.count()){break;}
