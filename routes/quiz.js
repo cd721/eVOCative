@@ -280,7 +280,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 }).post(async (req, res) => {
   try {
-
+let user = req.session.user;
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
     console.log(req.body.selectedIndex);
 
