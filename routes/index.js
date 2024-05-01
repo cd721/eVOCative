@@ -36,7 +36,7 @@ const constructorMethod = (app) => {
   });
 
   app.use("*", (req, res) => {
-    res.render("error");
+    res.render("notFoundError");
   });
 };
 

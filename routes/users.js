@@ -24,7 +24,7 @@ router
             user = await userData.getUserById(user_id);
 
         } catch (e) {
-            return res.status(400).render("error");
+            return res.status(400).render("notFoundError");
         }
 
         try {
@@ -62,7 +62,7 @@ router.route('/:userId/remove/:wordId')
             word_id = idValidation.validateId(word_id);
             user_id = idValidation.validateId(user_id);
         } catch (e) {
-            return res.status(400).render("error");
+            return res.status(400).render("notFoundError");
         }
 
         try {

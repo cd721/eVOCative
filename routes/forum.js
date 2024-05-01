@@ -59,7 +59,7 @@ router.route('/:id')
             post_id = idValidation.validateId(post_id);
             post = await postData.getPostById(post_id.toString());
         } catch (e) {
-            return res.status(400).render("error");
+            return res.status(400).render("notFoundError");
 
         }
 
