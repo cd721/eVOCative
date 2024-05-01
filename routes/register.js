@@ -15,7 +15,7 @@ router.route("/").get(async (req, res) => {
   try {
     return res.render("register");
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
   }
 });
 

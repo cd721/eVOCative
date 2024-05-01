@@ -9,7 +9,7 @@ router.route('/').get(async (req, res) => {
         const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.status(500).render("internalServerError");
     }
 });
 
@@ -24,7 +24,7 @@ router
             user = await userData.getUserById(user_id);
 
         } catch (e) {
-            return res.status(400).render("error");
+            return res.status(400).render("notFoundError");
         }
 
         try {
@@ -49,7 +49,7 @@ router
             return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("internalServerError");
         }
     })
     ;
@@ -62,7 +62,7 @@ router.route('/:userId/remove/:wordId')
             word_id = idValidation.validateId(word_id);
             user_id = idValidation.validateId(user_id);
         } catch (e) {
-            return res.status(400).render("error");
+            return res.status(400).render("notFoundError");
         }
 
         try {
@@ -73,7 +73,7 @@ router.route('/:userId/remove/:wordId')
             return res.status(200).json({ word_id: "removed" });
 
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("internalServerError");
         }
     });
 

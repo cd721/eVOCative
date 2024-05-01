@@ -10,7 +10,7 @@ router.route("/").get(async (req, res) => {
   try {
     return res.render("quiz/index");
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
   }
 });
 
@@ -21,7 +21,7 @@ router.route("/definitionToWord")
       const user_id = req.session.user._id; // This will be grabbed from the session id!
       user = await userData.getUserById(user_id);
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("internalServerError");
     }
 
     let randomWordForUser;
@@ -37,7 +37,7 @@ router.route("/definitionToWord")
         throw "The user has no words";
       }
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("internalServerError");
     }
 
     let randomWord;
@@ -47,7 +47,7 @@ router.route("/definitionToWord")
 
       words = await wordData.getAllWords();
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("internalServerError");
 
     }
 
@@ -124,7 +124,7 @@ router.route("/definitionToWord")
         correctInd: correctInd,
       });
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("internalServerError");
     }
   }).post(async (req, res) => {
 
@@ -156,7 +156,7 @@ router.route("/definitionToWord")
 
     } catch (e) {
       //reset correct index?
-      return res.status(500).json({ error: e });
+      return res.status(500).render("internalServerError");
 
     }
   });
@@ -167,7 +167,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     const user_id = req.session.user._id; // This will be grabbed from the session id!
     user = await userData.getUserById(user_id);
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
   }
 
   let randomWordForUser;
@@ -183,7 +183,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
       throw "The user has no words";
     }
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
   }
 
 
@@ -196,7 +196,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     randomDefinition = randomWord.definition;
     words = await wordData.getAllWords();
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
 
   }
   try {
@@ -304,7 +304,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
   } catch (e) {
     //reset correct index?
-    return res.status(500).json({ error: e });
+    return res.status(500).render("internalServerError");
 
   }
 
