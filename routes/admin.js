@@ -17,7 +17,7 @@ router.route('/').get(async (req, res) => {
         }
         return res.render("admin/index", { users: adminUsers });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.status(500).render("internalServerError");
     }
 });
 
@@ -26,7 +26,7 @@ router.route('/addNewWord')
         try {
             return res.render("admin/addNewWord")
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("internalServerError");
         }
     }).post(async (req, res) => {
         let word = xss(req.body.word);
@@ -42,7 +42,7 @@ router.route('/addNewWord')
             await wordData.addWord(word, definition, tags, []);
             return res.redirect("/words");
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("internalServerError");
         }
     });
 

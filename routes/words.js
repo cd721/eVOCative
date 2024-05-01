@@ -17,7 +17,7 @@ router.route('/')
                 console.log(wordList); return res.render('words/index', { words: wordList });
             }
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("internalServerError");
         }
     });
 
@@ -34,13 +34,13 @@ router.route('/:id')
                 word = await wordData.getWordById(word_id);
                 word.date_user_received_word = await userData.getDateUserReceivedWord(user._id, word_id);
             } catch (e) {
-                res.status(400).render('error');
+                res.status(400).render('notFoundError');
             }
 
             try {
                 return res.render('words/word', { title: "Word", word: word });
             } catch (e) {
-                return res.status(500).json({ error: e });
+                return res.status(500).render("internalServerError");
             }
         }
     });
