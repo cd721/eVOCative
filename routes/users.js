@@ -3,6 +3,7 @@ const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
 import helpers from '../helpers/helpers.js';
+import wordData  from '../data/words/words.js'
 
 router.route('/').get(async (req, res) => {
     try {
@@ -30,19 +31,26 @@ router
         try {
             //add new word of the day to user word bank automatically
             let date_last_word_was_received = await userData.getDateLastWordWasReceived(user_id);
+            const wordsUserHas = await userData.getWordsForUser(user_id);
 
             let recievedWOD = false;
-            if(!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
-                await userData.addWordOfDay(user_id);
-                recievedWOD = true;
+
+            const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
+            if (wordsUserHas.length < totalNumberOfWords) {
+
+                if (!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
+
+                    await userData.addWordOfDay(user_id);
+                    recievedWOD = true;
+                }
             };
 
             let words = await userData.getWordsForUser(user_id);
             const userIsAdmin = await userData.isAdmin(user_id);
 
             // destructure so that sensitive fields are not sent to handlebars
-            const { hashedPassword, email, ...safeUserData } = user; 
-            
+            const { hashedPassword, email, ...safeUserData } = user;
+
             if (userIsAdmin) {
                 return res.render("users/adminProfile", { title: "Admin Profile", user: safeUserData, words: words });
             }

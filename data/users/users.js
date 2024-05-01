@@ -159,23 +159,21 @@ let exportedMethods = {
     user_id = user_id.toString();
     user_id = idValidation.validateId(user_id);
 
-    let newWord
+    let newWord;
     let hasWordAlready;
 
-    const wordsUserHas = await this.getWordsForUser(user_id);
-const wordCollection = await wordData.getAllWords();
+
     do {
       //re-reun this function to get a new word
-      if (wordsUserHas.length >= wordCollection.count()){break;}
       newWord = await wordData.getWordOfDay();
       hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
 
     } while (hasWordAlready);
-    return this.addWordForUser(user_id, newWord._id.toString());
+    await this.addWordForUser(user_id, newWord._id.toString());
 
-   
 
-   
+
+
   },
 
   async addPostForUser(user_id, post_id) {

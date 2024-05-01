@@ -138,6 +138,10 @@ let exportedMethods = {
     const word = await wordCollection.aggregate([{ $sample: { size: 1 } }]).toArray();
 
     return word[0];
+  },
+   async getNumberOfWordsInDB() {
+    const wordCollection = await wordData.getAllWords();
+    return wordCollection.count();
   }
 };
 export default exportedMethods;
