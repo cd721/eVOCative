@@ -9,7 +9,7 @@ router.route("/")
             req.session.destroy();
             return res.render("loggedOut");
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("errorSpecial", {error: e});
         }
     }
     );

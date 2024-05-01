@@ -9,7 +9,7 @@ router.route("/")
     try {
       return res.render("login");
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   })
   .post(async (req, res) => {

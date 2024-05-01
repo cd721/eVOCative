@@ -28,6 +28,7 @@ if (form) {
             $(`#${id}`).hide();
           } else {
             $(`#${id}`).show();
+            break;
           }
         }
       }

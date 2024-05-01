@@ -9,7 +9,7 @@ router.route('/').get(async (req, res) => {
         const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
-        return res.status(500).json({ error: e });
+        return res.status(500).render("errorSpecial", {error: e});
     }
 });
 
@@ -49,7 +49,7 @@ router
             return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("errorSpecial", {error: e});
         }
     })
     ;
@@ -73,7 +73,7 @@ router.route('/:userId/remove/:wordId')
             return res.status(200).json({ word_id: "removed" });
 
         } catch (e) {
-            return res.status(500).json({ error: e });
+            return res.status(500).render("errorSpecial", {error: e});
         }
     });
 

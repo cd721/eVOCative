@@ -17,7 +17,7 @@ router.route("/").get(async (req, res) => {
     }
     return res.render("admin/index", { users: adminUsers });
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("errorSpecial", {error: e});
   }
 });
 
@@ -27,7 +27,7 @@ router
     try {
       return res.render("admin/addNewWord");
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   })
   .post(async (req, res) => {
@@ -42,9 +42,9 @@ router
       tags = wordValidation.validateTags(tags);
 
       await wordData.addWord(word, definition, tags, []);
-      return res.redirect("/words");
+      return res.redirect("/words/all");
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   });
 
@@ -71,7 +71,7 @@ router
         tags: tagStr,
       });
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   })
   .post(async (req, res) => {
@@ -89,7 +89,7 @@ router
       await wordData.updateWord(word_id, word, definition, tags, []);
       return res.redirect("/words/all");
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   });
 
@@ -99,7 +99,7 @@ router.route("/deleteWord/:id").get(async (req, res) => {
     let word = await wordData.getWordById(word_id);
     return res.render("admin/deleteWordConfirmation", { id: word_id, word: word.word });
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("errorSpecial", {error: e});
   }
 }).post(async (req, res) => {
   try {
@@ -111,7 +111,7 @@ router.route("/deleteWord/:id").get(async (req, res) => {
       return res.render("admin/deleteWord", { error: true });
     }
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("errorSpecial", {error: e});
   }
 });
 

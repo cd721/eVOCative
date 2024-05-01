@@ -15,7 +15,7 @@ router.route("/").get(async (req, res) => {
       return res.render("words/index", { words: wordList });
     }
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("errorSpecial", {error: e});
   }
 });
 
@@ -28,7 +28,7 @@ router.route("/all").get(async (req, res) => {
       return res.render("words/allWords", { words: wordList });
     }
   } catch (e) {
-    return res.status(500).json({ error: e });
+    return res.status(500).render("errorSpecial", {error: e});
   }
 });
 
@@ -53,7 +53,7 @@ router.route("/all/:id").get(async (req, res) => {
     try {
       return res.render("words/word", { title: "Word", word: word, admin: true });
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   }
 });
@@ -79,7 +79,7 @@ router.route("/:id").get(async (req, res) => {
     try {
       return res.render("words/word", { title: "Word", word: word });
     } catch (e) {
-      return res.status(500).json({ error: e });
+      return res.status(500).render("errorSpecial", {error: e});
     }
   }
 });
