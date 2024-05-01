@@ -61,6 +61,8 @@ app.engine(
       toPercentage: (rate_of_accuracy) => {
         if (typeof rate_of_accuracy === 'number') {
           return (rate_of_accuracy*100).toString();
+        }else {
+          return rate_of_accuracy;
         }
       }
     },
