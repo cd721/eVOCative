@@ -57,6 +57,11 @@ app.engine(
       },
       json: (context) => {
         return JSON.stringify(context);
+      },
+      toPercentage: (rate_of_accuracy) => {
+        if (typeof rate_of_accuracy === 'number') {
+          return (rate_of_accuracy*100).toString();
+        }
       }
     },
     partialsDir: ["views/partials/"],
