@@ -82,7 +82,8 @@ let exportedMethods = {
     if (!valid) throw "Password may be wrong, please try again.";
 
     let role;
-    if (await this.isAdmin(user._id.toString())) {
+    let isAdmin = await this.isAdmin(user._id.toString());
+    if (isAdmin) {
       role = "admin";
     } else {
       role = "user";
@@ -94,7 +95,7 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: user.role,
+      role: role,
     };
   },
 

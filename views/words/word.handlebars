@@ -11,5 +11,11 @@
         </ul>
     </div>
 
+    {{#if admin}}
+    <a class="link_back" href="/words/all">Back to All Words</a>
+    <a href="/admin/editWord/{{word._id}}">Edit This Word</a>
+    <a href="/admin/deleteWord/{{word._id}}">Delete This Word</a>
+    {{else}}
     <a class="link_back" href="/words">Back to All Words</a>
+    {{/if}}
 </article>

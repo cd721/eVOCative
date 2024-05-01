@@ -19,7 +19,7 @@ router.route('/')
             //console.log(postList)
             return res.render("posts/index", { posts: postList });
         } catch (e) {
-            return res.status(500).render("internalServerError");
+            return res.status(500).render("errorSpecial", {error: e});
         }
     });
 
@@ -29,7 +29,7 @@ router.route('/new')
         try {
             return res.render("posts/new");
         } catch (e) {
-            return res.status(500).render("internalServerError");
+            return res.status(500).render("errorSpecial", {error: e});
 
         }
     })
@@ -46,7 +46,7 @@ router.route('/new')
             return res.redirect("/forum");
 
         } catch (e) {
-            return res.status(500).render("internalServerError");
+            return res.status(500).render("errorSpecial", {error: e});
         }
     })
 
@@ -74,7 +74,7 @@ router.route('/:id')
             return res.render("posts/single", { post: post, poster_name: poster_name, comments: comments});
 
         } catch (e) {
-            return res.status(500).render("internalServerError");
+            return res.status(500).render("errorSpecial", {error: e});
         }
 
 
@@ -89,7 +89,7 @@ router.route('/:id')
             await commentData.addComment(post_id, commenter_id, comment);
             return res.redirect(`/forum/${post_id}`);
         } catch (e) {
-            return res.status(500).render("internalServerError");
+            return res.status(500).render("errorSpecial", {error: e});
         }
     });
 
