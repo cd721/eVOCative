@@ -5,25 +5,31 @@
     <input id="title" type="text" name="title" placeholder="Post Title" value="{{post.title}}" class="full-width-input">
   </label>
   <br>
+  <p class="hidden" id="titleError"></p>
 
   <label for="post">
     Post Body
   </label>
   <br>
   <textarea value="{{post.body}}" id="post" name="post" rows="4" placeholder="Post Content" class="full-width-input"></textarea>
+  <p class="hidden" id="postError"></p>
 
 
 
   <br>
-  <label for="tags">
+  <label for="tags" id="tags">
     Tags (separated by comma)<br><input type="text" name="tags">
   </label>
   <br>
+  <p class="hidden" id="tagsError"></p>
 
   <button type="submit">Create New Post</button>
   <button type="reset">Clear Form</button>
   {{!-- <input type="hidden" name='_method' value="PUT" /> --}}
 </form>
+
+
+
 {{#if hasErrors}}
 <ul class="error-list">
   {{#each errors}}
@@ -35,3 +41,4 @@
 {{/if}}
 
 </article>
+<script src="../../public/js/newPostVerification.js"></script>
