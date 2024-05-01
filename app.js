@@ -4,7 +4,7 @@ import path from "path";
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
-
+import roundto from 'roundto'
 // arrays for organization
 const noFrames = ['/login', '/register', '/logout']
 
@@ -60,8 +60,10 @@ app.engine(
       },
       toPercentage: (rate_of_accuracy) => {
         if (typeof rate_of_accuracy === 'number') {
-          return (rate_of_accuracy*100).toString();
-        }else {
+          const rawPercentage = (rate_of_accuracy * 100);
+          const rounded = roundto(rawPercentage, 2);
+          return rounded.toString();
+        } else {
           return rate_of_accuracy;
         }
       }
