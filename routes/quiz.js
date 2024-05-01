@@ -134,17 +134,17 @@ router.route("/definitionToWord")
       console.log(req.data.selectedIndex);
 
       //Increase number of times played
-      const word_id =await  wordData.getWordByWord(req.data.wordBeingPlayed);
-      await wordData.updateTimesPlayed(word_id);
+      const word =await  wordData.getWordByWord(req.data.wordBeingPlayed);
+      await wordData.updateTimesPlayed(word._id);
 
 
       ////update accuracy score for user
       if (req.data.selectedIndex === req.session.correctIndex) {
-        await quizHelpers.updateAccuracyScores(user._id, word_id, true);
+        await quizHelpers.updateAccuracyScores(user._id, word._id, true);
         return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
       } else {
 
-        await quizHelpers.updateAccuracyScores(user._id, word_id, false);
+        await quizHelpers.updateAccuracyScores(user._id, word._id, false);
         return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
 
       }
@@ -285,16 +285,16 @@ router.route("/wordToDefinition").get(async (req, res) => {
     console.log(req.body.selectedIndex);
 
     //Increase number of times played
-    const word_id._id =await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
-    await wordData.updateTimesPlayed(word_id);
+    const word=await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
+    await wordData.updateTimesPlayed(word._id);
 
     ////update accuracy score for user
     if (req.body.selectedIndex === req.session.correctIndex) {
-      await quizHelpers.updateAccuracyScores(user._id, word_id, true);
+      await quizHelpers.updateAccuracyScores(user._id, word._id, true);
       return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
     } else {
 
-      await quizHelpers.updateAccuracyScores(user._id, word_id, false);
+      await quizHelpers.updateAccuracyScores(user._id, word._id, false);
       return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
 
     }
