@@ -299,7 +299,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
       //and change their original answer.
       console.log("heres correct " + req.session.correctIndex);
 
-      return res.redirect("quiz/invalidAnswer");
+      return res.redirect("/quiz/invalidAnswer");
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
     console.log(req.body.selectedIndex);
@@ -335,7 +335,15 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
 });
 
+router.route("/invalidAnswer").get(async (req, res) => {
+  try {
+    return res.render("quiz/invalidAnswer");
+  } catch (e) {
+    return res.status(500).render("errorSpecial", { error: e });
 
+  }
+
+});
 
 
 
