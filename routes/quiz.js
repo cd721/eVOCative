@@ -116,7 +116,7 @@ router.route("/definitionToWord")
       req.session.correctIndex = correctInd; //TODO: what if the user has a quiz open in multiple tabs?
 
       return res.render("quiz/definitionToWord", {
-        curWord: randomWord,
+        curWord: randomWord.word,
         def0: buttonDefs[0],
         def1: buttonDefs[1],
         def2: buttonDefs[2],
@@ -131,10 +131,10 @@ router.route("/definitionToWord")
     try {
 
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-      console.log(req.data.selectedIndex);
+      console.log(req.body.selectedIndex);
 
       //Increase number of times played
-      const word = await wordData.getWordByWord(req.data.wordBeingPlayed);
+      const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
       await wordData.updateTimesPlayed(word._id);
 
 

@@ -11,16 +11,23 @@
   let wordBeingPlayed = $("#wordBeingPlayed");
   let definitionBeingPlayed = $("#definitionBeingPlayed");
 
-  if (wordBeingPlayed) {
+  let aWordIsBeingPlayed;
+  let aDefinitionIsBeingPlayed;
+
+
+  if (wordBeingPlayed.html()) {
     wordBeingPlayed = wordBeingPlayed.html();
-  } else if (definitionBeingPlayed) {
+    aWordIsBeingPlayed = true;
+    aDefinitionIsBeingPlayed = false;
+  } else if (definitionBeingPlayed.html()) {
     definitionBeingPlayed = definitionBeingPlayed.html();
+    aWordIsBeingPlayed = false;
+    aDefinitionIsBeingPlayed = true;
   }
 
   const nextQuestion = document.getElementById("nextQuestion");
   nextQuestion.hidden = true;
-  let messageSpace = document.getElementById("messageSpace")
-    ;
+
 
   const youGotIt = document.getElementById("correct");
   youGotIt.hidden = true;
@@ -46,23 +53,23 @@
     //Send data to server for processing so user can't do some hacky stuff on the client side to 
     //mess with their score
     let requestConfig;
-    if (wordBeingPlayed) {
+    if (aWordIsBeingPlayed) {
       requestConfig = {
         method: 'POST',
         url: `/quiz/definitionToWord`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
-          wordBeingPlayed: wordBeingPlayed.html()
+          wordBeingPlayed: wordBeingPlayed
         })
 
       };
-    } else if (definitionBeingPlayed) {
+    } else if (aDefinitionIsBeingPlayed) {
       requestConfig = {
         method: 'POST',
         url: `/quiz/wordToDefinition`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
-          definitionBeingPlayed: definitionBeingPlayed.html()
+          definitionBeingPlayed: definitionBeingPlayed
         })
 
       };
