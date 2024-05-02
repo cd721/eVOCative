@@ -130,12 +130,22 @@ router.route("/definitionToWord")
 
     try {
 
+
+      if (!req.session.correctIndex) {
+        //If correctIndex is null, the user already answered the question. 
+        //This prevents the user from using client side JS to modify the form 
+        //and change their original answer.
+        return res.redirect("/quiz/invalidAnswer");
+      }
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
       console.log(req.body.selectedIndex);
 
       //Increase number of times played
       const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
       await wordData.updateTimesPlayed(word._id);
+      //reset correct index
+
+      req.session.correctIndex = null;
 
 
       ////update accuracy score for user
@@ -150,7 +160,6 @@ router.route("/definitionToWord")
       }
 
 
-      //TODO: reset correct index?
 
 
 
@@ -280,7 +289,18 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 }).post(async (req, res) => {
   try {
+
+    //TODO: validate user
     let user = req.session.user;
+    console.log("heres correct " + req.session.correctIndex)
+    if (!req.session.correctIndex) {
+      //If correctIndex is null, the user already answered the question. 
+      //This prevents the user from using client side JS to modify the form 
+      //and change their original answer.
+      console.log("heres correct " + req.session.correctIndex);
+
+      return res.redirect("quiz/invalidAnswer");
+    }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
     console.log(req.body.selectedIndex);
 
@@ -288,19 +308,23 @@ router.route("/wordToDefinition").get(async (req, res) => {
     const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
     await wordData.updateTimesPlayed(wordInfo._id);
 
-    ////update accuracy score for user
-    if (req.body.selectedIndex === req.session.correctIndex) {
-      await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, true);
-      return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
-    } else {
+    const correctIndexBeforeReset = req.session.correctIndex;
+    let userWasCorrect;
+    req.session.correctIndex = null;
 
-      await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, false);
-      return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
+    ////update accuracy score for user
+
+    if (req.body.selectedIndex === correctIndexBeforeReset) {
+      userWasCorrect = true;
+
+    } else {
+      userWasCorrect = false;
+
 
     }
 
-
-    //TODO: reset correct index?
+    await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect);
+    return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
   } catch (e) {
     //reset correct index?
@@ -310,4 +334,9 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
 
 });
+
+
+
+
+
 export default router;

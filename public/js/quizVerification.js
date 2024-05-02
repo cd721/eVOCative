@@ -83,7 +83,11 @@
       console.log(data.correct);
       console.log(data.correctIndex);
 
-      quizVerificationToWord(data.correctIndex, selectedIndex);
+      if (data.correct==undefined || !data.correctIndex) {
+
+      } else { quizVerificationToWord(data.correctIndex, selectedIndex); }
+
+
 
     });
     quizForm.trigger("reset");
