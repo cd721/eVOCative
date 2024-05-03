@@ -74,8 +74,8 @@ router.route('/:userId/deleteWord/:wordId')
         }
 
         try {
-
-            userData.removeWordForUser(user_id, word_id);
+userData.flagWordForDeletionForUser(user_id,word_id);
+       //     userData.removeWordForUser(user_id, word_id);
 
 
             return res.status(200).json({ word_id: "removed" });

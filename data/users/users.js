@@ -227,7 +227,6 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
-      { _id: new ObjectId(user_id) },
       {
         $inc: {
           times_played: 1,
@@ -262,10 +261,8 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
-      { _id: new ObjectId(user_id) },
       {
         $set: {
-          accuracy_score: new_score,
           accuracy_score: new_score,
         },
       },
@@ -314,9 +311,8 @@ let exportedMethods = {
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
       if (word._id.toString() === word_id) {
-        if (word._id.toString() === word_id) {
-          return word.date_user_received_word;
-        }
+        return word.date_user_received_word;
+
       }
 
       return null; //TODO: handle this better
@@ -334,8 +330,29 @@ let exportedMethods = {
     }
     return wordsList;
   },
+  async flagWordForDeletionForUser(user_id, word_id) {
+    const userCollection = await users();
+    let wordToRemove = await wordData.getWordById(word_id);
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      {
+        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+      },
+      {
+        $set: {
+          "words.$.flagged_for_deletion":true,
+          "words.$.time_flagged_for_deletion": new Date(),
+        },
+      },
+      { returnDocument: "after" }
+    );
 
-  async removeWordForUser(user_id, word_id) {
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
+  async deleteWordForUser(user_id, word_id) {
     const userCollection = await users();
     let wordToRemove = await wordData.getWordById(word_id);
     const updateUserInfo = await userCollection.findOneAndUpdate(
