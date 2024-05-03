@@ -113,18 +113,15 @@ let exportedMethods = {
       { _id: new ObjectId(user_id) },
       {
         $set: { date_last_word_was_received: addedDate },
+
         $push: {
           words: {
             _id: new ObjectId(word_id),
             accuracy_score: 0,
             times_played: 0,
-          },
-        },
-        $push: {
-          words: {
-            _id: new ObjectId(word_id),
-            accuracy_score: 0,
-            times_played: 0, date_user_received_word: today,
+            date_user_received_word: today,
+            flagged_for_deletion: false,
+            time_flagged_for_deletion: null
           },
         },
       }
