@@ -172,7 +172,7 @@ let exportedMethods = {
       { projection: { _id: 0, times_played: 1 } }
     );
 
-    return result;
+    return result.times_played;
   },
 
   async getAccuracyScore(word_id) {
@@ -185,7 +185,7 @@ let exportedMethods = {
       { projection: { _id: 0, accuracy_score: 1 } }
     );
 
-    return result;
+    return result.accuracy_score;
   },
 
   async getWordOfDay() {
