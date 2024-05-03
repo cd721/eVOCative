@@ -230,7 +230,6 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
-      { _id: new ObjectId(user_id) },
       {
         $inc: {
           times_played: 1,
@@ -265,10 +264,8 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
-      { _id: new ObjectId(user_id) },
       {
         $set: {
-          accuracy_score: new_score,
           accuracy_score: new_score,
         },
       },
