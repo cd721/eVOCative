@@ -46,6 +46,9 @@ router.route("/all/:id").get(async (req, res) => {
         user._id,
         word_id
       );
+      word.flagged_for_deletion = await userData.wordFlaggedForDeletionForUser(user._id,word_id);
+      word.date_flagged_for_deletion = await userData.getDateFlaggedForDeletionForUser(user._id,word_id);
+
     } catch (e) {
       res.status(400).render("error");
     }

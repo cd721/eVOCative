@@ -121,7 +121,7 @@ let exportedMethods = {
             times_played: 0,
             date_user_received_word: today,
             flagged_for_deletion: false,
-            time_flagged_for_deletion: null
+            date_flagged_for_deletion: null
           },
         },
       }
@@ -318,6 +318,31 @@ let exportedMethods = {
       return null; //TODO: handle this better
     }
   },
+  async getDateFlaggedForDeletionForUser(user_id, word_id){
+    //TODO: validation here and all function
+    const wordsForUser = await this.getWordsForUser(user_id);
+    for (let word of wordsForUser) {
+      if (word._id.toString() === word_id) {
+        return word.date_flagged_for_deletion;
+
+      }
+
+      return null; //TODO: handle this better
+    }
+  },
+
+  async wordFlaggedForDeletionForUser(user_id, word_id){
+    //TODO: validation here and all function
+    const wordsForUser = await this.getWordsForUser(user_id);
+    for (let word of wordsForUser) {
+      if (word._id.toString() === word_id) {
+        return word.flagged_for_deletion;
+
+      }
+
+      return null; //TODO: handle this better
+    }
+  },
 
   async getWordsForUser(user_id) {
     const user = await this.getUserById(user_id);
@@ -326,6 +351,9 @@ let exportedMethods = {
     for (let word of user.words) {
       let wordInfo = await wordData.getWordById(word._id.toString());
       wordInfo.date_user_received_word = word.date_user_received_word;
+      wordInfo.flagged_for_deletion = word.flagged_for_deletion;
+      wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
+      console.log(word.date_flagged_for_deletion)
       wordsList.push(wordInfo);
     }
     return wordsList;
@@ -339,8 +367,8 @@ let exportedMethods = {
       },
       {
         $set: {
-          "words.$.flagged_for_deletion":true,
-          "words.$.time_flagged_for_deletion": new Date(),
+          "words.$.flagged_for_deletion": true,
+          "words.$.date_flagged_for_deletion": new Date(),
         },
       },
       { returnDocument: "after" }

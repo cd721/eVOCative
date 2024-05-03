@@ -66,7 +66,14 @@ app.engine(
         } else {
           return rate_of_accuracy;
         }
+      },
+
+      wasDeletedLessThan24HoursAgo(date_flagged_for_deletion) {
+        let today = new Date().getTime() + (1 * 24 * 60 * 60 * 1000)
+        console.log(date_flagged_for_deletion)
+        return date_flagged_for_deletion < today;
       }
+
 
     },
     partialsDir: ["views/partials/"],

@@ -6,11 +6,17 @@
         <h4>Tags</h4>
         <ul>
             {{#each word.tags}}
-                <li>{{this}}</li>
+            <li>{{this}}</li>
             {{/each}}
         </ul>
     </div>
+    {{#if word.flagged_for_deletion}}
+    {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion)}}
+    <a href="/users/{{user_id}}/recoverWord/{{word._id}}">Recover This Word</a>
+    {{else}}
     <a href="/users/{{user_id}}/deleteWord/{{word._id}}">Delete This Word</a>
+    {{/if}}
+    {{/if}}
 
 
     {{#if admin}}
