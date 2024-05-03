@@ -315,23 +315,25 @@ let exportedMethods = {
 
       }
 
-      return null; //TODO: handle this better
     }
+    return null; //TODO: handle this better
+
   },
-  async getDateFlaggedForDeletionForUser(user_id, word_id){
+  async getDateFlaggedForDeletionForUser(user_id, word_id) {
     //TODO: validation here and all function
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
-      if (word._id.toString() === word_id) {
+      if (word._id.toString() === word_id.toString()) {
         return word.date_flagged_for_deletion;
 
       }
 
-      return null; //TODO: handle this better
     }
+    return null; //TODO: handle this better
+
   },
 
-  async wordFlaggedForDeletionForUser(user_id, word_id){
+  async wordFlaggedForDeletionForUser(user_id, word_id) {
     //TODO: validation here and all function
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
@@ -340,8 +342,8 @@ let exportedMethods = {
 
       }
 
-      return null; //TODO: handle this better
-    }
+    } return null; //TODO: handle this better
+
   },
 
   async getWordsForUser(user_id) {
@@ -353,7 +355,7 @@ let exportedMethods = {
       wordInfo.date_user_received_word = word.date_user_received_word;
       wordInfo.flagged_for_deletion = word.flagged_for_deletion;
       wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
-      console.log(word.date_flagged_for_deletion)
+
       wordsList.push(wordInfo);
     }
     return wordsList;
