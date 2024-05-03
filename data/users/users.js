@@ -82,7 +82,8 @@ let exportedMethods = {
     if (!valid) throw "Password may be wrong, please try again.";
 
     let role;
-    if (await this.isAdmin(user._id.toString())) {
+    let isAdmin = await this.isAdmin(user._id.toString());
+    if (isAdmin) {
       role = "admin";
     } else {
       role = "user";
@@ -94,7 +95,7 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: user.role,
+      role: role,
     };
   },
 
@@ -106,7 +107,7 @@ let exportedMethods = {
 
     const userCollection = await users();
 
-    const addedDate = new Date();
+    const addedDate = today;
 
     const updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
@@ -123,7 +124,7 @@ let exportedMethods = {
           words: {
             _id: new ObjectId(word_id),
             accuracy_score: 0,
-            times_played: 0,
+            times_played: 0, date_user_received_word: today,
           },
         },
       }
@@ -136,31 +137,44 @@ let exportedMethods = {
     //TODO: should return?
   },
 
+  async userAlreadyHasWord(user_id, word_id) {
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+    let hasWordAlready;
+    //check if new word is already in user's word bank
+    try {
+      const userCollection = await users();
+      hasWordAlready = await userCollection.findOne({
+        _id: new ObjectId(user_id),
+        words: { $elemMatch: { _id: new ObjectId(word_id) } },
+      });
+    } catch (e) {
+      throw "Internal Server Error";
+    }
+
+    return hasWordAlready;
+
+  },
+
   async addWordOfDay(user_id) {
+    user_id = user_id.toString();
     user_id = idValidation.validateId(user_id);
 
-    let newWord = await wordData.getWordOfDay();
+    let newWord;
+    let hasWordAlready;
 
-    //check if new word is already in user's word bank
-    const userCollection = await users();
 
-    let userWhoAlreadyHasTheWord = await userCollection.findOne({
-      _id: new ObjectId(user_id),
-      words: { $elemMatch: { _id: new ObjectId(newWord._id) } },
-    });
+    do {
+      //re-reun this function to get a new word
+      newWord = await wordData.getWordOfDay();
+      hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
 
-    const wordCollection = await words();
+    } while (hasWordAlready);
+    await this.addWordForUser(user_id, newWord._id.toString());
 
-    let wordsUserHas = await this.getWordsForUser(user_id);
 
-    //If the user alrady has the word
-    if (wordsUserHas.length < wordCollection.count()) {
-      if (!userWhoAlreadyHasTheWord) {
-        await this.addWordForUser(user_id, newWord._id.toString());
-      } else {
-        await this.addWordOfDay(user_id);
-      }
-    }
+
+
   },
 
   async addPostForUser(user_id, post_id) {
@@ -216,6 +230,7 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
+      { _id: new ObjectId(user_id) },
       {
         $inc: {
           times_played: 1,
@@ -249,6 +264,7 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
       { _id: new ObjectId(user_id) },
       {
         $set: {

@@ -4,6 +4,8 @@ import wordValidation from "./wordValidation.js";
 import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
 
+
+
 let exportedMethods = {
   async getAllWords() {
     const wordCollection = await words();
@@ -32,7 +34,9 @@ let exportedMethods = {
     //TODO: validate def, consider storing lowercase in DB
     const wordCollection = await words();
     definition = definition.trim();
-    const existingWord = await wordCollection.findOne({ definition: definition });
+    const existingWord = await wordCollection.findOne({
+      definition: definition,
+    });
     return existingWord;
   },
 
@@ -45,7 +49,7 @@ let exportedMethods = {
 
     const existingWord = await this.getWordByWord(word);
     if (existingWord) {
-      throw 'Word already exists in the database';
+      throw "Word already exists in the database";
     }
 
     let newWord = helpers.createNewWord(word, definition, tags, translations);
@@ -61,12 +65,68 @@ let exportedMethods = {
     return await this.getWordById(newInsertInformation.insertedId.toString());
   },
 
+  async updateWord(word_id, word, definition, tags, translations) {
+    word_id = idValidation.validateId(word_id);
+    word = wordValidation.validateWord(word);
+    definition = wordValidation.validateDefinition(definition);
+    tags = wordValidation.validateTags(tags);
+
+    translations = wordValidation.validateTranslations(translations);
+
+    const existingWord = await this.getWordByWord(word);
+    if (!existingWord) {
+      throw "Word does not exist, please create it";
+    }
+
+    const wordCollection = await words();
+
+    const updateInformation = await wordCollection.findOneAndUpdate(
+      { _id: new ObjectId(word_id) },
+      {
+        $set: {
+          word: word,
+          definition: definition,
+          tags: tags,
+          translations: translations,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateInformation) {
+      throw "Update failed!";
+    }
+
+    return updateInformation;
+  },
+
+  async removeWord(word_id) {
+    word_id = idValidation.validateId(word_id);
+
+    const existingWord = await this.getWordById(word_id);
+    if (!existingWord) {
+      throw "Word does not exist, cannot remove";
+    }
+
+    const wordCollection = await words();
+
+    const removeInformation = await wordCollection.deleteOne({
+      _id: new ObjectId(word_id),
+    });
+
+    if (!removeInformation) {
+      throw "Remove failed!";
+    }
+
+    return { removeSuccessful: true };
+  },
+
   async updateTimesPlayed(word_id) {
     //TODO: validate
     const wordCollection = await words();
 
     const updateInfo = await wordCollection.findOneAndUpdate(
-      { _id: new ObjectId(word_id), },
+      { _id: new ObjectId(word_id) },
       {
         $inc: {
           times_played: 1,
@@ -87,7 +147,7 @@ let exportedMethods = {
     const wordCollection = await words();
 
     const updateInfo = await wordCollection.findOneAndUpdate(
-      { _id: new ObjectId(word_id), },
+      { _id: new ObjectId(word_id) },
       {
         $set: {
           accuracy_score: new_score,
@@ -107,12 +167,10 @@ let exportedMethods = {
     const wordCollection = await words();
 
     const result = await wordCollection.findOne(
-      { _id: new ObjectId(word_id), },
+      { _id: new ObjectId(word_id) },
 
-      { projection: { _id: 0, 'times_played': 1 } }
-
+      { projection: { _id: 0, times_played: 1 } }
     );
-
 
     return result;
   },
@@ -122,22 +180,28 @@ let exportedMethods = {
     const wordCollection = await words();
 
     const result = await wordCollection.findOne(
-      { _id: new ObjectId(word_id), },
+      { _id: new ObjectId(word_id) },
 
-      { projection: { _id: 0, 'accuracy_score': 1 } }
-
+      { projection: { _id: 0, accuracy_score: 1 } }
     );
-
-
 
     return result;
   },
 
   async getWordOfDay() {
     const wordCollection = await words();
-    const word = await wordCollection.aggregate([{ $sample: { size: 1 } }]).toArray();
+    const word = await wordCollection
+      .aggregate([{ $sample: { size: 1 } }])
+      .toArray();
 
     return word[0];
+  },
+   async getNumberOfWordsInDB() {
+    const wordCollection = await words();
+    const test = await wordCollection.countDocuments();
+    const numWords =await wordCollection.count()
+    return numWords;
   }
+
 };
 export default exportedMethods;

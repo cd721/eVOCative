@@ -6,8 +6,7 @@ import exphbs from "express-handlebars";
 import session from "express-session";
 import roundto from 'roundto'
 // arrays for organization
-const noFrames = ['/login', '/register', '/logout']
-
+const noFrames = ["/login", "/register", "/logout"];
 
 const rewriteUnsupportedBrowserMethods = async (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -35,29 +34,30 @@ app.engine(
     helpers: {
       // date formatters
       dateWordIndex: (date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric'
-        })
+        return new Date(date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
       },
 
       dateWordSingle: (date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })
+        return new Date(date).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
       },
 
       dateProfile: (date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-          month: 'long',
-          year: 'numeric'
-        })
+        return new Date(date).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        });
       },
       json: (context) => {
         return JSON.stringify(context);
       },
+
       toPercentage: (rate_of_accuracy) => {
         if (typeof rate_of_accuracy === 'number') {
           const rawPercentage = (rate_of_accuracy * 100);
@@ -67,6 +67,7 @@ app.engine(
           return rate_of_accuracy;
         }
       }
+
     },
     partialsDir: ["views/partials/"],
   })
@@ -120,7 +121,10 @@ app.use((req, res, next) => {
 app.use("/", (req, res, next) => {
   if (req.path === "/" || req.path === "/home") {
     //if the user is  logged in and is not trying to logout
-    return res.render("home", { user: req.session.user, notAuthUser: !res.locals.isAuthenticated });
+    return res.render("home", {
+      user: req.session.user,
+      notAuthUser: !res.locals.isAuthenticated,
+    });
   } else {
     next();
   }
@@ -132,6 +136,19 @@ app.use("/words", (req, res, next) => {
     return res.redirect("/");
   } else {
     next(); //calls next middleware in stack, if the last then calls route
+  }
+});
+
+app.use("/words/all", (req, res, next) => {
+  if (!req.session.user) {
+    //if the user is not logged in
+    return res.redirect("/");
+  } else {
+    if (req.session.user.role !== "admin") {
+      return res.redirect("/words")
+    } else {
+      next(); //calls next middleware in stack, if the last then calls route
+    }
   }
 });
 
@@ -165,6 +182,30 @@ app.use("/posts", (req, res, next) => {
   }
 });
 
+//Authentication middleware
+app.use("/users", (req, res, next) => {
+  if (!req.session.user) {
+    //if the user is not logged in
+    return res.redirect("/");
+  } else {
+    next();
+  }
+});
+
+//Authentication middleware
+app.use("/admin", (req, res, next) => {
+  if (!req.session.user) {
+    //if the user is not logged in
+    return res.redirect("/");
+  } else {
+    if (req.session.user.role !== "admin") {
+      return res.redirect(`/users/${req.session.user._id}`);
+    } else {
+      next(); //calls next middleware in stack, if the last then calls route
+    }
+  }
+});
+
 //Login middleware
 //if the user is logged in then redirect to these routes
 app.use("/login", (req, res, next) => {
@@ -188,9 +229,9 @@ app.use("/register", (req, res, next) => {
 
 // Logout middleware
 // makes sure only users that are logged in can access it
-app.use('/logout', (req, res, next) => {
+app.use("/logout", (req, res, next) => {
   if (!req.session.user) {
-    return res.redirect('/login');
+    return res.redirect("/login");
   } else {
     console.log(req.session.user);
     next();
