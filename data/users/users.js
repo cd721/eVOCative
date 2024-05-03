@@ -221,7 +221,7 @@ let exportedMethods = {
       { projection: { _id: 0, accuracy_score: 1 } }
     );
 
-    return accuracyScoreForUser;
+    return accuracyScoreForUser.accuracy_score;
   },
   async updateTimesPlayedForUser(user_id) {
     user_id = idValidation.validateId(user_id);
@@ -254,7 +254,7 @@ let exportedMethods = {
       { projection: { _id: 0, times_played: 1 } }
     );
 
-    return result;
+    return result.times_played;
   },
   async updateAccuracyScoreForUser(user_id, new_score) {
     user_id = idValidation.validateId(user_id);
