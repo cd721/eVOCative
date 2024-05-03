@@ -3,14 +3,14 @@ const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
 import helpers from '../helpers/helpers.js';
-import wordData  from '../data/words/words.js'
+import wordData from '../data/words/words.js'
 
 router.route('/').get(async (req, res) => {
     try {
         const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
-        return res.status(500).render("errorSpecial", {error: e});
+        return res.status(500).render("errorSpecial", { error: e });
     }
 });
 
@@ -57,12 +57,12 @@ router
             return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
-            return res.status(500).render("errorSpecial", {error: e});
+            return res.status(500).render("errorSpecial", { error: e });
         }
     })
     ;
 
-router.route('/:userId/remove/:wordId')
+router.route('/:userId/deleteWord/:wordId')
     .get(async (req, res) => {
         let user_id = req.params.userId;
         let word_id = req.params.wordId;
@@ -81,8 +81,9 @@ router.route('/:userId/remove/:wordId')
             return res.status(200).json({ word_id: "removed" });
 
         } catch (e) {
-            return res.status(500).render("errorSpecial", {error: e});
+            return res.status(500).render("errorSpecial", { error: e });
         }
     });
+
 
 export default router;

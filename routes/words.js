@@ -77,7 +77,7 @@ router.route("/:id").get(async (req, res) => {
     }
 
     try {
-      return res.render("words/word", { title: "Word", word: word });
+      return res.render("words/word", { title: "Word", word: word, user_id:user._id.toString() });
     } catch (e) {
       return res.status(500).render("errorSpecial", {error: e});
     }
