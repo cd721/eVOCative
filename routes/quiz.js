@@ -131,10 +131,14 @@ router.route("/definitionToWord")
     try {
 
 
-      if (!req.session.correctIndex) {
+      if (req.session.correctIndex !== 0
+        && req.session.correctIndex !== 1
+        && req.session.correctIndex !== 2
+        && req.session.correctIndex !== 3) {
         //If correctIndex is null, the user already answered the question. 
         //This prevents the user from using client side JS to modify the form 
         //and change their original answer.
+        console.log(typeof req.session.correctIndex)
         return res.redirect("/quiz/invalidAnswer");
       }
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
@@ -143,24 +147,30 @@ router.route("/definitionToWord")
       //Increase number of times played
       const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
       await wordData.updateTimesPlayed(word._id);
-      //reset correct index
 
+      //reset correct index
+      const correctIndexBeforeReset = req.session.correctIndex;
+      let userWasCorrect;
       req.session.correctIndex = null;
 
 
-      ////update accuracy score for user
-      if (req.data.selectedIndex === req.session.correctIndex) {
-        await quizHelpers.updateAccuracyScores(user._id, word._id, true);
-        return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
-      } else {
 
-        await quizHelpers.updateAccuracyScores(user._id, word._id, false);
-        return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
+
+
+      //Update accuracy score for user
+      if (req.data.selectedIndex === req.session.correctIndex) {
+        userWasCorrect = true;
+
+      } else {
+        userWasCorrect = false;
 
       }
 
 
 
+
+      await quizHelpers.updateAccuracyScores(user._id, word._id, userWasCorrect);
+      return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
 
     } catch (e) {
@@ -292,13 +302,15 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     //TODO: validate user
     let user = req.session.user;
-    console.log("heres correct " + req.session.correctIndex)
-    if (!req.session.correctIndex) {
+    if (req.session.correctIndex !== 0
+      && req.session.correctIndex !== 1
+      && req.session.correctIndex !== 2
+      && req.session.correctIndex !== 3) {
       //If correctIndex is null, the user already answered the question. 
       //This prevents the user from using client side JS to modify the form 
       //and change their original answer.
-      console.log("heres correct " + req.session.correctIndex);
-
+      console.log(req.session.correctIndex)
+console.log(typeof req.session.correctIndex)
       return res.redirect("/quiz/invalidAnswer");
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
