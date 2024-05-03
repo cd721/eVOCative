@@ -14,7 +14,7 @@
             <li><a href="/words/tag/{{this}}">{{this}}</a></li>
             {{/each}}
         </ul>
-        <h4>My accuracy score for {{this.word}} is {{toPercentage this.accuracy_score}}%.</h4>
+        <h4>My accuracy score for {{this.word}} is {{toPercentage this.accuracy_score}}.</h4>
         <p><a href="/users/{{../user_id}}/remove/{{_id}}">Remove {{this.word}} from my word bank</a></p>
         {{!-- TODO: user can only remove word when signed in --}}
 
