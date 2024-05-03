@@ -11,10 +11,15 @@ router.route('/')
         try {
             const postList = await postData.getAllPosts();
 
-            //Make the list of tags more readable
-            // for (let i = 0; i < postList.length; i++) {
-            //     postList[i].tags = postList[i].tags.join(", ");
-            // }
+            // check poster id still exists in the database, if not remove post from post list
+            for (let i = 0; i < postList.length; i++) {
+                try {
+                    const poster = await userData.getUserById(postList[i].poster_id.toString());
+                } catch (error) {
+                    postList.splice(i, 1);
+                    i--;
+                }
+            }
 
             //console.log(postList)
             return res.render("posts/index", { posts: postList });

@@ -541,6 +541,12 @@ form h3 {
 }
 
 
+/* New Post */
+.hidden{
+    display: none;
+}
+
+
 /* Forum Page */
 #forum_page .individual_post {
     font-size: 1.0em;

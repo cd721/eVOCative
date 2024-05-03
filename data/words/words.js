@@ -4,6 +4,8 @@ import wordValidation from "./wordValidation.js";
 import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
 
+
+
 let exportedMethods = {
   async getAllWords() {
     const wordCollection = await words();
@@ -194,5 +196,12 @@ let exportedMethods = {
 
     return word[0];
   },
+   async getNumberOfWordsInDB() {
+    const wordCollection = await words();
+    const test = await wordCollection.countDocuments();
+    const numWords =await wordCollection.count()
+    return numWords;
+  }
+
 };
 export default exportedMethods;
