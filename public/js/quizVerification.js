@@ -5,6 +5,7 @@
   let buttonDef1 = $("#button1");
   let buttonDef2 = $("#button2");
   let buttonDef3 = $("#button3");
+  let submitButton = $('#submitQuiz');
 
   let buttons = [buttonDef0, buttonDef1, buttonDef2, buttonDef3];
 
@@ -165,7 +166,9 @@
 
     nextQuestion.hidden = false;
 
+    //Disable inputs so the user can't submit quiz again
     $("input:radio").attr('disabled', true);
+    submitButton.attr('disabled', true);
 
 
   }
