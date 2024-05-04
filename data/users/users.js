@@ -108,24 +108,30 @@ let exportedMethods = {
     const userCollection = await users();
 
     const addedDate = today;
+    let updateInfo;
+    try {
+      updateInfo = await userCollection.updateOne(
+        { _id: new ObjectId(user_id) },
+        {
+          $set: { date_last_word_was_received: addedDate },
 
-    const updateInfo = await userCollection.updateOne(
-      { _id: new ObjectId(user_id) },
-      {
-        $set: { date_last_word_was_received: addedDate },
-
-        $push: {
-          words: {
-            _id: new ObjectId(word_id),
-            accuracy_score: 0,
-            times_played: 0,
-            date_user_received_word: today,
-            flagged_for_deletion: false,
-            date_flagged_for_deletion: null
+          $push: {
+            words: {
+              _id: new ObjectId(word_id),
+              accuracy_score: 0,
+              times_played: 0,
+              date_user_received_word: today,
+              flagged_for_deletion: false,
+              date_flagged_for_deletion: null
+            },
           },
-        },
-      }
-    );
+        }
+      );
+    } catch (e) {
+      console.log(e)
+      throw "Internal Server Error";
+
+    }
 
     if (!updateInfo.acknowledged) {
       throw "Update failed!";
@@ -141,10 +147,16 @@ let exportedMethods = {
     //check if new word is already in user's word bank
     try {
       const userCollection = await users();
-      hasWordAlready = await userCollection.findOne({
+      const userWithWord = await userCollection.findOne({
         _id: new ObjectId(user_id),
         words: { $elemMatch: { _id: new ObjectId(word_id) } },
       });
+
+      if (userWithWord) {
+        hasWordAlready = true;
+      } else {
+        hasWordAlready = false;
+      }
     } catch (e) {
       throw "Internal Server Error";
     }
@@ -167,6 +179,8 @@ let exportedMethods = {
       hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
 
     } while (hasWordAlready);
+
+
     await this.addWordForUser(user_id, newWord._id.toString());
 
 
@@ -351,22 +365,23 @@ let exportedMethods = {
 
     let wordsList = [];
     for (let word of user.words) {
-       //TODO:validate
-       let word_id = word._id.toString();
+      //TODO:validate
+      let word_id = word._id.toString();
       let wordInfo = await wordData.getWordById(word_id);
-     
+
 
       wordInfo.date_user_received_word = word.date_user_received_word;
       wordInfo.flagged_for_deletion = word.flagged_for_deletion;
       wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
 
       //Get rid of the word if it was deleted by user over 24 hr ago
-      if (helpers.wordWasDeletedLessThan24HoursAgo(wordInfo.date_flagged_for_deletion,
-        wordInfo.flagged_for_deletion
-      )) {
+      //Word must have been flagged for deletion
+      if (!wordInfo.flagged_for_deletion ) {
         wordsList.push(wordInfo);
 
-      } else {
+      } else if (wordInfo.flagged_for_deletion &&
+        !helpers.wordWasDeletedLessThan24HoursAgo(wordInfo.date_flagged_for_deletion, wordInfo.flagged_for_deletion)) {
+        //The word was not flagged for deletion 
         await this.deleteWordForUser(user_id, word_id);
       }
     }

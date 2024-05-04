@@ -7,7 +7,6 @@ const router = Router();
 router.route("/").get(async (req, res) => {
   try {
     if (req.session.user) {
-      console.log("here");
       let user = req.session.user;
       const wordList = await userData.getWordsForUser(user._id.toString());
 
