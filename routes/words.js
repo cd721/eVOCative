@@ -7,7 +7,6 @@ const router = Router();
 router.route("/").get(async (req, res) => {
   try {
     if (req.session.user) {
-      console.log("here");
       let user = req.session.user;
       const wordList = await userData.getWordsForUser(user._id.toString());
 
@@ -15,7 +14,7 @@ router.route("/").get(async (req, res) => {
       return res.render("words/index", { words: wordList });
     }
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
   }
 });
 
@@ -28,7 +27,7 @@ router.route("/all").get(async (req, res) => {
       return res.render("words/allWords", { words: wordList });
     }
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    return res.status(500).render("errorSpecial", { error: e });
   }
 });
 
@@ -46,6 +45,9 @@ router.route("/all/:id").get(async (req, res) => {
         user._id,
         word_id
       );
+      word.flagged_for_deletion = await userData.wordFlaggedForDeletionForUser(user._id, word_id);
+      word.date_flagged_for_deletion = await userData.getDateFlaggedForDeletionForUser(user._id, word_id);
+
     } catch (e) {
       res.status(400).render("error");
     }
@@ -53,7 +55,7 @@ router.route("/all/:id").get(async (req, res) => {
     try {
       return res.render("words/word", { title: "Word", word: word, admin: true });
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
     }
   }
 });
@@ -68,18 +70,18 @@ router.route("/:id").get(async (req, res) => {
     try {
       word_id = idValidation.validateId(word_id);
       word = await wordData.getWordById(word_id);
-      word.date_user_received_word = await userData.getDateUserReceivedWord(
-        user._id,
-        word_id
-      );
+      word.date_user_received_word = await userData.getDateUserReceivedWord(user._id, word_id);
+      word.flagged_for_deletion = await userData.wordFlaggedForDeletionForUser(user._id, word_id);
+      word.date_flagged_for_deletion = await userData.getDateFlaggedForDeletionForUser(user._id, word_id);
+      console.log(word)
     } catch (e) {
-      res.status(400).render("error");
+      return res.status(400).render("error");
     }
 
     try {
-      return res.render("words/word", { title: "Word", word: word });
+      return res.render("words/word", { title: "Word", word: word, user_id: user._id.toString() });
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      return res.status(500).render("errorSpecial", { error: e });
     }
   }
 });
