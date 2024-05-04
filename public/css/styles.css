@@ -1,16 +1,14 @@
 /* 
 sections to ctrl+f:
 
-1. SITE WIDE
-2. NAV BAR + FOOTER
-3. BODY STUFF
-4. HOMEPAGE
-5. AUTHENTICATION
-6. PROFILES
-7. ADMIN TOOLS
-8. CONTAINERS
-9. WORDS
-10. FORUM
+- SITE WIDE
+- NAV BAR + FOOTER
+- HOMEPAGE
+- AUTHENTICATION
+- PROFILES
+- ADMIN TOOLS
+- WORDS
+- FORUM
 
 
 TODO:
@@ -20,7 +18,6 @@ specifically:
     - submit buttons
 
 */
-
 
 /* ################### SITE WIDE ################### */
 /* resets */
@@ -34,6 +31,20 @@ html {
 
     font-family: Roboto, sans-serif;
     color: #292929;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+h1 {
+    text-align: center;
 }
 
 /* ################### NAV BAR + FOOTER ################### */
@@ -90,22 +101,6 @@ footer a {
     color: #fcfef1;
 }
 
-/* ################### BODY STUFF ################### */
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex: 1;
-}
-
-h1 {
-    text-align: center;
-}
-
 /* ################### HOMEPAGE ################### */
 #banner {
     height: 40rem;
@@ -146,9 +141,7 @@ h1 {
 #authentibar a {
     text-decoration: none;
     margin: 0px 10px;
-}
 
-#authentibar button {
     padding: 10px 20px;
     background-color: #fd703c;
 
@@ -160,7 +153,7 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-#authentibar button:hover {
+#authentibar a:hover {
     background-color: #ff9e6d;
 }
 
@@ -404,8 +397,8 @@ form h3 {
 }
 
 /* ################### ADMIN TOOLS ################### */
-/* add word */
-#add-word-form {
+/* add/edit/delete word */
+.word-database-container {
     margin: 70px auto;
     padding: 10px 25px 20px;
 
@@ -415,11 +408,11 @@ form h3 {
     border: 2px solid #292929;
 }
 
-#add-word-form h1 {
+.word-database-container h1 {
     margin: 10px 0px 20px;
 }
 
-#add-word-form label {
+.word-database-container label {
     display: block;
     margin-bottom: 5px;
     
@@ -427,9 +420,9 @@ form h3 {
     font-weight: bold;
 }
 
-#add-word-form input[type="text"],
-#add-word-form textarea {
-    width: 100%;
+.word-database-container input[type="text"],
+.word-database-container textarea {
+    width: 94%;
 
     padding: 10px;
     margin-bottom: 20px;
@@ -438,11 +431,11 @@ form h3 {
     border-radius: 5px;
 }
 
-#add-word-form textarea {
+.word-database-container textarea {
     resize: none;
 }
 
-#add-word-form button {
+.word-database-container button {
     width: 100%;
     padding: 8px;
 
@@ -456,18 +449,22 @@ form h3 {
     font-weight: bold;
     color: #fcfef1;
 }
-#add-word-form button:hover {
+.word-database-container button:hover {
     background-color: #ff9e6d;
 }
 
+#delete-confirmation span {
+    color: #fd703c;
+}
+
 /* tickets */
-.index_container {
+.index-container {
     margin: 0px auto;
 
     width: 80%;
 }
 
-.index_container h1 {
+.index-container h1 {
     margin: 20px auto;
     padding-bottom: 20px;
 
@@ -476,7 +473,7 @@ form h3 {
     border-bottom: 2px solid #292929;
 }
 
-.index_container ul {
+.index-container ul {
     list-style-type: none;
 }
 
@@ -521,140 +518,183 @@ form h3 {
     background-color: #ff9e6d;
 }
 
-.index_container #is_resolved {
+#tickets-page #is_resolved {
     font-weight: bold;
     color: #fd703c;
 }
 
-
-
-/* ################### CONTAINERS ################### */
-/* .date_added {
-    color: #066163;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-.index_container {
-    background: #e2e2e2;
-    width: 65%;
-    margin: 20px auto 0px;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.tags {
-    margin: 50px 0px 20px;
-    padding: 10px;
-    background: #f2f2f2;
-
-    text-align: center;
-
-    border-radius: 8px;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.tags h4 {
-    color: #066163;
-    margin-bottom: 10px;
-}
-
-.tags ul {
-    list-style: none;
-}
-
-.tags li {
-    display: inline-block;
-    padding: 5px 15px;
-    margin: 5px;
-
-    background-color: #eb4d55;
-
-
-    color: #ffffff;
-
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.tags li:hover {
-    background-color: #cf424b;
-} */
-
 /* ################### WORDS ################### */
-/* word page */
-/* #word_page h1 {
-    font-size: 5em;
-    color: #eb4d55;
-
-    background: #f2f2f2;
-    padding: 20px 0px;
-    margin-bottom: 50px;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#word_page .definition {
-    text-align: center;
-    font-size: 2.0em;
-
-    margin: 0px 10px 20px;
-}
-
-/* word index */
-/* #word_index h1 {
-    background: #f2f2f2;
-    padding: 20px 0px;
-    margin-bottom: 10px;
-
-    font-size: 2.5em;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#word_index ul {
+/* word page (archive and wordBank) */
+#my-words-page ul,
+#word-index ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
-    list-style-type: none;
-
-    gap: 20px;
-    padding: 20px;
-
 }
 
-#word_index li {
-    background: #f2f2f2;
+#my-words-page li,
+#word-index li {
+    background: #ffffff;
 
-    width: 125px;
-    padding: 8px;
+    width: 200px;
+    margin: 20px;
+
+    border: 4px solid #005d9e;
+    border-radius: 10px;
+
+    transition: all 0.2s ease;
+}
+#my-words-page li:hover,
+#word-index li:hover {
+    transform: translateY(-5px);
+    box-shadow: 5px 7px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px;
+    
+    background-color: #005d9e;
+}
+
+.card-top p {
+    font-size: 0.8em;
+    color: #ffffff;
+}
+
+#my-words-page h2,
+#word-index h2 {
+    padding: 50px 20px;
+
+    font-size: 2em;
+    text-align: center;
+}
+
+.card-bottom a {
+    display: block;
+    
+    padding: 8px 20px;
+    background-color: #fd703c;
 
     text-align: center;
-
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-#word_index li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-#word_index a {
     text-decoration: none;
+    color: white;
+
+    border-radius: 0px 0px 6px 6px;
+    
+    transition: background-color 0.2s ease;
+}
+.card-bottom a:hover {
+    background-color: #ff9e6d;
 }
 
-#word_index h2 {
-    color: #eb4d55;
-    font-size: 1.5em;
-} */
+/* single word page */
+#admin-buttons {
+    border: 3px dashed #005d9e;
+
+    margin: 10px auto;
+    padding: 20px;
+
+    width: 20%;
+}
+
+#admin-buttons h2 {
+    text-align: center;
+
+    margin: 10px;
+}
+
+#admin-buttons>div {
+    display: flex;
+    justify-content: center;
+}
+
+#admin-buttons a {
+    margin: 0px 10px;
+
+    border-radius: 10px;
+}
+
+#word-page {
+    margin: 25px auto;
+
+    width: 60%;
+
+    border: 4px solid #005d9e;
+    border-radius: 10px;
+}
+
+#word-page header {
+    padding: 30px;
+    margin: auto;
+
+    background-color: #005d9e;
+
+    color: #ffffff;
+    text-align: center;
+}
+
+#word-page h1 {
+    color: #fd703c;
+    font-weight: bold;
+    font-size: 5em;
+}
+
+#word-dates {
+    font-size: 1.2em;
+}
+
+#word-dates span {
+    font-weight: bold;
+}
+
+#word-info {
+    text-align: center;
+
+    padding: 25px;
+}
+
+#word-info p {
+    font-size: 2.4em;
+    margin: 10px;
+}
+
+#word-info ul {
+    list-style: none;
+
+    display: flex;
+    justify-content: center;
+}
+
+#word-info li {
+    padding: 10px;
+
+    background-color: #a0bcd1;
+
+    border-radius: 10px;
+    margin: 0px 10px;
+}
+
+#word-page a, 
+#admin-buttons a {
+    display: block;
+
+    padding: 8px 20px;
+    background-color: #fd703c;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+
+    transition: background-color 0.2s ease;
+}
+#word-page a:hover,
+#admin-buttons a:hover {
+    background-color: #ff9e6d;
+}
 
 /* ################### FORUM ################### */
 /* post page */

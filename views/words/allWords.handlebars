@@ -1,13 +1,17 @@
-<section id="word_index" class="index_container">
+<article id="word-index" class="index-container">
     <h1>All Words</h1>
     <ul>
         {{#each words}}
         <li>
-            <a href="/words/all/{{this._id}}">
-                <h2>{{this.word}}</h2>
-                <p class="date_added">{{dateWordIndex this.date_user_received_word}}</p>
-            </a>
+            <div class="card-top">
+                <p>Added</p>
+                <p>{{dateWordIndex this.dateAdded}}</p>
+            </div>
+            <h2>{{this.word}}</h2>
+            <div class="card-bottom">
+                <a href="/words/{{this._id}}">View</a>
+            </div>
         </li>
         {{/each}}
     </ul>
-</section>
+</article>
