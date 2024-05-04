@@ -162,6 +162,16 @@ app.use("/quiz", (req, res, next) => {
   }
 });
 
+//Authentication middleware for quiz
+app.use("/report", (req, res, next) => {
+  if (!req.session.user) {
+    //if the user is not logged in
+    return res.redirect("/");
+  } else {
+    next(); //calls next middleware in stack, if the last then calls route
+  }
+});
+
 //Authentication middleware
 app.use("/forum", (req, res, next) => {
   if (!req.session.user) {
