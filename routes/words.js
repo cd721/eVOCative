@@ -76,7 +76,7 @@ router.route("/:id").get(async (req, res) => {
       word.date_flagged_for_deletion = await userData.getDateFlaggedForDeletionForUser(user._id, word_id);
       console.log(word)
     } catch (e) {
-      res.status(400).render("error");
+      return res.status(400).render("error");
     }
 
     try {

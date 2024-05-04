@@ -74,16 +74,48 @@ router.route('/:userId/deleteWord/:wordId')
         }
 
         try {
-userData.flagWordForDeletionForUser(user_id,word_id);
-       //     userData.removeWordForUser(user_id, word_id);
+            userData.flagWordForDeletionForUser(user_id, word_id);
 
+            let word = await wordData.getWordById(word_id);
 
-            return res.status(200).json({ word_id: "removed" });
+            return res.status(200).render("users/deleteWordConfirmationStandardUser", { word: word.word });
 
         } catch (e) {
             return res.status(500).render("errorSpecial", { error: e });
         }
     });
+router.route('/:userId/recoverWord/:wordId').get(async (req, res) => {
+    let word_id;
+    let user_id;
 
+    try {
+        word_id = idValidation.validateId(req.params.wordId);
+        user_id = idValidation.validateId(req.params.userId);
+    } catch (e) {
+        return res.status(400).render("notFoundError");
+
+    }
+
+    let user;
+    if (req.session.user) {
+        user = req.session.user;
+
+
+        //If the user id provided in the URL doesn't match the currently logged in user
+        if (user._id !== user_id) {
+            return res.status(400).render("error");
+        }
+
+        try {
+            await userData.unflagWordForDeletionForUser(user_id, word_id);
+
+            return res.status(200).redirect("/words")
+        } catch (e) {
+            return res.status(500).render("errorSpecial", { error: e });
+
+        }
+    }
+
+});
 
 export default router;

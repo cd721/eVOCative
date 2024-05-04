@@ -351,12 +351,24 @@ let exportedMethods = {
 
     let wordsList = [];
     for (let word of user.words) {
-      let wordInfo = await wordData.getWordById(word._id.toString());
+       //TODO:validate
+       let word_id = word._id.toString();
+      let wordInfo = await wordData.getWordById(word_id);
+     
+
       wordInfo.date_user_received_word = word.date_user_received_word;
       wordInfo.flagged_for_deletion = word.flagged_for_deletion;
       wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
 
-      wordsList.push(wordInfo);
+      //Get rid of the word if it was deleted by user over 24 hr ago
+      if (helpers.wordWasDeletedLessThan24HoursAgo(wordInfo.date_flagged_for_deletion,
+        wordInfo.flagged_for_deletion
+      )) {
+        wordsList.push(wordInfo);
+
+      } else {
+        await this.deleteWordForUser(user_id, word_id);
+      }
     }
     return wordsList;
   },
@@ -382,6 +394,31 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
+
+  async unflagWordForDeletionForUser(user_id, word_id) {
+    //TODO: validation
+    const userCollection = await users();
+    let wordToRemove = await wordData.getWordById(word_id);
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      {
+        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+      },
+      {
+        $set: {
+          "words.$.flagged_for_deletion": false,
+          "words.$.date_flagged_for_deletion": null,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
+
   async deleteWordForUser(user_id, word_id) {
     const userCollection = await users();
     let wordToRemove = await wordData.getWordById(word_id);
