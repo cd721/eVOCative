@@ -1,3 +1,27 @@
+/* 
+sections to ctrl+f:
+
+1. SITE WIDE
+2. NAV BAR + FOOTER
+3. BODY STUFF
+4. HOMEPAGE
+5. AUTHENTICATION
+6. PROFILES
+7. ADMIN TOOLS
+8. CONTAINERS
+9. WORDS
+10. FORUM
+
+
+TODO:
+generalize, condense into sitewide
+specifically:
+    - forms (auth_container, addNewWord, etc.)
+
+*/
+
+
+/* ################### SITE WIDE ################### */
 /* resets */
 * {
     margin: 0;
@@ -11,11 +35,7 @@ html {
     color: #292929;
 }
 
-
-/* ################### site wide ################### */
-
-
-/* ################### nav bar + footer ################### */
+/* ################### NAV BAR + FOOTER ################### */
 nav,
 footer {
     align-items: center;
@@ -50,7 +70,6 @@ nav li a {
 
     font-size: 1.2em;
 }
-
 nav li a:hover {
     color: #a0bcd1;
 }
@@ -70,7 +89,7 @@ footer a {
     color: #fcfef1;
 }
 
-/* ################### body stuff ################### */
+/* ################### BODY STUFF ################### */
 
 body {
     display: flex;
@@ -86,7 +105,7 @@ h1 {
     text-align: center;
 }
 
-/* ################### home ################### */
+/* ################### HOMEPAGE ################### */
 #banner {
     height: 40rem;
 
@@ -140,7 +159,6 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 #authentibar button:hover {
     background-color: #ff9e6d;
 }
@@ -168,7 +186,7 @@ h1 {
     border-radius: 10px;
 }
 
-/* ################### login/register/logout ################### */
+/* ################### AUTHENTICATION ################### */
 .error_text {
     color: red;
 
@@ -259,7 +277,6 @@ form h3 {
     font-weight: bold;
     color: #fcfef1;
 }
-
 .auth_container button:hover {
     background-color: #ff9e6d;
 }
@@ -272,13 +289,11 @@ form h3 {
     color: #5c67f2;
     text-decoration: none;
 }
-
 .auth_container a:hover {
     text-decoration: underline;
 }
 
-
-/* ################### profiles ################### */
+/* ################### PROFILES ################### */
 .profile {
     display: flex;
     flex-direction: column;
@@ -287,8 +302,9 @@ form h3 {
     margin: 0px auto;
 }
 
+/* generals */
 .profile>div {
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     border-bottom: 2px solid #292929;
 }
 
@@ -297,6 +313,23 @@ form h3 {
     margin: 10px 0px;
 
     color: #fd703c;
+}
+
+.profile ul {
+    list-style-type: none;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+}
+
+.profile li {
+    flex: 1;
+    padding: 15px;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
 }
 
 /* user info */
@@ -308,26 +341,32 @@ form h3 {
     color: #737373;
 }
 
-/* user stats */
-#user-stats ul {
-    list-style-type: none;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 20px;
+/* admin panel */
+#admin-panel ul {
+    justify-content: center;
 }
 
+#admin-panel li {
+    background-color: #e6f4f1;
+
+    transition: background-color 0.3s ease;
+}
+#admin-panel li:hover {
+    background-color: #ff9e6d;
+}
+
+#admin-panel li a {
+    text-decoration: none;
+    text-align: center;
+
+    color: #292929;
+}
+
+/* user stats */
 #user-stats li {
-    flex: 1;
     min-width: 130px;
-    margin-bottom: 10px;
-    padding: 15px;
 
     background-color: #a0bcd1;
-
-    border-radius: 8px;
-    border: 2px solid #292929;
 }
 
 /* user words */
@@ -336,33 +375,17 @@ form h3 {
     border: 2px solid #292929;
 
     background-color: #0073a4;
-
-    margin-bottom: 20px;
 }
 
 #user-words ul {
-    list-style-type: none;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 20px;
-
     padding: 20px;
 }
 
 #user-words li {
-    flex: 1;
-    padding: 15px;
-
     background-color: #e6f4f1;
-
-    border-radius: 8px;
-    border: 2px solid #292929;
 
     transition: background-color 0.3s ease;
 }
-
 #user-words li:hover {
     background-color: #ff9e6d;
 }
@@ -379,7 +402,63 @@ form h3 {
     background-color: #e6f4f1;
 }
 
-/* ################### container generals ################### */
+/* ################### ADMIN TOOLS ################### */
+#add-word-form {
+    margin: 70px auto;
+    padding: 10px 25px 20px;
+
+    max-width: 400px;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+}
+
+#add-word-form h1 {
+    margin: 10px 0px 20px;
+}
+
+#add-word-form label {
+    display: block;
+    margin-bottom: 5px;
+    
+    color: #292929;
+    font-weight: bold;
+}
+
+#add-word-form input[type="text"],
+#add-word-form textarea {
+    width: 100%;
+
+    padding: 10px;
+    margin-bottom: 20px;
+
+    border: 1px solid #292929;
+    border-radius: 5px;
+}
+
+#add-word-form textarea {
+    resize: none;
+}
+
+#add-word-form button {
+    width: 100%;
+    padding: 8px;
+
+    cursor: pointer;
+
+    background-color: #fd703c;
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
+    font-weight: bold;
+    color: #fcfef1;
+}
+#add-word-form button:hover {
+    background-color: #ff9e6d;
+}
+
+/* ################### CONTAINERS ################### */
 .date_added {
     color: #066163;
     text-align: center;
@@ -431,7 +510,6 @@ form h3 {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 .tags li:hover {
     background-color: #cf424b;
 }
@@ -494,7 +572,6 @@ form h3 {
 
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 #word_index li:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -509,7 +586,7 @@ form h3 {
     font-size: 1.5em;
 }
 
-/* ################### POSTS ################### */
+/* ################### FORUM ################### */
 /* post page */
 #post_page #post_info {
     font-size: 1.5em;
@@ -587,12 +664,4 @@ form h3 {
 #posts_list h2 {
     margin-bottom: 10px;
     text-align: left;
-}
-
-/* ################### REGISTRATION ################### */
-/* register page */
-
-.error-text {
-    color: red;
-    margin: 10px;
 }

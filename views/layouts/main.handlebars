@@ -4,6 +4,8 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="../../public/css/styles.css" />
 
+    <link rel="icon" href="../../public/images/favicon.ico" type="image/x-icon">
+
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -13,26 +15,24 @@
     {{#if noFrame}}
     <!-- no header for some pages, like login and register -->
     {{else}}
-    <header>
-      <nav>
-        <a href="/">
-          <img class="logo_home" src="../../public/images/fullTransparent2.png" alt="eVOCative Logo">
-        </a>
-        <ul>
-          {{#if isAuthenticated}}
-          <li><a href="/users/{{sessionUser._id}}">Profile</a></li>
-          <li><a href="/quiz">Quiz</a></li>
-          <li><a href="/words">WordBank</a></li>
-          <li><a href="/forum">Forum</a></li>
-          <li><a href="/about">About Us</a></li>
+    <nav>
+      <a href="/">
+        <img class="logo_home" src="../../public/images/fullTransparent2.png" alt="eVOCative Logo">
+      </a>
+      <ul>
+        {{#if isAuthenticated}}
+        <li><a href="/users/{{sessionUser._id}}">Profile</a></li>
+        <li><a href="/words">WordBank</a></li>
+        <li><a href="/quiz">Quiz</a></li>
+        <li><a href="/forum">Forum</a></li>
+        <li><a href="/about">About Us</a></li>
 
-          <li><a href="/logout">Logout</a></li>
-          {{else}}
-          <li><a href="/about">About Us</a></li>
-          {{/if}}
-        </ul>
-      </nav>
-    </header>
+        <li><a href="/logout">Logout</a></li>
+        {{else}}
+        <li><a href="/about">About Us</a></li>
+        {{/if}}
+      </ul>
+    </nav>
     {{/if}}
 
     <main>
