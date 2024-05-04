@@ -122,7 +122,7 @@ let exportedMethods = {
         user.date_last_word_was_received
       );
       if (streakBroken) {
-        curStreak = 0;
+        curStreak = 1;
       } else {
         curStreak += 1;
       }
