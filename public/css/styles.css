@@ -17,6 +17,7 @@ TODO:
 generalize, condense into sitewide
 specifically:
     - forms (auth_container, addNewWord, etc.)
+    - submit buttons
 
 */
 
@@ -403,6 +404,7 @@ form h3 {
 }
 
 /* ################### ADMIN TOOLS ################### */
+/* add word */
 #add-word-form {
     margin: 70px auto;
     padding: 10px 25px 20px;
@@ -458,14 +460,82 @@ form h3 {
     background-color: #ff9e6d;
 }
 
+/* tickets */
+.index_container {
+    margin: 0px auto;
+
+    width: 80%;
+}
+
+.index_container h1 {
+    margin: 20px auto;
+    padding-bottom: 20px;
+
+    font-size: 2em;
+
+    border-bottom: 2px solid #292929;
+}
+
+.index_container ul {
+    list-style-type: none;
+}
+
+#tickets-page li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+
+    background: #ffffff;
+
+    padding: 30px 20px;
+    margin-bottom: 10px;
+
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#tickets-page header {
+    margin: 5px auto;
+}
+
+#tickets-page #ticket-type {
+    color: #737373;
+}
+
+#tickets-page button {
+    padding: 10px;
+
+    background-color: #fd703c;
+
+    font-size: 0.9em;
+    color: #fcfef1;
+
+    cursor: pointer;
+
+    border-radius: 10px;
+    
+    transition: all 0.3s ease;
+}
+
+#tickets-page button:hover {
+    background-color: #ff9e6d;
+}
+
+.index_container #is_resolved {
+    font-weight: bold;
+    color: #fd703c;
+}
+
+
+
 /* ################### CONTAINERS ################### */
-.date_added {
+/* .date_added {
     color: #066163;
     text-align: center;
     font-size: 0.9em;
 }
 
-.main_container {
+.index_container {
     background: #e2e2e2;
     width: 65%;
     margin: 20px auto 0px;
@@ -512,11 +582,11 @@ form h3 {
 }
 .tags li:hover {
     background-color: #cf424b;
-}
+} */
 
 /* ################### WORDS ################### */
 /* word page */
-#word_page h1 {
+/* #word_page h1 {
     font-size: 5em;
     color: #eb4d55;
 
@@ -536,7 +606,7 @@ form h3 {
 }
 
 /* word index */
-#word_index h1 {
+/* #word_index h1 {
     background: #f2f2f2;
     padding: 20px 0px;
     margin-bottom: 10px;
@@ -584,7 +654,7 @@ form h3 {
 #word_index h2 {
     color: #eb4d55;
     font-size: 1.5em;
-}
+} */
 
 /* ################### FORUM ################### */
 /* post page */

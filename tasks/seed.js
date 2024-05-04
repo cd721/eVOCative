@@ -69,6 +69,7 @@ console.log(await words.getAccuracyScore(firstWord._id.toString()));
 
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
+const secondTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add smoothie to the word list");
 
 
 await users.makeUserAdmin(josie._id.toString());
