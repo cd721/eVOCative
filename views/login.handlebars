@@ -11,9 +11,12 @@ Client-Side java is required for the form, but submmission will take place for l
     </a>
     <h1>Login</h1>
     {{#if errors}}
-            {{#each errors}}
-                <p class="error_top">{{this}}</p>
-            {{/each}}
+    <div class="error_top">
+        {{#each errors}}
+        <h4>There was an error:</h4>
+        <p>{{this}}</p>
+        {{/each}}
+    </div>
     {{/if}}
 
     <div class="input_container">

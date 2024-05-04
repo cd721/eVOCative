@@ -172,8 +172,21 @@ h1 {
 .error_text {
     color: red;
 
-    font-size: 0.70em;
+    font-size: 0.7em;
     margin-top: 5px;
+}
+
+.error_top {
+    margin-bottom: 20px;
+    padding: 10px;
+
+    border: 1px red solid;
+    border-radius: 8px;
+}
+
+.error_top p {
+    color: red;
+    font-size: 0.9em;
 }
 
 .auth_container {

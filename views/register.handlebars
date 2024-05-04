@@ -4,9 +4,12 @@
   </a>
   <h1>Register</h1>
   {{#if errors}}
-            {{#each errors}}
-                <p class="error_top">{{this}}</p>
-            {{/each}}
+  <div class="error_top">
+    {{#each errors}}
+    <h4>There was an error:</h4>
+    <p>{{this}}</p>
+    {{/each}}
+  </div>
   {{/if}}
 
   <h3>Personal Information</h3>
