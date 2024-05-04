@@ -11,16 +11,24 @@
   let wordBeingPlayed = $("#wordBeingPlayed");
   let definitionBeingPlayed = $("#definitionBeingPlayed");
 
-  if (wordBeingPlayed) {
+  let aWordIsBeingPlayed;
+  let aDefinitionIsBeingPlayed;
+
+
+  if (wordBeingPlayed.html()) {
     wordBeingPlayed = wordBeingPlayed.html();
-  } else if (definitionBeingPlayed) {
+    aWordIsBeingPlayed = true;
+    aDefinitionIsBeingPlayed = false;
+  } else if (definitionBeingPlayed.html()) {
     definitionBeingPlayed = definitionBeingPlayed.html();
+    aWordIsBeingPlayed = false;
+    aDefinitionIsBeingPlayed = true;
   }
 
+  //TODO: convert to jQuery
   const nextQuestion = document.getElementById("nextQuestion");
   nextQuestion.hidden = true;
-  let messageSpace = document.getElementById("messageSpace")
-    ;
+
 
   const youGotIt = document.getElementById("correct");
   youGotIt.hidden = true;
@@ -28,6 +36,9 @@
 
   const youWrong = document.getElementById("wrong");
   youWrong.hidden = true;
+
+  const theCorrectAnswer = document.getElementById("theCorrectAnswer");
+  theCorrectAnswer.hidden = true;
 
 
 
@@ -46,23 +57,23 @@
     //Send data to server for processing so user can't do some hacky stuff on the client side to 
     //mess with their score
     let requestConfig;
-    if (wordBeingPlayed) {
+    if (aWordIsBeingPlayed) {
       requestConfig = {
         method: 'POST',
-        url: `/quiz/definitionToWord`,contentType: 'application/json',
+        url: `/quiz/definitionToWord`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
-          wordBeingPlayed: wordBeingPlayed.html()
+          wordBeingPlayed: wordBeingPlayed
         })
-        
+
       };
-    } else if (definitionBeingPlayed) {
+    } else if (aDefinitionIsBeingPlayed) {
       requestConfig = {
         method: 'POST',
-        url: `/quiz/wordToDefinition`,contentType: 'application/json',
+        url: `/quiz/wordToDefinition`, contentType: 'application/json',
         data: JSON.stringify({
           selectedIndex: selectedIndex,
-          definitionBeingPlayed: definitionBeingPlayed.html()
+          definitionBeingPlayed: definitionBeingPlayed
         })
 
       };
@@ -72,39 +83,74 @@
       console.log(data.correct);
       console.log(data.correctIndex);
 
-      quizVerificationToWord(data.correctIndex, selectedIndex);
+      if (data.correct == undefined || !data.correctIndex) {
+        window.location = '/quiz/invalidAnswer';
+      } else {
+        quizVerificationToWord(data.correctIndex, selectedIndex);
+      }
+
+
 
     });
     quizForm.trigger("reset");
 
   });
 
+  function setButtonColors(labelsInOrder, correctInd) {
+    for (let i = 0; i < labelsInOrder.length; i++) {
+      if (i === correctInd) {
+        labelsInOrder[i].css('color', 'green');
+        theCorrectAnswer.innerHTML = `The correct answer was ${labelsInOrder[i].html()}`;
+
+      } else {
+        labelsInOrder[i].css('color', 'red');
+
+      }
+    }
+
+  }
+
   function quizVerificationToWord(correctInd, buttonUserClicked) {
 
+    const label0 = $('label[for="button0"]');
+    const label1 = $('label[for="button1"]');
+    const label2 = $('label[for="button2"]')
+    const label3 = $('label[for="button3"]');
+
+    const labelsInOrder = [label0, label1, label2, label3];
+
+    setButtonColors(labelsInOrder, correctInd);
+
+    // if (correctInd === 0) {
+    //   label0.css('color', 'green');
+    //   label1.css('color', 'red');
+    //   label2.css('color', 'red');
+    //   label3.css('color', 'red');
 
 
 
-    if (correctInd === 0) {
-      $('label[for="button0"]').css('color', 'green');
-      $('label[for="button1"]').css('color', 'red');
-      $('label[for="button2"]').css('color', 'red');
-      $('label[for="button3"]').css('color', 'red');
-    } else if (correctInd === 1) {
-      $('label[for="button0"]').css('color', 'red');
-      $('label[for="button1"]').css('color', 'green');
-      $('label[for="button2"]').css('color', 'red');
-      $('label[for="button3"]').css('color', 'red');
-    } else if (correctInd === 2) {
-      $('label[for="button0"]').css('color', 'red');
-      $('label[for="button1"]').css('color', 'red');
-      $('label[for="button2"]').css('color', 'green');
-      $('label[for="button3"]').css('color', 'red');
-    } else if (correctInd === 3) {
-      $('label[for="button0"]').css('color', 'red');
-      $('label[for="button1"]').css('color', 'red');
-      $('label[for="button2"]').css('color', 'red');
-      $('label[for="button3"]').css('color', 'green');
-    }
+    // } else if (correctInd === 1) {
+    //   $('label[for="button0"]').css('color', 'red');
+    //   $('label[for="button1"]').css('color', 'green');
+    //   $('label[for="button2"]').css('color', 'red');
+    //   $('label[for="button3"]').css('color', 'red');
+    //   theCorrectAnswer.innerHTML = "The correct answer was "
+
+    // } else if (correctInd === 2) {
+    //   $('label[for="button0"]').css('color', 'red');
+    //   $('label[for="button1"]').css('color', 'red');
+    //   $('label[for="button2"]').css('color', 'green');
+    //   $('label[for="button3"]').css('color', 'red');
+    //   theCorrectAnswer.innerHTML = "The correct answer was "
+
+    // } else if (correctInd === 3) {
+    //   $('label[for="button0"]').css('color', 'red');
+    //   $('label[for="button1"]').css('color', 'red');
+    //   $('label[for="button2"]').css('color', 'red');
+    //   $('label[for="button3"]').css('color', 'green');
+    //   theCorrectAnswer.innerHTML = "The correct answer was "
+
+    // }
 
 
 
@@ -113,14 +159,13 @@
 
       youGotIt.hidden = false;
     } else {
-
-
+      theCorrectAnswer.hidden = false;
       youWrong.hidden = false;
     }
 
     nextQuestion.hidden = false;
 
-
+    $("input:radio").attr('disabled', true);
 
 
   }

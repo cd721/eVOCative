@@ -26,6 +26,8 @@ const firstWord = await words.addWord("coffee", "a beverage made by brewing coff
 const secondWord = await words.addWord("water", "a drink that keeps you alive", ["drinks", "necessary"], []);
 const thirdWord = await words.addWord("juice", "a drink with way too much sugar", ["drinks", "unnecessary"], []);
 const fourthWord = await words.addWord("milk", "a drink from cows", ["drinks", "animal products"], []);
+const fifthhWord = await words.addWord("coke", "a soda", ["sugar", "beverage"], []);
+
 
 
 // checking if it catches words already existing

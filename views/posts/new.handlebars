@@ -11,14 +11,14 @@
     Post Body
   </label>
   <br>
-  <textarea value="{{post.body}}" id="post" name="post" rows="4" placeholder="Post Content" class="full-width-input"></textarea>
+  <textarea id="post" name="post" rows="4" placeholder="Post Content" class="full-width-input">{{post.body}}</textarea>
   <p class="hidden" id="postError"></p>
 
 
 
   <br>
   <label for="tags" id="tags">
-    Tags (separated by comma)<br><input type="text" name="tags">
+    Tags (separated by comma)<br><input type="text" name="tags" value="{{post.tags}}">
   </label>
   <br>
   <p class="hidden" id="tagsError"></p>

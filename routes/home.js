@@ -18,7 +18,7 @@ router.route("/").get(async (req, res) => {
     );
     if (
       !date_last_word_was_received ||
-      helpers.dateIsBeforeToday(date_last_word_was_received)
+      helpers.dateIsNotToday(date_last_word_was_received)
     ) {
       const wordCollection = await wordData.getAllWords();
       let randomWordDBEntry =

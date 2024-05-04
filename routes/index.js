@@ -7,6 +7,7 @@ import registerRoutes from "./register.js";
 import wordRoutes from './words.js';
 import homeRoutes from './home.js';
 import adminRoutes from './admin.js';
+import reportRoutes from './report.js';
 
 import path from "path";
 import { static as staticDir } from "express";
@@ -22,6 +23,7 @@ const constructorMethod = (app) => {
   app.use("/users", userRoutes);
   app.use("/register", registerRoutes);
   app.use('/words', wordRoutes);
+  app.use('/report', reportRoutes);
 
 
 

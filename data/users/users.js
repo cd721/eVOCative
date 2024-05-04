@@ -6,6 +6,7 @@ import generalValidation from "../../validation/generalValidation.js";
 import wordData from "../words/words.js";
 import helpers from "./helpers.js";
 import bcrypt from "bcrypt";
+import dateHelp from "../../helpers/helpers.js";
 
 let exportedMethods = {
   async getAllUsers() {
@@ -72,8 +73,6 @@ let exportedMethods = {
 
     username = username.toLowerCase();
 
-    username = username.toLowerCase();
-
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
@@ -107,23 +106,74 @@ let exportedMethods = {
 
     const userCollection = await users();
 
-    const addedDate = today;
-    let updateInfo;
-    try {
-      updateInfo = await userCollection.updateOne(
-        { _id: new ObjectId(user_id) },
-        {
-          $set: { date_last_word_was_received: addedDate },
+    let user = await this.getUserById(user_id);
 
-          $push: {
-            words: {
-              _id: new ObjectId(word_id),
-              accuracy_score: 0,
-              times_played: 0,
-              date_user_received_word: today,
-              flagged_for_deletion: false,
-              date_flagged_for_deletion: null
-            },
+    const addedDate = today;
+
+    let longestStreak = user.longest_streak;
+    let curStreak = user.streak;
+
+    if (user.date_last_word_was_received === null) {
+      curStreak = 1;
+    } else if (dateHelp.dateIsToday(user.date_last_word_was_received)) {
+      curStreak = curStreak;
+    } else {
+      let streakBroken = dateHelp.dateIsNotYesterday(
+        user.date_last_word_was_received
+      );
+      if (streakBroken) {
+        curStreak = 1;
+      } else {
+        curStreak += 1;
+      }
+    }
+
+    if (curStreak > longestStreak) {
+      longestStreak = curStreak;
+    }
+
+    let updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { date_last_word_was_received: addedDate },
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { streak: curStreak },
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { longest_streak: longestStreak },
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $push: {
+          words: {
+            _id: new ObjectId(word_id),
+            accuracy_score: 0,
+            times_played: 0,
+            date_user_received_word: today,
           },
         }
       );
@@ -137,7 +187,7 @@ let exportedMethods = {
       throw "Update failed!";
     }
 
-    //TODO: should return?
+    return await this.getUserById(user_id);
   },
 
   async userAlreadyHasWord(user_id, word_id) {
@@ -162,7 +212,6 @@ let exportedMethods = {
     }
 
     return hasWordAlready;
-
   },
 
   async addWordOfDay(user_id) {
@@ -172,20 +221,17 @@ let exportedMethods = {
     let newWord;
     let hasWordAlready;
 
-
     do {
       //re-reun this function to get a new word
       newWord = await wordData.getWordOfDay();
-      hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
-
+      hasWordAlready = await this.userAlreadyHasWord(
+        user_id,
+        newWord._id.toString()
+      );
     } while (hasWordAlready);
 
 
     await this.addWordForUser(user_id, newWord._id.toString());
-
-
-
-
   },
 
   async addPostForUser(user_id, post_id) {
@@ -232,7 +278,7 @@ let exportedMethods = {
       { projection: { _id: 0, accuracy_score: 1 } }
     );
 
-    return accuracyScoreForUser;
+    return accuracyScoreForUser.accuracy_score;
   },
   async updateTimesPlayedForUser(user_id) {
     user_id = idValidation.validateId(user_id);
@@ -265,7 +311,7 @@ let exportedMethods = {
       { projection: { _id: 0, times_played: 1 } }
     );
 
-    return result;
+    return result.times_played;
   },
   async updateAccuracyScoreForUser(user_id, new_score) {
     user_id = idValidation.validateId(user_id);

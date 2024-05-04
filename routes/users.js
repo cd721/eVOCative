@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from "express";
 const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
@@ -115,7 +115,6 @@ router.route('/:userId/recoverWord/:wordId').get(async (req, res) => {
 
         }
     }
-
 });
 
 export default router;
