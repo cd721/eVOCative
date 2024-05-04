@@ -127,6 +127,9 @@ router.route("/definitionToWord")
       return res.status(500).render("errorSpecial", { error: e });
     }
   }).post(async (req, res) => {
+        //TODO: validate user
+
+    let user = req.session.user;
 
     try {
 
@@ -158,7 +161,7 @@ router.route("/definitionToWord")
 
 
       //Update accuracy score for user
-      if (req.data.selectedIndex === req.session.correctIndex) {
+      if (req.body.selectedIndex === req.session.correctIndex) {
         userWasCorrect = true;
 
       } else {
@@ -310,7 +313,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
       //This prevents the user from using client side JS to modify the form 
       //and change their original answer.
       console.log(req.session.correctIndex)
-console.log(typeof req.session.correctIndex)
+      console.log(typeof req.session.correctIndex)
       return res.redirect("/quiz/invalidAnswer");
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
