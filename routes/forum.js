@@ -23,7 +23,10 @@ router.route("/").get(async (req, res) => {
     }
 
     //console.log(postList)
-    return res.render("posts/index", { posts: postList });
+    return res.render("posts/index", { 
+      title: "Forum",
+      posts: postList 
+    });
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -106,6 +109,7 @@ router
       comments = comments.reverse();
 
       return res.render("posts/single", {
+        title: `${post.title}`,
         post: post,
         poster_name: poster_name,
         comments: comments,

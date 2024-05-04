@@ -357,6 +357,13 @@ form h3 {
 }
 
 /* user stats */
+#user-stats header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 #user-stats li {
     min-width: 130px;
 
@@ -394,6 +401,11 @@ form h3 {
     padding: 40px;
 
     background-color: #e6f4f1;
+}
+
+#WOD-Announcement {
+    margin-top: 20px;
+    text-align: center;
 }
 
 /* ################### ADMIN TOOLS ################### */
