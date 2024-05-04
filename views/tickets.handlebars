@@ -8,10 +8,10 @@
       <h2>{{body}}</h2>
       <h3>{{type}}</h3>
       <p>Submitted by: {{submitter.username}} on {{submission_date}}</p>
-      <p>Resolved: {{resolved}}</p>
+      <p>Resolved: <span id="is_resolved">{{resolved}}</span></p>
     </article>
-    {{#if isAdmin}}
-      <form action="/admin/tickets/{{_id}}" method="POST">
+    {{#if notResolved}}
+      <form action="/admin/tickets/{{_id}}" method="POST" id="resolution_button_form">
         <button type="submit">Mark As Resolved?</button>
       </form>
     {{/if}}

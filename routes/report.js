@@ -4,6 +4,7 @@ import wordData from "../data/words/words.js";
 import userData from "../data/users/users.js";
 import ticketData from "../data/tickets/tickets.js";
 import ticketValidation from "../data/tickets/ticketValidation.js";
+import xss from "xss";
 const router = Router();
 
 router.route("/").get(async (req, res) => {
@@ -28,12 +29,7 @@ router
   .route("/new")
   .get(async (req, res) => {
     try {
-      return res.render("newTicket", {
-        title: "Tickets",
-        isAdmin: isAdmin,
-        tickets: tickets,
-        newTicket: true,
-      });
+      return res.render("newTicket");
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }

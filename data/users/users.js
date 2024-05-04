@@ -72,8 +72,6 @@ let exportedMethods = {
 
     username = username.toLowerCase();
 
-    username = username.toLowerCase();
-
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
