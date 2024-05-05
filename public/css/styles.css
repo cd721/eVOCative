@@ -499,7 +499,8 @@ form h3 {
     padding: 30px 20px;
     margin-bottom: 10px;
 
-    border-radius: 5px;
+    border: 2px solid #005d9e;
+    border-radius: 8px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -508,7 +509,7 @@ form h3 {
 }
 
 #tickets-page #ticket-type {
-    color: #737373;
+    color: #fd703c;
 }
 
 #tickets-page button {
@@ -709,8 +710,113 @@ form h3 {
 }
 
 /* ################### FORUM ################### */
+/* all posts */
+#forum-page header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 20px auto;
+} 
+
+#tags-list p {
+    font-weight: bold;
+}
+
+.tag-button {
+    background-color: #005d9e;
+
+    font-size: 0.85em;
+    color: #ffffff;
+
+    margin: 5px;
+    padding: 5px 10px;
+
+    border: none;
+    border-radius: 15px;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
+
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.tag-button.active {
+    background-color: #0073a4;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+#new-post {
+    text-decoration: none;
+    margin: 0px 10px;
+
+    padding: 10px 20px;
+    background-color: #fd703c;
+
+    font-size: 1.2em;
+    color: #fcfef1;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#new-post:hover {
+    background-color: #ff9e6d;
+}
+
+.individual-post {
+    background-color: #ffffff;
+
+    border: 2px solid #005d9e;
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.individual-post>div {
+    border-bottom: 1px solid #005d9e;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.individual-post>div a {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #005d9e;
+
+    text-decoration: none;
+}
+.individual-post>div a:hover {
+    text-decoration: underline;
+}
+
+.individual-post>div p {
+    font-size: 0.9em;
+    color: #292929;
+    margin-top: 5px;
+}
+
+#forum-tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+#forum-tags li {
+    background-color: #fd703c;
+    color: #ffffff;
+
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;   
+}
+
+
+
 /* post page */
-#post_page #post_info {
+/* #post_page #post_info {
     font-size: 1.5em;
 }
 
@@ -751,16 +857,16 @@ form h3 {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+ */
 
 /* New Post */
-.hidden{
+/* .hidden{
     display: none;
-}
+} */
 
 
 /* Forum Page */
-#forum_page .individual_post {
+/* #forum_page .individual_post {
     font-size: 1.0em;
 
 
@@ -768,10 +874,10 @@ form h3 {
 
 #posts_list li {
     list-style: none;
-}
+} */
 
 /* Common styling for all forum pages  */
-#post_page #post_info,
+/* #post_page #post_info,
 #forum_page .individual_post {
     background: #f2f2f2;
     padding: 30px 20px;
@@ -786,4 +892,4 @@ form h3 {
 #posts_list h2 {
     margin-bottom: 10px;
     text-align: left;
-}
+} */

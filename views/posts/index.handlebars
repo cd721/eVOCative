@@ -1,40 +1,36 @@
-<article id="forum_page" class="index_container">
-    <h1>Posts</h1>
-    <h2><a href="/forum/new">Make a new post</a></h2>
+<article id="forum-page" class="index-container">
+    <h1>Forum</h1>
 
-    <p>Filter by tag:</p>
-    <form action="/forum" id="tag-filter-form" class="input_container">
-        <label for="tagFilter">Enter the tags you want to see:
-            <textarea value="tagFilter" id="tagFilter" name="tagFilter" rows="2"></textarea>
-            {{!-- <select id="tagFilter" name="tagFilter">
-                {{#each tagCollection}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
+    <header>
+        <div id="tags-list">
+            <p>Filter by tags:</p>
+            {{#each tagList}}
+            <button class="tag-button" data-tag="{{this}}">{{this}}</button>
+            {{/each}}
+        </div>
 
-            </select> --}}
-        </label>
-        <button type="submit">Filter</button>
-    </form>
-    <form action="/forum" id="clear-filtered-tags">
-        <button type="submit">Clear Filters</button>
-    </form>
-    <br>
-    <div id="posts_list">
+        <a href="/forum/new" id="new-post">Make a new post</a>
+    </header>
+
+    <div id="posts-list">
         <ul>
             {{#each posts}}
-            <div class="post_preview">
-                <li>
-                    <section class="individual_post" id="section{{_id}}">
-                        <h2><a href="/forum/{{_id}}">{{title}}</a></h2>
-                        {{{post}}}
-                        {{> tags this}}
-                    </section>
-                </li>
-            </div>
+            <li class="individual-post" id="section{{_id}}">
+                <div>
+                    <a href="/forum/{{_id}}">{{title}}</a>
+
+                    <p>{{dateWordIndex this.post_date}}</p>
+                </div>
+
+                <ul id="forum-tags" class="tags">
+                    {{#each tags}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </li>
             {{/each}}
-            <br>
-
         </ul>
+    </div>
+</article>
 
-        </section>
-        <script src="/public/js/filterPostsByTag.js"></script>
+<script src="/public/js/filterPostsByTag.js"></script>

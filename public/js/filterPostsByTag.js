@@ -1,60 +1,39 @@
-// (function () {
-const form = document.getElementById("tag-filter-form");
-const clearForm = document.getElementById("clear-filtered-tags");
-const tagsTextArea = document.getElementById("tagFilter");
-const postsList = document.getElementById("posts_list");
-if (form) {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+const tagButtons = document.getElementsByClassName('tag-button');
+const posts = document.getElementsByClassName('individual-post');
 
-    const tagString = tagsTextArea.value;
-    let tagsUserWantsToSee;
-    if (tagsTextArea.value) {
-      tagsUserWantsToSee = tagString.split(",");
-      tagsUserWantsToSee = tagsUserWantsToSee.map((tag) => tag.trim());
-    }
+for (let i = 0; i < tagButtons.length; i++) {
+  tagButtons[i].addEventListener('click', function() {
+        const tag = this.getAttribute('data-tag');
+        this.classList.toggle('active');
 
-    //Clear the existing posts that are there
-    if (postsList) {
-      let postPreviews = document.querySelectorAll(".post_preview");
-      for (let i = 0; i < postPreviews.length; i++) {
-        let postSection = postPreviews[i].querySelector(".individual_post");
-        let id = postSection.id;
-        let tagAs = [...document.querySelectorAll(`section#${id} li a`)];
-        let tagList = tagAs.map((a) => a.innerHTML);
-
-        for (let tagUserWants of tagsUserWantsToSee) {
-          if (!tagList.includes(tagUserWants)) {
-            $(`#${id}`).hide();
-          } else {
-            $(`#${id}`).show();
-            break;
-          }
+        // create set of active tags
+        const activeTags = new Set();
+        const activeTagButtons = document.querySelectorAll('.tag-button.active');
+        for (let button of activeTagButtons) {
+            activeTags.add(button.getAttribute('data-tag'));
         }
-      }
-    }
 
-    tagsTextArea.value = "";
-  });
+        // filter the posts
+        for (let post of posts) {
+            const postTagsElements = post.querySelectorAll('#forum-tags li');
+            let hasMatchingTag = false;
+
+            // check if post has a matching tag
+            for (let postTagElement of postTagsElements) {
+                if (activeTags.has(postTagElement.textContent)) {
+                    hasMatchingTag = true;
+                    break;
+                }
+            }
+
+            // show/hide posts
+            if (hasMatchingTag || activeTags.size === 0) {
+                post.style.display = "";
+            } else {
+                post.style.display = "none";
+            }
+          
+        }
+    });
 }
 
-if (clearForm) {
-  clearForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    //Reset the existing posts that are there
-    if (postsList) {
-      // let postLiElements = postsList.children[0].children;
-      let postPreviews = document.querySelectorAll(".post_preview");
-      for (let i = 0; i < postPreviews.length; i++) {
-        let postSection = postPreviews[i].querySelector(".individual_post");
-        let id = postSection.id;
-        $(`#${id}`).show();
-      }
-    }
-
-    tagsTextArea.value = "";
-  });
-}
-
-//});

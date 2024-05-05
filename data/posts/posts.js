@@ -42,5 +42,21 @@ let exportedMethods = {
 
     },
 
+    async getAllTags() {
+        const postCollection = await posts();
+        const allPosts = await postCollection.find({}).toArray();
+        const allTags = new Set();
+
+        for (let i = 0; i < allPosts.length; i++) {
+            const post = allPosts[i];
+            if (post.tags) {
+                for (let j = 0; j < post.tags.length; j++) {
+                    const tag = post.tags[j];
+                    allTags.add(tag);
+                }
+            }
+        }
+        return Array.from(allTags);
+    }
 };
 export default exportedMethods;
