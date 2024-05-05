@@ -38,7 +38,7 @@ router
             const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
             if (wordsUserHas.length < totalNumberOfWords) {
 
-                if (!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
+                if (!date_last_word_was_received || helpers.dateIsNotToday(date_last_word_was_received)) {
 
                     await userData.addWordOfDay(user_id);
                     recievedWOD = true;
