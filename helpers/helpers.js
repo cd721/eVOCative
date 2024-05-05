@@ -9,8 +9,8 @@ const exportedMethods = {
   },
 
   dateIsNotYesterday(date) {
-    const date = new Date(date);
-    date.setHours(0, 0, 0, 0); 
+    const inputDate = new Date(date);
+    inputDate.setHours(0, 0, 0, 0); 
   
     let today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -19,7 +19,7 @@ const exportedMethods = {
     yesterday.setDate(yesterday.getDate() - 1);
   
     // Compare input date to yesterday's date.
-    return date.getTime() !== yesterday.getTime();
+    return inputDate.getTime() !== yesterday.getTime();
   },
   
 
