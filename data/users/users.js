@@ -6,6 +6,7 @@ import generalValidation from "../../validation/generalValidation.js";
 import wordData from "../words/words.js";
 import helpers from "./helpers.js";
 import bcrypt from "bcrypt";
+import dateHelp from "../../helpers/helpers.js";
 
 let exportedMethods = {
   async getAllUsers() {
@@ -72,8 +73,6 @@ let exportedMethods = {
 
     username = username.toLowerCase();
 
-    username = username.toLowerCase();
-
     const userCollection = await users();
     const user = await userCollection.findOne({ username });
     if (!user) throw `An account with this username does not exist!`;
@@ -107,26 +106,36 @@ let exportedMethods = {
 
     const userCollection = await users();
 
+    let user = await this.getUserById(user_id);
+
     const addedDate = today;
 
-    const updateInfo = await userCollection.updateOne(
+    let longestStreak = user.longest_streak;
+    let curStreak = user.streak;
+
+    if (user.date_last_word_was_received === null) {
+      curStreak = 1;
+    } else if (dateHelp.dateIsToday(user.date_last_word_was_received)) {
+      curStreak = curStreak;
+    } else {
+      let streakBroken = dateHelp.dateIsNotYesterday(
+        user.date_last_word_was_received
+      );
+      if (streakBroken) {
+        curStreak = 1;
+      } else {
+        curStreak += 1;
+      }
+    }
+
+    if (curStreak > longestStreak) {
+      longestStreak = curStreak;
+    }
+
+    let updateInfo = await userCollection.updateOne(
       { _id: new ObjectId(user_id) },
       {
         $set: { date_last_word_was_received: addedDate },
-        $push: {
-          words: {
-            _id: new ObjectId(word_id),
-            accuracy_score: 0,
-            times_played: 0,
-          },
-        },
-        $push: {
-          words: {
-            _id: new ObjectId(word_id),
-            accuracy_score: 0,
-            times_played: 0, date_user_received_word: today,
-          },
-        },
       }
     );
 
@@ -134,7 +143,47 @@ let exportedMethods = {
       throw "Update failed!";
     }
 
-    //TODO: should return?
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { streak: curStreak },
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: { longest_streak: longestStreak },
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    updateInfo = await userCollection.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $push: {
+          words: {
+            _id: new ObjectId(word_id),
+            accuracy_score: 0,
+            times_played: 0,
+            date_user_received_word: today,
+          },
+        }
+      }
+    );
+
+    if (!updateInfo.acknowledged) {
+      throw "Update failed!";
+    }
+
+    return await this.getUserById(user_id);
   },
 
   async userAlreadyHasWord(user_id, word_id) {
@@ -144,16 +193,21 @@ let exportedMethods = {
     //check if new word is already in user's word bank
     try {
       const userCollection = await users();
-      hasWordAlready = await userCollection.findOne({
+      const userWithWord = await userCollection.findOne({
         _id: new ObjectId(user_id),
         words: { $elemMatch: { _id: new ObjectId(word_id) } },
       });
+
+      if (userWithWord) {
+        hasWordAlready = true;
+      } else {
+        hasWordAlready = false;
+      }
     } catch (e) {
       throw "Internal Server Error";
     }
 
     return hasWordAlready;
-
   },
 
   async addWordOfDay(user_id) {
@@ -163,18 +217,17 @@ let exportedMethods = {
     let newWord;
     let hasWordAlready;
 
-
     do {
       //re-reun this function to get a new word
       newWord = await wordData.getWordOfDay();
-      hasWordAlready = await this.userAlreadyHasWord(user_id, newWord._id.toString());
-
+      hasWordAlready = await this.userAlreadyHasWord(
+        user_id,
+        newWord._id.toString()
+      );
     } while (hasWordAlready);
+
+
     await this.addWordForUser(user_id, newWord._id.toString());
-
-
-
-
   },
 
   async addPostForUser(user_id, post_id) {
@@ -230,7 +283,6 @@ let exportedMethods = {
 
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
-      { _id: new ObjectId(user_id) },
       {
         $inc: {
           times_played: 1,
@@ -267,7 +319,6 @@ let exportedMethods = {
       { _id: new ObjectId(user_id) },
       {
         $set: {
-          accuracy_score: new_score,
           accuracy_score: new_score,
         },
       },
@@ -316,13 +367,39 @@ let exportedMethods = {
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
       if (word._id.toString() === word_id) {
-        if (word._id.toString() === word_id) {
-          return word.date_user_received_word;
-        }
+        return word.date_user_received_word;
+
       }
 
-      return null; //TODO: handle this better
     }
+    return null; //TODO: handle this better
+
+  },
+  async getDateFlaggedForDeletionForUser(user_id, word_id) {
+    //TODO: validation here and all function
+    const wordsForUser = await this.getWordsForUser(user_id);
+    for (let word of wordsForUser) {
+      if (word._id.toString() === word_id.toString()) {
+        return word.date_flagged_for_deletion;
+
+      }
+
+    }
+    return null; //TODO: handle this better
+
+  },
+
+  async wordFlaggedForDeletionForUser(user_id, word_id) {
+    //TODO: validation here and all function
+    const wordsForUser = await this.getWordsForUser(user_id);
+    for (let word of wordsForUser) {
+      if (word._id.toString() === word_id) {
+        return word.flagged_for_deletion;
+
+      }
+
+    } return null; //TODO: handle this better
+
   },
 
   async getWordsForUser(user_id) {
@@ -330,14 +407,76 @@ let exportedMethods = {
 
     let wordsList = [];
     for (let word of user.words) {
-      let wordInfo = await wordData.getWordById(word._id.toString());
+      //TODO:validate
+      let word_id = word._id.toString();
+      let wordInfo = await wordData.getWordById(word_id);
+
+
       wordInfo.date_user_received_word = word.date_user_received_word;
-      wordsList.push(wordInfo);
+      wordInfo.flagged_for_deletion = word.flagged_for_deletion;
+      wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
+
+      //Get rid of the word if it was deleted by user over 24 hr ago
+      //Word must have been flagged for deletion
+      if (!wordInfo.flagged_for_deletion ) {
+        wordsList.push(wordInfo);
+
+      } else if (wordInfo.flagged_for_deletion &&
+        !helpers.wordWasDeletedLessThan24HoursAgo(wordInfo.date_flagged_for_deletion, wordInfo.flagged_for_deletion)) {
+        //The word was not flagged for deletion 
+        await this.deleteWordForUser(user_id, word_id);
+      }
     }
     return wordsList;
   },
+  async flagWordForDeletionForUser(user_id, word_id) {
+    const userCollection = await users();
+    let wordToRemove = await wordData.getWordById(word_id);
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      {
+        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+      },
+      {
+        $set: {
+          "words.$.flagged_for_deletion": true,
+          "words.$.date_flagged_for_deletion": new Date(),
+        },
+      },
+      { returnDocument: "after" }
+    );
 
-  async removeWordForUser(user_id, word_id) {
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
+
+  async unflagWordForDeletionForUser(user_id, word_id) {
+    //TODO: validation
+    const userCollection = await users();
+    let wordToRemove = await wordData.getWordById(word_id);
+    const updateUserInfo = await userCollection.findOneAndUpdate(
+      {
+        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+      },
+      {
+        $set: {
+          "words.$.flagged_for_deletion": false,
+          "words.$.date_flagged_for_deletion": null,
+        },
+      },
+      { returnDocument: "after" }
+    );
+
+    if (!updateUserInfo) {
+      throw "Update failed!";
+    }
+
+    return updateUserInfo;
+  },
+
+  async deleteWordForUser(user_id, word_id) {
     const userCollection = await users();
     let wordToRemove = await wordData.getWordById(word_id);
     const updateUserInfo = await userCollection.findOneAndUpdate(

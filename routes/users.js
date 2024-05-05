@@ -1,16 +1,16 @@
-import { Router } from 'express';
+import { Router } from "express";
 const router = Router();
 import idValidation from '../validation/idValidation.js';
 import userData from '../data/users/users.js';
 import helpers from '../helpers/helpers.js';
-import wordData  from '../data/words/words.js'
+import wordData from '../data/words/words.js'
 
 router.route('/').get(async (req, res) => {
     try {
         const userList = await userData.getAllUsers();
         return res.render("users/index", { users: userList });
     } catch (e) {
-        return res.status(500).render("errorSpecial", {error: e});
+        return res.status(500).render("errorSpecial", { error: e });
     }
 });
 
@@ -38,7 +38,7 @@ router
             const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
             if (wordsUserHas.length < totalNumberOfWords) {
 
-                if (!date_last_word_was_received || helpers.dateIsBeforeToday(date_last_word_was_received)) {
+                if (!date_last_word_was_received || helpers.dateIsNotToday(date_last_word_was_received)) {
 
                     await userData.addWordOfDay(user_id);
                     recievedWOD = true;
@@ -57,12 +57,12 @@ router
             return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
-            return res.status(500).render("errorSpecial", {error: e});
+            return res.status(500).render("errorSpecial", { error: e });
         }
     })
     ;
 
-router.route('/:userId/remove/:wordId')
+router.route('/:userId/deleteWord/:wordId')
     .get(async (req, res) => {
         let user_id = req.params.userId;
         let word_id = req.params.wordId;
@@ -74,15 +74,47 @@ router.route('/:userId/remove/:wordId')
         }
 
         try {
+            userData.flagWordForDeletionForUser(user_id, word_id);
 
-            userData.removeWordForUser(user_id, word_id);
+            let word = await wordData.getWordById(word_id);
 
-
-            return res.status(200).json({ word_id: "removed" });
+            return res.status(200).render("users/deleteWordConfirmationStandardUser", { word: word.word });
 
         } catch (e) {
-            return res.status(500).render("errorSpecial", {error: e});
+            return res.status(500).render("errorSpecial", { error: e });
         }
     });
+router.route('/:userId/recoverWord/:wordId').get(async (req, res) => {
+    let word_id;
+    let user_id;
+
+    try {
+        word_id = idValidation.validateId(req.params.wordId);
+        user_id = idValidation.validateId(req.params.userId);
+    } catch (e) {
+        return res.status(400).render("notFoundError");
+
+    }
+
+    let user;
+    if (req.session.user) {
+        user = req.session.user;
+
+
+        //If the user id provided in the URL doesn't match the currently logged in user
+        if (user._id !== user_id) {
+            return res.status(400).render("error");
+        }
+
+        try {
+            await userData.unflagWordForDeletionForUser(user_id, word_id);
+
+            return res.status(200).redirect("/words")
+        } catch (e) {
+            return res.status(500).render("errorSpecial", { error: e });
+
+        }
+    }
+});
 
 export default router;

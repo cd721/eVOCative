@@ -33,7 +33,19 @@ let exportedMethods = {
         const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
 
         return hashedPassword;
+    },
+
+    wordWasDeletedLessThan24HoursAgo(date_flagged_for_deletion, flagged_for_deletion) {
+        console.log(flagged_for_deletion)
+        if (flagged_for_deletion) {
+            let today = new Date().getTime() + (1 * 24 * 60 * 60 * 1000)
+            console.log(date_flagged_for_deletion)
+            return date_flagged_for_deletion < today;
+        } else {
+            return false;
+        }
     }
+
 };
 
 export default exportedMethods;

@@ -366,6 +366,10 @@ form h3 {
     background-color: #e6f4f1;
 }
 
+.flagged_for_deletion {
+    background-color: #570b10;
+}
+
 /* ################### container generals ################### */
 .date_added {
     color: #066163;
