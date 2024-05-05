@@ -403,8 +403,13 @@ form h3 {
     background-color: #e6f4f1;
 }
 
-#WOD-Announcement {
-    margin-top: 20px;
+.flagged_for_deletion {
+    background-color: #570b10;
+}
+
+/* ################### container generals ################### */
+.date_added {
+    color: #066163;
     text-align: center;
 }
 

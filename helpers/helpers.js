@@ -9,19 +9,16 @@ const exportedMethods = {
   },
 
   dateIsNotYesterday(date) {
-    const inputDate = new Date(date);
-    inputDate.setHours(0, 0, 0, 0); 
-  
     let today = new Date();
-    today.setHours(0, 0, 0, 0);
-  
-    let yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-  
-    // Compare input date to yesterday's date.
-    return inputDate.getTime() !== yesterday.getTime();
+
+    //For initialization purposes only
+    let yesterday = new Date();
+
+    //setDate returns nothing, this line sets yesterday to (today.getDate() - 1)
+    yesterday.setDate(today.getDate() - 1);
+
+    return date.getDate() !== yesterday.getDate();
   },
-  
 
   dateIsToday(date) {
     //set hours to 0 to compare days

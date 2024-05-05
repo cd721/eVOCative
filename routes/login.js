@@ -6,10 +6,13 @@ const router = Router();
 
 router.route("/")
   .get(async (req, res) => {
+
+    let errors = [];
     try {
       return res.render("login");
     } catch (e) {
-      return res.status(500).render("errorSpecial", {error: e});
+      errors.push(e);
+      return res.status(500).render("login", {error: e});
     }
   })
   .post(async (req, res) => {
@@ -18,7 +21,7 @@ router.route("/")
       
     let errors = [];
     try {
-      username = userValidation.validateName(username);
+      username = userValidation.validateUsername(username);
       password = userValidation.validatePassword(password);
 
       const user = await userData.loginUser(username, password);
