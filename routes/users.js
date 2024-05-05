@@ -15,10 +15,14 @@ router.route("/").get(async (req, res) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> main
 router.route("/:id").get(async (req, res) => {
   let user_id = req.params.id.toString();
   let user;
   let errors;
+<<<<<<< HEAD
 =======
 router
     .route('/:id')
@@ -85,13 +89,60 @@ router
     }
 
 <<<<<<< HEAD
+=======
+
+  let a_user_is_logged_in;
+  if (req.session.user) {
+    a_user_is_logged_in = true;
+  } else {
+    a_user_is_logged_in = false;
+  }
+
+  try {
+    user_id = idValidation.validateId(user_id);
+    user = await userData.getUserById(user_id);
+  } catch (e) {
+    return res.status(400).render("notFoundError");
+  }
+
+  try {
+    //add new word of the day to user word bank automatically
+    let date_last_word_was_received = await userData.getDateLastWordWasReceived(
+      user_id
+    );
+    const wordsUserHas = await userData.getWordsForUser(user_id);
+
+    let recievedWOD = false;
+
+    const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
+    if (wordsUserHas.length < totalNumberOfWords) {
+      if (
+        !date_last_word_was_received ||
+        helpers.dateIsNotToday(date_last_word_was_received)
+      ) {
+        await userData.addWordOfDay(user_id);
+        recievedWOD = true;
+      }
+    }
+
+    let words = await userData.getWordsForUser(user_id);
+    const userIsAdmin = await userData.isAdmin(user_id);
+
+    // destructure so that sensitive fields are not sent to handlebars
+    const { hashedPassword, email, ...safeUserData } = user;
+
+>>>>>>> main
     if (userIsAdmin) {
       return res.render("users/adminProfile", {
         title: "Admin Profile",
         user: safeUserData,
         words: words,
+<<<<<<< HEAD
         streakOneDay: streakOneDay,
         longestStreakOneDay: longestStreakOneDay,
+=======
+        WOD: recievedWOD,
+>>>>>>> main
       });
     }
     return res.render("users/profile", {
@@ -99,6 +150,7 @@ router
       user: safeUserData,
       words: words,
       WOD: recievedWOD,
+<<<<<<< HEAD
       streakOneDay: streakOneDay,
       longestStreakOneDay: longestStreakOneDay,
 =======
@@ -144,15 +196,25 @@ router.route('/:userId/deleteWord/:wordId')
             return res.status(500).render("errorSpecial", { error: e });
         }
 >>>>>>> main
+=======
+>>>>>>> main
     });
   } catch (e) {
     errors.push(e);
     //If no user is logged in, we don't want to show the error page with links to other pages on the site
     if (a_user_is_logged_in) {
+<<<<<<< HEAD
         return res.status(500).render("errorSpecial", { error: e });
     } else {
         return res.status(400).render('login', { errors });
     }  }
+=======
+      return res.status(500).render("errorSpecial", { error: e });
+    } else {
+      return res.status(400).render("login", { errors });
+    }
+  }
+>>>>>>> main
 });
 
 router.route("/:userId/deleteWord/:wordId").get(async (req, res) => {
