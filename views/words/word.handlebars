@@ -1,7 +1,11 @@
 <article id="word_page" class="main_container">
     <h1>[ {{word.word}} ]</h1>
     <p class="definition">{{word.definition}}</p>
+    {{#if admin}}
+    <p class="date_added">{{dateWordSingle word.date_added}}</p>
+    {{else}}
     <p class="date_added">{{dateWordSingle word.date_user_received_word}}</p>
+    {{/if}}
     <div class="tags">
         <h4>Tags</h4>
         <ul>
@@ -11,10 +15,14 @@
         </ul>
     </div>
     
-    {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion word.flagged_for_deletion)}}
-    <a href="/users/{{user_id}}/recoverWord/{{word._id}}">Recover This Word</a>
+    {{#if admin}}
+        <p></p>
     {{else}}
-    <a href="/users/{{user_id}}/deleteWord/{{word._id}}">Delete This Word</a>
+        {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion word.flagged_for_deletion)}}
+        <a href="/users/{{user_id}}/recoverWord/{{word._id}}">Recover This Word</a>
+        {{else}}
+        <a href="/users/{{user_id}}/deleteWord/{{word._id}}">Delete This Word</a>
+        {{/if}}
     {{/if}}
 
 
