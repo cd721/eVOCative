@@ -84,7 +84,13 @@
       console.log(data.correct);
       console.log(data.correctIndex);
 
-      if (data.correct == undefined || !data.correctIndex) {
+      if (data.correct == undefined || data.correctIndex !== 0
+        && data.correctIndex !== 1
+        && data.correctIndex !== 2
+        && data.correctIndex !== 3
+
+
+      ) {
         window.location = '/quiz/invalidAnswer';
       } else {
         quizVerificationToWord(data.correctIndex, selectedIndex);

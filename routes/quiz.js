@@ -30,12 +30,17 @@ router.route("/definitionToWord")
     }
 
     try {
-      randomWordForUser =
-        user.words[Math.floor(Math.random() * user.words.length)];
+      do {
+        randomWordForUser =
+          user.words[Math.floor(Math.random() * user.words.length)];
+        console.log(randomWordForUser)
 
-      if (!randomWordForUser) {
-        throw "The user has no words";
-      }
+        if (!randomWordForUser) {
+          throw "You have no more words to play! Come again another day!";
+        }
+      } while (randomWordForUser._id.toString() === req.session.previousWordId);
+
+      req.session.previousWordId = randomWordForUser._id.toString();
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }
@@ -109,7 +114,7 @@ router.route("/definitionToWord")
       for (let i = 0; i < buttonDefs.length; i++) {
         if (buttonDefs[i] == randomWord.definition) {
           correctInd = i;
-          console.log(correctInd)
+          //   console.log(correctInd)
         }
       }
 
@@ -127,7 +132,7 @@ router.route("/definitionToWord")
       return res.status(500).render("errorSpecial", { error: e });
     }
   }).post(async (req, res) => {
-        //TODO: validate user
+    //TODO: validate user
 
     let user = req.session.user;
 
@@ -141,11 +146,10 @@ router.route("/definitionToWord")
         //If correctIndex is null, the user already answered the question. 
         //This prevents the user from using client side JS to modify the form 
         //and change their original answer.
-        console.log(typeof req.session.correctIndex)
+        console.log("here")
         return res.redirect("/quiz/invalidAnswer");
       }
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-      console.log(req.body.selectedIndex);
 
       //Increase number of times played
       const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
@@ -154,7 +158,6 @@ router.route("/definitionToWord")
       //reset correct index
       const correctIndexBeforeReset = req.session.correctIndex;
       let userWasCorrect;
-      req.session.correctIndex = null;
 
 
 
@@ -173,6 +176,11 @@ router.route("/definitionToWord")
 
 
       await quizHelpers.updateAccuracyScores(user._id, word._id, userWasCorrect);
+
+      //Reset correct index last
+      req.session.correctIndex = null;
+
+
       return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
 
@@ -198,12 +206,15 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 
   try {
-    randomWordForUser =
-      user.words[Math.floor(Math.random() * user.words.length)];
-
-    if (!randomWordForUser) {
-      throw "The user has no words";
-    }
+    do {
+      randomWordForUser =
+        user.words[Math.floor(Math.random() * user.words.length)];
+      console.log(randomWordForUser)
+      if (!randomWordForUser) {
+        throw "You have no more words to play! Come again another day!";
+      }
+    } while (randomWordForUser._id.toString() === req.session.previousWordId);
+    req.session.previousWordId = randomWordForUser._id.toString();
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -282,7 +293,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     for (let i = 0; i < buttonDefs.length; i++) {
       if (buttonDefs[i] == randomWord.word) {
         correctInd = i;
-        console.log(correctInd)
+        // console.log(correctInd)
       }
     }
 
@@ -312,12 +323,10 @@ router.route("/wordToDefinition").get(async (req, res) => {
       //If correctIndex is null, the user already answered the question. 
       //This prevents the user from using client side JS to modify the form 
       //and change their original answer.
-      console.log(req.session.correctIndex)
-      console.log(typeof req.session.correctIndex)
+      console.log("here")
       return res.redirect("/quiz/invalidAnswer");
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-    console.log(req.body.selectedIndex);
 
     //Increase number of times played
     const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
@@ -325,7 +334,6 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     const correctIndexBeforeReset = req.session.correctIndex;
     let userWasCorrect;
-    req.session.correctIndex = null;
 
     ////update accuracy score for user
 
@@ -339,6 +347,10 @@ router.route("/wordToDefinition").get(async (req, res) => {
     }
 
     await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect);
+
+    //Do this last
+    req.session.correctIndex = null;
+
     return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
   } catch (e) {
