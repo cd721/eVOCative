@@ -66,6 +66,7 @@ router
 
         } catch (e) {
             errors.push(e);
+            //If no user is logged in, we don't want to show the error page with links to other pages on the site
             if (a_user_is_logged_in) {
                 return res.status(500).render("errorSpecial", { error: e });
             } else {
