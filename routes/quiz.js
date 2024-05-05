@@ -339,7 +339,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
 
     //Increase number of times played for word and user
-    const wordInfo = await wordInfo.getWordByDefinition(req.body.definitionBeingPlayed);
+    const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
     await wordInfo.updateTimesPlayed(wordInfo._id);
     await userData.updateTimesPlayedForUser(user._id.toString());
 
