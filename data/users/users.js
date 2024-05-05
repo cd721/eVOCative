@@ -176,12 +176,8 @@ let exportedMethods = {
             date_user_received_word: today,
           },
         }
-      );
-    } catch (e) {
-      console.log(e)
-      throw "Internal Server Error";
-
-    }
+      }
+    );
 
     if (!updateInfo.acknowledged) {
       throw "Update failed!";
