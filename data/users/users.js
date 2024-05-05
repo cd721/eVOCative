@@ -43,13 +43,13 @@ let exportedMethods = {
     username = await userValidation.usernameDoesNotAlreadyExist(username);
 
     email = userValidation.validateEmail(email);
-    email = userValidation.emailDoesNotAlreadyExist(email);
+    email = await userValidation.emailDoesNotAlreadyExist(email);
 
     password = userValidation.validatePassword(password);
 
     const hashedPassword = await helpers.hashPassword(password);
 
-    let newUser = helpers.createNewUser(
+    let newUser = await helpers.createNewUser(
       firstName,
       lastName,
       email,

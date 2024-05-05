@@ -3,15 +3,15 @@ import bcrypt from "bcrypt";
 import validation from "./userValidation.js";
 
 let exportedMethods = {
-  createNewUser(firstName, lastName, email, hashedPassword, username) {
+  async createNewUser(firstName, lastName, email, hashedPassword, username) {
     firstName = validation.validateName(firstName);
     lastName = validation.validateName(lastName);
 
     email = validation.validateEmail(email);
-    email = validation.emailDoesNotAlreadyExist(email);
+    email = await validation.emailDoesNotAlreadyExist(email);
 
     username = validation.validateUsername(username);
-    username = validation.usernameDoesNotAlreadyExist(username);
+    username = await validation.usernameDoesNotAlreadyExist(username);
 
     let newUser = {
       _id: new ObjectId(),
