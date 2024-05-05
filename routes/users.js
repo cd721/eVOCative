@@ -19,6 +19,14 @@ router
     .get(async (req, res) => {
         let user_id = req.params.id.toString();
         let user;
+        let errors;
+
+        let a_user_is_logged_in;
+        if (req.session.user) {
+            a_user_is_logged_in = true;
+        } else {
+            a_user_is_logged_in = false;
+        }
 
         try {
             user_id = idValidation.validateId(user_id);
@@ -57,7 +65,12 @@ router
             return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
 
         } catch (e) {
-            return res.status(500).render("errorSpecial", { error: e });
+            errors.push(e);
+            if (a_user_is_logged_in) {
+                return res.status(500).render("errorSpecial", { error: e });
+            } else {
+                return res.status(400).render('login', { errors });
+            }
         }
     })
     ;
