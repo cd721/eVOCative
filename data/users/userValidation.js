@@ -10,6 +10,41 @@ const exportedMethods = {
       throw `${name || "given string"} cannot contain a number`;
     return name;
   },
+  validateUsername(username) {
+    if (username == undefined) { throw "You must provide a username"; }
+
+    //username is valid string
+    if (typeof username !== 'string') {
+      throw "username must be a string"
+    }
+    //no spaces
+    if (username.trim() === '') {
+      throw "You must provide text for the username"
+    }
+
+    //trim the user name
+    username = username.trim();
+
+    //5. case insensitive tolower
+    let usernameLower = username.toLowerCase();
+
+    // no numbers
+    for (let i = 0; i < usernameLower.length; i++) {
+      if (!isNaN(parseInt(usernameLower.charAt(i)))) {
+        throw "username must not contain numbers"
+      }
+    }
+    //at least 5 chars
+    if (usernameLower.length < 5) {
+      throw "username must be more than 5 chars"
+    }
+    //no more than 10
+    if (usernameLower.length > 10) {
+      throw "username cannot be more than 10 chars"
+    }
+
+    return username;
+  },
 
   validateEmail(email) {
     email = gen.validateGen("Email", email);
