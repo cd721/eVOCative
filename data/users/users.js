@@ -175,7 +175,7 @@ let exportedMethods = {
             times_played: 0,
             date_user_received_word: today,
           },
-        },
+        }
       }
     );
 
