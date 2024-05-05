@@ -114,16 +114,21 @@ let exportedMethods = {
     let curStreak = user.streak;
 
     if (user.date_last_word_was_received === null) {
+      //If the user never received a word before, set their streak to 1
       curStreak = 1;
     } else if (dateHelp.dateIsToday(user.date_last_word_was_received)) {
+      //If they already received their word today, do not change the streak
       curStreak = curStreak;
     } else {
+      //If the user did not receive a word yesterday, their streak was broken
       let streakBroken = dateHelp.dateIsNotYesterday(
         user.date_last_word_was_received
       );
       if (streakBroken) {
+        //Reset the streak if it was broken
         curStreak = 1;
       } else {
+        //Increment the streak if the user did not break it
         curStreak += 1;
       }
     }
@@ -418,7 +423,7 @@ let exportedMethods = {
 
       //Get rid of the word if it was deleted by user over 24 hr ago
       //Word must have been flagged for deletion
-      if (!wordInfo.flagged_for_deletion ) {
+      if (!wordInfo.flagged_for_deletion) {
         wordsList.push(wordInfo);
 
       } else if (wordInfo.flagged_for_deletion &&
