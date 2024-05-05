@@ -17,6 +17,14 @@ router.route("/").get(async (req, res) => {
 router.route("/:id").get(async (req, res) => {
   let user_id = req.params.id.toString();
   let user;
+  let errors;
+
+  let a_user_is_logged_in;
+  if (req.session.user) {
+    a_user_is_logged_in = true;
+  } else {
+    a_user_is_logged_in = false;
+  }
 
   try {
     user_id = idValidation.validateId(user_id);
@@ -78,8 +86,13 @@ router.route("/:id").get(async (req, res) => {
       longestStreakOneDay: longestStreakOneDay,
     });
   } catch (e) {
-    return res.status(500).render("errorSpecial", { error: e });
-  }
+    errors.push(e);
+    //If no user is logged in, we don't want to show the error page with links to other pages on the site
+    if (a_user_is_logged_in) {
+        return res.status(500).render("errorSpecial", { error: e });
+    } else {
+        return res.status(400).render('login', { errors });
+    }  }
 });
 
 router.route("/:userId/deleteWord/:wordId").get(async (req, res) => {
