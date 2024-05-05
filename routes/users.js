@@ -14,10 +14,26 @@ router.route("/").get(async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 router.route("/:id").get(async (req, res) => {
   let user_id = req.params.id.toString();
   let user;
   let errors;
+=======
+router
+    .route('/:id')
+    .get(async (req, res) => {
+        let user_id = req.params.id.toString();
+        let user;
+        let errors;
+
+        let a_user_is_logged_in;
+        if (req.session.user) {
+            a_user_is_logged_in = true;
+        } else {
+            a_user_is_logged_in = false;
+        }
+>>>>>>> main
 
   let a_user_is_logged_in;
   if (req.session.user) {
@@ -68,6 +84,7 @@ router.route("/:id").get(async (req, res) => {
       longestStreakOneDay = true;
     }
 
+<<<<<<< HEAD
     if (userIsAdmin) {
       return res.render("users/adminProfile", {
         title: "Admin Profile",
@@ -84,6 +101,49 @@ router.route("/:id").get(async (req, res) => {
       WOD: recievedWOD,
       streakOneDay: streakOneDay,
       longestStreakOneDay: longestStreakOneDay,
+=======
+            // destructure so that sensitive fields are not sent to handlebars
+            const { hashedPassword, email, ...safeUserData } = user;
+
+            if (userIsAdmin) {
+                return res.render("users/adminProfile", { title: "Admin Profile", user: safeUserData, words: words });
+            }
+            return res.render("users/profile", { title: "User Profile", user: safeUserData, words: words, WOD: recievedWOD });
+
+        } catch (e) {
+            errors.push(e);
+            //If no user is logged in, we don't want to show the error page with links to other pages on the site
+            if (a_user_is_logged_in) {
+                return res.status(500).render("errorSpecial", { error: e });
+            } else {
+                return res.status(400).render('login', { errors });
+            }
+        }
+    })
+    ;
+
+router.route('/:userId/deleteWord/:wordId')
+    .get(async (req, res) => {
+        let user_id = req.params.userId;
+        let word_id = req.params.wordId;
+        try {
+            word_id = idValidation.validateId(word_id);
+            user_id = idValidation.validateId(user_id);
+        } catch (e) {
+            return res.status(400).render("notFoundError");
+        }
+
+        try {
+            userData.flagWordForDeletionForUser(user_id, word_id);
+
+            let word = await wordData.getWordById(word_id);
+
+            return res.status(200).render("users/deleteWordConfirmationStandardUser", { word: word.word });
+
+        } catch (e) {
+            return res.status(500).render("errorSpecial", { error: e });
+        }
+>>>>>>> main
     });
   } catch (e) {
     errors.push(e);
