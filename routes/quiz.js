@@ -1,5 +1,7 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
+import wordData from "../data/words/words.js";
+
 import wordInfo from "../data/words/words.js";
 import quizHelpers from "../helpers/quizHelpers.js";
 import { ObjectId } from "mongodb";
@@ -340,11 +342,11 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     //Increase number of times played for word and user
     const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
-    await wordInfo.updateTimesPlayed(wordInfo._id);
+    await wordData.updateTimesPlayed(wordInfo._id);
     await userData.updateTimesPlayedForUser(user._id.toString());
 
     const user_times_played = await userData.getTimesPlayedForUser(user._id.toString());
-    const word_times_played = await wordInfo.getTimesPlayed(word._id.toString());
+    const word_times_played = await wordData.getTimesPlayed(wordInfo._id.toString());
 
 
 
