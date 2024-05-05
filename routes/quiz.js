@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
-import wordData from "../data/words/words.js";
+import wordInfo from "../data/words/words.js";
 import quizHelpers from "../helpers/quizHelpers.js";
 import { ObjectId } from "mongodb";
 
@@ -48,9 +48,9 @@ router.route("/definitionToWord")
     let randomWord;
     let words;
     try {
-      randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+      randomWord = await wordInfo.getWordById(randomWordForUser._id.toString());
 
-      words = await wordData.getAllWords();
+      words = await wordInfo.getAllWords();
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
 
@@ -134,9 +134,11 @@ router.route("/definitionToWord")
   }).post(async (req, res) => {
     //TODO: validate user
 
-    let user = req.session.user;
 
     try {
+      let user = req.session.user;
+
+      let user_id = req.session.user._id.toString();
 
 
       if (req.session.correctIndex !== 0
@@ -151,9 +153,16 @@ router.route("/definitionToWord")
       }
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
 
-      //Increase number of times played
-      const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
-      await wordData.updateTimesPlayed(word._id);
+      //Increase number of times played for user and word
+      const word = await wordInfo.getWordByWord(req.body.wordBeingPlayed);
+      await wordInfo.updateTimesPlayed(word._id);
+      await userData.updateTimesPlayedForUser(user._id.toString());
+
+
+      const user_times_played = await userData.getTimesPlayedForUser(user._id.toString());
+      const word_times_played = await wordInfo.getTimesPlayed(word._id.toString());
+
+
 
       //reset correct index
       const correctIndexBeforeReset = req.session.correctIndex;
@@ -175,7 +184,7 @@ router.route("/definitionToWord")
 
 
 
-      await quizHelpers.updateAccuracyScores(user._id, word._id, userWasCorrect);
+      await quizHelpers.updateAccuracyScores(user._id, word._id, userWasCorrect, user_times_played, word_times_played);
 
       //Reset correct index last
       req.session.correctIndex = null;
@@ -225,9 +234,9 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
   let randomDefinition;
   try {
-    randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+    randomWord = await wordInfo.getWordById(randomWordForUser._id.toString());
     randomDefinition = randomWord.definition;
-    words = await wordData.getAllWords();
+    words = await wordInfo.getAllWords();
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
 
@@ -316,6 +325,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     //TODO: validate user
     let user = req.session.user;
+    let user_id = req.session.user._id.toString();
     if (req.session.correctIndex !== 0
       && req.session.correctIndex !== 1
       && req.session.correctIndex !== 2
@@ -328,9 +338,15 @@ router.route("/wordToDefinition").get(async (req, res) => {
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
 
-    //Increase number of times played
-    const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
-    await wordData.updateTimesPlayed(wordInfo._id);
+    //Increase number of times played for word and user
+    const wordInfo = await wordInfo.getWordByDefinition(req.body.definitionBeingPlayed);
+    await wordInfo.updateTimesPlayed(wordInfo._id);
+    await userData.updateTimesPlayedForUser(user._id.toString());
+
+    const user_times_played = await userData.getTimesPlayedForUser(user._id.toString());
+    const word_times_played = await wordInfo.getTimesPlayed(word._id.toString());
+
+
 
     const correctIndexBeforeReset = req.session.correctIndex;
     let userWasCorrect;
@@ -346,7 +362,7 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     }
 
-    await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect);
+    await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect, user_times_played, word_times_played);
 
     //Do this last
     req.session.correctIndex = null;
