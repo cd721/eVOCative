@@ -40,7 +40,7 @@ router
   })
   .post(async (req, res) => {
     try {
-      let poster_id = req.session.user._id;
+      let poster_id = req.session.user._id.toString();
       let title = xss(req.body.title);
       let post = xss(req.body.post);
       let tags = xss(req.body.tags);
@@ -71,7 +71,7 @@ router
   })
   .post(async (req, res) => {
     try {
-      let poster_id = req.session.user._id;
+      let poster_id = req.session.user._id.toString();
       let title = xss(req.body.title);
       let post = xss(req.body.post);
       let tags = xss(req.body.tags);

@@ -3,9 +3,16 @@ import { ObjectId } from 'mongodb';
 const exportedMethods = {
     //TODO: revise
     validateAccuracyScore(score) {
-       //TODO: ensure accuracy score is between 0 and 1
+       score = this.validateNumber(score);
+       if (score < 0 || score > 1) throw `Error: Score must be between 0 and 1.`;
        return score;
     },
+
+    validateNumber(num) {
+      if (typeof num !== "number") throw `Error: Variable must be a number.`;
+      return num;
+    },
+
     validateGen(label, input) {
         if(!input) throw `Error: ${label || `Variable`} not provided.`;
         if(typeof input !== 'string') throw `Error: ${label || `Variable`} must be of type string.`;

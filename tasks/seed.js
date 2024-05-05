@@ -9,11 +9,11 @@ import tickets from '../data/tickets/tickets.js';
 const db = await dbConnection();
 await db.dropDatabase();
 
-await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario", "password");
+await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario", "password123#");
 const catherine = await users.getUserByUsername("cdemario");
 console.log(catherine);
 
-await users.addUser("Josie", "Cerino", "jcerino@stevens.edu", "jcerino", "pwrd123");
+await users.addUser("Josie", "Cerino", "jcerino@stevens.edu", "jcerino", "pwrd123#");
 const josie = await users.getUserByUsername("jcerino");
 console.log(josie);
 
