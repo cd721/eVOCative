@@ -90,18 +90,17 @@ router.route("/:userId/deleteWord/:wordId").get(async (req, res) => {
   try {
     word_id = idValidation.validateId(word_id);
     user_id = idValidation.validateId(user_id);
-  } catch (e) {
-    return res.status(400).render("notFoundError");
-  }
-
-  try {
-    userData.flagWordForDeletionForUser(user_id, word_id);
+    await userData.flagWordForDeletionForUser(user_id, word_id);
 
     let word = await wordData.getWordById(word_id);
 
-    return res
-      .status(200)
-      .render("users/deleteWordConfirmationStandardUser", { word: word.word });
+    
+    return res.render("users/deleteWordConfirmationStandardUser", {
+      word: word.word,
+      wordId: word._id,
+      userId: user_id 
+    });
+
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }

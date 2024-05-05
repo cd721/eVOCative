@@ -90,7 +90,8 @@ router.route("/:id").get(async (req, res) => {
       return res.render("words/word", { 
         title: `${word.word}`, 
         word: word, 
-        admin: adminStatus  
+        admin: adminStatus,
+        user_id: user._id.toString()
       });
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });

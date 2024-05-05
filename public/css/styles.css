@@ -47,6 +47,22 @@ h1 {
     text-align: center;
 }
 
+.link_back {
+    display: block;
+
+    padding: 8px 20px;
+    background-color: #fd703c;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+
+    transition: background-color 0.2s ease;
+}
+.link_back:hover {
+    background-color: #ff9e6d;
+}
+
 /* ################### NAV BAR + FOOTER ################### */
 nav,
 footer {
@@ -403,14 +419,11 @@ form h3 {
     background-color: #e6f4f1;
 }
 
-.flagged_for_deletion {
-    background-color: #570b10;
-}
+#WOD-Announcement {
+    margin-top: 20px;
 
-/* ################### container generals ################### */
-.date_added {
-    color: #066163;
     text-align: center;
+    color: #fd703c;
 }
 
 /* ################### ADMIN TOOLS ################### */
@@ -587,7 +600,7 @@ form h3 {
 #word-index h2 {
     padding: 50px 20px;
 
-    font-size: 2em;
+    font-size: 1.5em;
     text-align: center;
 }
 
@@ -607,6 +620,15 @@ form h3 {
 }
 .card-bottom a:hover {
     background-color: #ff9e6d;
+}
+
+
+.flagged {
+    border: 3px solid #fd703c !important;
+}
+
+.flagged .card-top{
+    background-color: #fd703c;
 }
 
 /* single word page */
@@ -713,6 +735,25 @@ form h3 {
 #admin-buttons a:hover {
     background-color: #ff9e6d;
 }
+
+
+ /* delete confirmation */
+ .confirmation {
+    width: 40%;
+    margin: 30px auto;
+
+    border: 3px solid #005d9e;
+
+    text-align: center;
+ }
+
+ .confirmation h1 {
+    margin: 20px auto 5px;
+ }
+
+ .confirmation p {
+    margin-bottom: 20px;
+ }
 
 /* ################### FORUM ################### */
 /* all posts */
