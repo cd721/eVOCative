@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             validateGen('First Name', firstName);
             if (/\d/.test(firstName)) throw `First name cannot contain a number!`;
+            if (firstName.length > 25) throw `Error: names cannot be more than 25 characters.`;
         } catch (e) {
             displayError('firstName', e);
             valid = false;
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             validateGen('Last Name', lastName);
             if (/\d/.test(lastName)) throw `Last name cannot contain a number!`;
+            if (lastName.length > 25) throw `Error: names cannot be more than 25 characters long.`;
         } catch (e) {
             displayError('lastName', e);
             valid = false;
@@ -62,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         try {
             validateGen('Username', username);
+            if (username.length > 25) throw `Error: username cannot be more than 25 characters.`;
         } catch (e) {
             displayError('username', e);
             valid = false;
@@ -69,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         try {
             validateGen('Password', password);
+            if (password.length > 50) throw `Error: password cannot be more than 50 characters.`;
         } catch (e) {
             displayError('password', e);
             valid = false;
@@ -95,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         try {
             validateGen('Username', username);
+            if (username.length > 25) throw `Error: username cannot be more than 25 characters.`;
         } catch (e) {
             displayError('username', e);
             valid = false;
@@ -102,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         try {
             validateGen('Password', password);
+            if (password.length > 50) throw `Error: password cannot be more than 50 characters.`;
         } catch (e) {
             displayError('password', e);
             valid = false;
