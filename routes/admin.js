@@ -42,6 +42,14 @@ router
       definition = wordValidation.validateDefinition(definition);
       tags = wordValidation.validateTags(tags);
 
+      if(word.length>50) throw 'Error: words cannot be more than 50 characters.';
+
+      for(let tag of tags){
+        if(tag.length>20) throw 'Error: tags cannot be more than 20 characters.';
+      }
+
+      if(definition.length>250) throw 'Error: definitions cannot be more than 250 characters.';
+
       await wordData.addWord(word, definition, tags, []);
       return res.redirect("/words/all");
     } catch (e) {
@@ -88,6 +96,14 @@ router
       word = wordValidation.validateWord(word);
       definition = wordValidation.validateDefinition(definition);
       tags = wordValidation.validateTags(tags);
+
+      if(word.length>50) throw 'Error: words cannot be more than 50 characters.';
+
+      for(let tag of tags){
+        if(tag.length>20) throw 'Error: tags cannot be more than 20 characters.';
+      }
+
+      if(definition.length>250) throw 'Error: definitions cannot be more than 250 characters.';
 
       await wordData.updateWord(word_id, word, definition, tags, []);
       return res.redirect("/words/all");

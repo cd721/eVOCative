@@ -32,6 +32,7 @@ router.route("/").post(async (req, res) => {
   let errors = [];
   try{
     firstName = userValidation.validateName(firstName);
+    if (firstName.length>25) throw `Error: names cannot be more than 25 characters.`;
   } catch (e) {
     errors.push(e);
     firstName = "";
@@ -39,6 +40,7 @@ router.route("/").post(async (req, res) => {
 
   try{
     lastName = userValidation.validateName(lastName);
+    if (lastName.length>25) throw `Error: names cannot be more than 25 characters.`;
   } catch (e) {
     errors.push(e);
     lastName = "";
@@ -63,6 +65,7 @@ router.route("/").post(async (req, res) => {
 
   try{
     username = userValidation.validateUsername(username);
+    if (username.length>25) throw `Error: username cannot be more than 25 characters.`;
   } catch (e) {
     errors.push(e);
     username = "";
@@ -79,6 +82,7 @@ router.route("/").post(async (req, res) => {
 
   try{
     password = userValidation.validatePassword(password);
+    if (password.length>50) throw `Error: password cannot be more than 50 characters.`;
   } catch (e) {
     errors.push(e);
   }
