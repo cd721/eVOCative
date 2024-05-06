@@ -8,6 +8,7 @@ const exportedMethods = {
     // does it have a number
     if (/\d/.test(name))
       throw `${name || "given string"} cannot contain a number`;
+    if (name.length > 25) throw `Error: Name cannot be more than 25 characters.`;
     return name;
   },
 
@@ -42,8 +43,8 @@ const exportedMethods = {
       throw "username must be more than 5 chars";
     }
     //no more than 10
-    if (usernameLower.length > 10) {
-      throw "username cannot be more than 10 chars";
+    if (usernameLower.length > 25) {
+      throw "username cannot be more than 25 chars";
     }
 
     return username;
@@ -58,7 +59,6 @@ const exportedMethods = {
   },
 
   async usernameDoesNotAlreadyExist(username) {
-    //TODO: ensure usernames are unique
     let userCollection = await users();
     let duplicateUser = await userCollection.findOne({
       username: { $regex: new RegExp(`^${username}$`, "i") },
@@ -123,6 +123,8 @@ const exportedMethods = {
     if (password.length < 8) {
       throw "password must be at least eight characters";
     }
+
+    if (password.lengt > 50) throw `Error: password cannot be more than 50 characters.`;
 
     const oneUpperCase = /[A-Z]+/;
     const oneSpecial = /[^A-Za-z0-9]+/;

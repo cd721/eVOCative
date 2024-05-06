@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 
 const exportedMethods = {
-  //TODO: revise
   validateAccuracyScore(score) {
     score = this.validateNumber(score);
     if (score < 0 || score > 1) throw `Error: Score must be between 0 and 1.`;

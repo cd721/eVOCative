@@ -5,16 +5,18 @@ const exportedMethods = {
     word = word.trim();
     word = word.toLowerCase();
     if (word.length === 0) throw `Error: Word cannot be empty or just spaces`;
+    if (word.length > 50) throw `Error: Word cannot be more than 50 characters.`;
     return word;
   },
 
-  validateDefinition(title) {
-    if (!title) throw `Error: Title not provided.`;
-    if (typeof title !== "string") throw `Error: Title must be of type string`;
-    title = title.trim();
-    title = title.toLowerCase();
-    if (title.length === 0) throw `Error: Title cannot be empty or just spaces`;
-    return title;
+  validateDefinition(definition) {
+    if (!definition) throw `Error: Definition not provided.`;
+    if (typeof definition !== "string") throw `Error: Definition must be of type string`;
+    definition = definition.trim();
+    definition = definition.toLowerCase();
+    if (definition.length === 0) throw `Error: Definition cannot be empty or just spaces`;
+    if (definition.length > 250) throw `Error: Definition cannot be more than 250 characters.`;
+    return definition;
   },
 
   validateTags(tags) {
@@ -27,6 +29,7 @@ const exportedMethods = {
       str = str.trim();
       if (str.length === 0)
         throw `Error: Elements in tags cannot be empty or just spaces`;
+      if (str.length > 20) throw `Error: Elements in tags cannot be more than 20 characters.`;
     }
     return tags;
   },
