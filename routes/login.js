@@ -32,7 +32,7 @@ router.route("/")
           lastName: user.lastName,
           username: user.username,
           email: user.email,
-          role: user.role
+          role: user.role,
         }
 
         return res.redirect(`/users/${user._id.toString()}`);
@@ -42,6 +42,7 @@ router.route("/")
       } 
     } catch (e) {
       errors.push(e);
+      //if there is still a session
       return res.status(400).render('login', {
         errors
       });
