@@ -1,10 +1,52 @@
 <div class="profile">
     <div id="user-info">
+        <h2>I'm an admin.</h2>
         <h3>{{user.firstName}} {{user.lastName}}</h3>
         <h4>@{{user.username}}</h4>
         <p>User since {{dateProfile user.start_date}}</p>
-        <p>I'm an admin!</p>
     </div>
+
+    <div id="admin-panel">
+        <h2>Admin Panel</h2>
+
+        <h3>Tickets</h3>
+        <ul>
+            <li>
+                <a href="/admin/tickets">
+                    <p>Check Tickets</p>
+                </a>
+            </li>
+        </ul>
+
+        <h3>Word Database</h3>
+        <ul>
+            <li>
+                <a href="/admin/addNewWord">
+                    <p>Add a New Word</p>
+                </a>
+            </li>
+            <li>
+                <a href="/words/all">
+                    <p>See All Words</p>
+                </a>
+            </li>
+        </ul>
+
+        <h3>Users Database</h3>
+        <ul>
+            <li>
+                <a href="/users">
+                    <p>View Users</p>
+                </a>
+            </li>
+            <li>
+                <a href="/admin">
+                    <p>View Admins</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <div id="user-stats">
         <h2>Statistics</h2>
         <ul>
@@ -55,29 +97,13 @@
             <a href="/words">Add some words</a>
         </div>
         {{/if}}
-        </div>
 
-        <div id="WOD-Announcement">
-            {{#if WOD}}
-                <h3>You have collected the Word of the day!</h3>
-            {{/if}}
-        </div>
-    </div>
 
-    <div>
-        <a href="/forum/newScore">Share your Accuracy Score?</a>
     </div>
-
-    <div id="admin-panel">
-        <div id="add-new-word">
-            <a href="/admin/addNewWord">Add A New Word</a>
-        </div>
-        <div id="check-tickets">
-            <a href="/admin/tickets">Check Tickets</a>
-        </div>
-        <div id="see-all-words">
-            <a href="/words/all">See All Words</a>
-        </div>
+    {{#if WOD}}
+    <div id="WOD-Announcement">
+        <h3>You have collected the Word of the day!</h3>
     </div>
+    {{/if}}
 </div>
 

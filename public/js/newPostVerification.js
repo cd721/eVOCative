@@ -1,46 +1,55 @@
-// The purpose of this file is to verify that all fields are filled out before submitting a new post
-
-const form = document.querySelector('.new-post-form');
-
-form.addEventListener('submit', function(event) {
-    // Get all the input fields
-    var titleInput = document.querySelector('input[name="title"]');
-    var postInput = document.querySelector('textarea[name="post"]');
-    var tagsInput = document.querySelector('input[name="tags"]');
-
-    if(!titleInput.value){
-        event.preventDefault();
-        var titleError = document.getElementById('titleError');
-        titleError.innerHTML = "Title is required";
-        titleError.style.color = "red";
-        titleError.classList.remove("hidden");
+document.addEventListener("DOMContentLoaded", function() {
+    function displayError(elementId, errorText) {
+        const errorElement = document.getElementById(`error_${elementId}`);
+        const inputElement = document.getElementById(elementId);
+        errorElement.textContent = errorText;
+        inputElement.style.border = '1px solid red';
     }
-    else{
-        var titleError = document.getElementById('titleError');
-        titleError.classList.add("hidden");
+    
+    function resetErrors() {
+        elements = document.querySelectorAll('.error_text');
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].textContent = '';
+        }
+
+        const inputs = document.querySelectorAll('input, textarea');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].style.border = '';
+        }
     }
 
-    if(!postInput.value){
-        event.preventDefault();
-        var postError = document.getElementById('postError');
-        postError.innerHTML = "Post is required";
-        postError.style.color = "red";
-        postError.classList.remove("hidden");
-    }
-    else{
-        var postError = document.getElementById('postError');
-        postError.classList.add("hidden");
+    function validatePostForm() {
+        resetErrors();
+        let valid = true;
+        const title = document.getElementById('postTitle').value.trim();
+        const post = document.getElementById('postContent').value.trim();
+        const tags = document.getElementById('postTags').value.trim();
+
+        if (!title) {
+            displayError('postTitle', 'Title is required');
+            valid = false;
+        }
+
+        if (!post) {
+            displayError('postContent', 'Post content is required');
+            valid = false;
+        }
+
+        if (!tags) {
+            displayError('postTags', 'At least one tag is required');
+            valid = false;
+        }
+
+        return valid;
     }
 
-    if(!tagsInput.value){
-        event.preventDefault();
-        var tagsError = document.getElementById('tagsError');
-        tagsError.innerHTML = "Tags are required";
-        tagsError.style.color = "red";
-        tagsError.classList.remove("hidden");
+    const newPostForm = document.getElementById('new-post-form');
+    if (newPostForm) {
+        newPostForm.addEventListener('submit', function(event) {
+            if (!validatePostForm()) {
+                event.preventDefault();
+            }
+        });
     }
-    else{
-        var tagsError = document.getElementById('tagsError');
-        tagsError.classList.add("hidden");
-    }
-  });
+
+});

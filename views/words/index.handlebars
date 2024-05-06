@@ -1,21 +1,21 @@
-<section id="word_index" class="main_container">
+<article id="my-words-page" class="index-container">
     <h1>My Words</h1>
     <ul>
         {{#each words}}
-        <li>
-            <a href="/words/{{this._id}}">
+        <li {{#if this.flagged_for_deletion}}class="flagged"{{/if}}>
+            <div class="card-top">
                 {{#if this.flagged_for_deletion}}
-                <h2 class="flagged_for_deletion">{{this.word}}</h2>
-
+                <p>FLAGGED FOR DELETION!</p>
                 {{else}}
-
-                <h2>{{this.word}}</h2>
-
+                <p>Collected:</p>
+                <p>{{dateWordIndex this.date_user_received_word}}</p>
                 {{/if}}
-
-                <p class="date_added">{{dateWordIndex this.date_user_received_word}}</p>
-            </a>
+            </div>
+            <h2>{{this.word}}</h2>
+            <div class="card-bottom">
+                <a href="/words/{{this._id}}">View</a>
+            </div>
         </li>
         {{/each}}
     </ul>
-</section>
+</article>

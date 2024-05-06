@@ -5,7 +5,10 @@
         <p>User since {{dateProfile user.start_date}}</p>
     </div>
     <div id="user-stats">
-        <h2>Statistics</h2>
+        <header>
+            <h2>Statistics</h2>
+            <a href="/forum/newScore">Share your Accuracy Score?</a>
+        </header>
         <ul>
             <li>
                 <p>Streak</p>
@@ -54,16 +57,13 @@
             <a href="/words">Add some words</a>
         </div>
         {{/if}}
-        </div>
 
-        <div id="WOD-Announcement">
-            {{#if WOD}}
-                <h3>You have collected the Word of the day!</h3>
-            {{/if}}
-        </div>
-    </div>
 
-    <div>
-        <a href="/forum/newScore">Share your Accuracy Score?</a>
     </div>
+    {{#if WOD}}
+    <div id="WOD-Announcement">
+        <h3>You have collected the Word of the day!</h3>
+    </div>
+    {{/if}}
 </div>
+

@@ -9,6 +9,7 @@ const router = Router();
 router.route("/").get(async (req, res) => {
   try {
     const postList = await postData.getAllPosts();
+    const tagList = await postData.getAllTags();
 
     // check poster id still exists in the database, if not remove post from post list
     for (let i = 0; i < postList.length; i++) {
@@ -23,7 +24,11 @@ router.route("/").get(async (req, res) => {
     }
 
     //console.log(postList)
-    return res.render("posts/index", { posts: postList });
+    return res.render("posts/index", { 
+      title: "Forum",
+      posts: postList,
+      tagList
+    });
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -39,20 +44,28 @@ router
     }
   })
   .post(async (req, res) => {
-    try {
-      let poster_id = req.session.user._id;
-      let title = xss(req.body.title);
-      let post = xss(req.body.post);
-      let tags = xss(req.body.tags);
-      tags = tags.split(",").map((tag) => tag.trim());
-      //console.log({poster_id: poster_id, title: title, post: post, tags: tags});
+    let poster_id = req.session.user._id;
+    let title = xss(req.body.title);
+    let post = xss(req.body.post);
+    let tags = xss(req.body.tags);
+    tags = tags.split(",").map((tag) => tag.trim());
 
+    try {
       await postData.addPost(poster_id, title, post, tags);
       return res.redirect("/forum");
     } catch (e) {
-      return res.status(500).render("errorSpecial", { error: e });
+      return res.status(500).render("posts/new", { 
+        error: [e.toString()],
+        post: {
+          title: title,
+          body: post,
+          tags: tags.join(", ")
+        }
+      });
     }
   });
+
+
 
 router
   .route("/newScore")
@@ -106,6 +119,7 @@ router
       comments = comments.reverse();
 
       return res.render("posts/single", {
+        title: `${post.title}`,
         post: post,
         poster_name: poster_name,
         comments: comments,

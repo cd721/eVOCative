@@ -11,7 +11,10 @@ router.route("/").get(async (req, res) => {
       const wordList = await userData.getWordsForUser(user._id.toString());
 
       console.log(wordList);
-      return res.render("words/index", { words: wordList });
+      return res.render("words/index", { 
+        title: "WordBank",
+        words: wordList 
+      });
     }
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
@@ -24,7 +27,10 @@ router.route("/all").get(async (req, res) => {
       const wordList = await wordData.getAllWords();
 
       console.log(wordList);
-      return res.render("words/allWords", { words: wordList });
+      return res.render("words/allWords", { 
+        title: "Word Archive",
+        words: wordList 
+      });
     }
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
@@ -79,7 +85,14 @@ router.route("/:id").get(async (req, res) => {
     }
 
     try {
-      return res.render("words/word", { title: "Word", word: word, user_id: user._id.toString() });
+      const adminStatus = await userData.isAdmin(user._id);
+
+      return res.render("words/word", { 
+        title: `${word.word}`, 
+        word: word, 
+        admin: adminStatus,
+        user_id: user._id.toString()
+      });
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }
