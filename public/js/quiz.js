@@ -30,7 +30,6 @@
 
   noAnswer.attr('hidden', true);
 
-  //TODO: convert to jQuery
   const nextQuestion = $("#nextQuestion");
   nextQuestion.attr('hidden', true);
 

@@ -58,7 +58,6 @@ const exportedMethods = {
   },
 
   async usernameDoesNotAlreadyExist(username) {
-    //TODO: ensure usernames are unique
     let userCollection = await users();
     let duplicateUser = await userCollection.findOne({
       username: { $regex: new RegExp(`^${username}$`, "i") },

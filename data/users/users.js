@@ -25,7 +25,6 @@ let exportedMethods = {
   },
 
   async getUserByUsername(username) {
-    //TODO: test
     username = userValidation.validateUsername(username);
     const userCollection = await users();
     const user = await userCollection.findOne({ username: username });
