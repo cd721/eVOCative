@@ -90,6 +90,10 @@ router
       let tags = xss(req.body.tags);
       tags = tags.split(",").map((tag) => tag.trim());
 
+      if(post.length > 50) throw `Error: post cannot be more than 50 characters.`;
+
+      if(post.length > 250) throw `Error: post cannot be more than 250 characters.`;
+
       // character checking for each tag
       for (let t of tags){
         if(t.length > 20) throw `Error: tags cannot be more than 20 characters.`;
@@ -137,6 +141,8 @@ router
       let commenter_id = req.session.user._id;
       let comment = xss(req.body.comment);
       let post_id = xss(req.body.postID);
+
+      if(comment.length > 250) throw `Error: comments cannot be more than 250 characters.`;
 
       //add comment to post
       await commentData.addComment(post_id, commenter_id, comment);
