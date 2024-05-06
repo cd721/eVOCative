@@ -4,7 +4,7 @@ import path from "path";
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
-import roundto from 'roundto'
+import roundto from 'roundto';
 import rateLimit from "express-rate-limit";
 // arrays for organization
 const noFrames = ["/login", "/register", "/logout"];
