@@ -71,7 +71,7 @@ let exportedMethods = {
 
   async loginUser(username, password) {
     username = userValidation.validateUsername(username);
-    password = userValidation.validatePassword(password);
+    password = userValidation.validateLoginPassword(password);
 
     username = username.toLowerCase();
 

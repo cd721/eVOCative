@@ -22,7 +22,7 @@ router.route("/")
     let errors = [];
     try {
       username = userValidation.validateUsername(username);
-      password = userValidation.validatePassword(password);
+      password = userValidation.validateLoginPassword(password);
 
       const user = await userData.loginUser(username, password);
       if (user) {
@@ -43,7 +43,8 @@ router.route("/")
     } catch (e) {
       errors.push(e);
       return res.status(400).render('login', {
-        errors
+        errors,
+        username: username
       });
     }
 });
