@@ -41,7 +41,7 @@ let exportedMethods = {
     password = validation.validatePassword(password);
 
     const plaintextPassword = password;
-    const saltRounds = 1;
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
 
     return hashedPassword;
