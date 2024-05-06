@@ -96,7 +96,7 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: role,
+      role: role
     };
   },
 
@@ -518,7 +518,8 @@ let exportedMethods = {
     }
 
     return updateUserInfo;
-  },
+  }
+  
 };
 
 export default exportedMethods;

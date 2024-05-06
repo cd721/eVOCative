@@ -5,6 +5,7 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import roundto from 'roundto'
+import rateLimit from "express-rate-limit";
 // arrays for organization
 const noFrames = ["/login", "/register", "/logout"];
 
@@ -242,8 +243,18 @@ app.use("/admin", (req, res, next) => {
 });
 
 //Login middleware
+
+//user can only attempt to login 5 times in 10 minutes
+const loginLimit = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5, // limit each IP to 5 requests per windowMs
+  handler: (req, res) => {
+    res.status(429).render("timeout");
+  }
+});
+
 //if the user is logged in then redirect to these routes
-app.use("/login", (req, res, next) => {
+app.use("/login", loginLimit, (req, res, next) => {
   if (req.session.user) {
     //is the user already logged in
     const userId = req.session.user._id;
