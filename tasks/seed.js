@@ -76,24 +76,6 @@ await users.addWordForUser(catherine._id.toString(), fourthWord._id.toString());
 const accuracyScoreForCatherine = await users.getOverallAccuracyScoreForUser(catherine._id.toString());
 console.log("Catherine's initial accuracy score " + accuracyScoreForCatherine);
 
-//Update times played and accuracy, assuming Catherine she got the right answe
-await users.updateTimesPlayedForUser(catherine._id.toString());
-await words.updateTimesPlayed(firstWord._id.toString());
-
-const timesCatherinePlayed = await users.getTimesPlayedForUser(catherine._id.toString());
-const timesFirstWordWasPlayed = await words.getTimesPlayed(firstWord._id.toString());
-await users.updateAccuracyScoreForUser(catherine._id.toString(), 1);
-await words.updateAccuracyScore(firstWord._id.toString(), 1);
-
-//Print times a word was played for a user and in general
-console.log("Catherine played "+timesCatherinePlayed+ " times.");
-console.log("Catherine played a word "+timesFirstWordWasPlayed+ " times.");
-
-//Print the accuracy scores
-console.log("The new accuracy score for Catherine is "+await users.getOverallAccuracyScoreForUser(catherine._id.toString()));
-console.log("The new accuracy score for the word is "+await words.getAccuracyScore(firstWord._id.toString()));
-
-
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
 const secondTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add smoothie to the word list");
