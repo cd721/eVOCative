@@ -12,10 +12,12 @@ const checkPassword = (password, confirmPassword) => {
 };
 
 router.route("/").get(async (req, res) => {
+  let errors=[]; 
   try {
     return res.render("register");
   } catch (e) {
-    return res.status(500).render("errorSpecial", {error: e});
+    errors.push(e);
+    return res.status(500).render("register", {error: e});
   }
 });
 

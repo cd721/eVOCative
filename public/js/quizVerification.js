@@ -80,13 +80,19 @@
     }
 
     $.ajax(requestConfig).then(function (data) {
-      console.log(data.correct);
-      console.log(data.correctIndex);
+      console.log("Correct: " + data.correct);
+      console.log("Correct Index: " + data.correctIndex);
 
       if (data.correct == undefined || !data.correctIndex) {
         window.location = '/quiz/invalidAnswer';
       } else {
-        quizVerificationToWord(data.correctIndex, selectedIndex);
+        if(aWordIsBeingPlayed){
+          quizVerificationToWord(data.correctIndex, selectedIndex);
+        }
+        else if(aDefinitionIsBeingPlayed){
+          quizVerificationToDefinition(data.correctIndex, selectedIndex);
+        }
+        
       }
 
 
@@ -155,8 +161,6 @@
 
 
     if (buttonUserClicked === correctInd) {
-
-
       youGotIt.hidden = false;
     } else {
       theCorrectAnswer.hidden = false;
@@ -168,6 +172,28 @@
     $("input:radio").attr('disabled', true);
 
 
+  }
+
+  function quizVerificationToDefinition(correctInd, buttonUserClicked) {
+    const label0 = $('label[for="button0"]');
+    const label1 = $('label[for="button1"]');
+    const label2 = $('label[for="button2"]')
+    const label3 = $('label[for="button3"]');
+
+    const labelsInOrder = [label0, label1, label2, label3];
+
+    setButtonColors(labelsInOrder, correctInd);
+
+    if (buttonUserClicked === correctInd) {
+      youGotIt.hidden = false;
+    } else {
+      theCorrectAnswer.hidden = false;
+      youWrong.hidden = false;
+    }
+
+    nextQuestion.hidden = false;
+
+    $("input:radio").attr('disabled', true);
   }
 
 
