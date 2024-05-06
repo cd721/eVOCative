@@ -8,6 +8,7 @@ import wordRoutes from './words.js';
 import homeRoutes from './home.js';
 import adminRoutes from './admin.js';
 import reportRoutes from './report.js';
+import aboutRoutes from './about.js';
 
 import path from "path";
 import { static as staticDir } from "express";
@@ -24,12 +25,12 @@ const constructorMethod = (app) => {
   app.use("/register", registerRoutes);
   app.use('/words', wordRoutes);
   app.use('/report', reportRoutes);
+  app.use('/about', aboutRoutes);
 
 
-
-  app.get("/about", (req, res) => {
-    res.sendFile(path.resolve("static/about.html"));
-  });
+  // app.get("/about", (req, res) => {
+  //   res.sendFile(path.resolve("static/about.html"));
+  // });
   app.use("/public", staticDir("public"));
 
   app.get("/", (req, res) => {
