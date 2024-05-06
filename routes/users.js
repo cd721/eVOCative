@@ -71,7 +71,12 @@ router
         longestStreakOneDay = true;
       }
 
-
+      //Determine if user who is logged in is on their profile or someone else's
+      let onMyProfile = true;
+      if (a_user_is_logged_in
+        && req.session.user._id !== user_id) {
+        onMyProfile = false;
+      }
 
       if (userIsAdmin) {
         return res.render("users/adminProfile", {
@@ -81,16 +86,22 @@ router
           streakOneDay: streakOneDay,
           longestStreakOneDay: longestStreakOneDay,
           WOD: recievedWOD,
+          onMyProfile: onMyProfile
         });
       }
+
+
       return res.render("users/profile", {
         title: "User Profile",
         user: safeUserData,
         words: words,
         WOD: recievedWOD,
         streakOneDay: streakOneDay,
-        longestStreakOneDay: longestStreakOneDay
+        longestStreakOneDay: longestStreakOneDay,
+        onMyProfile: onMyProfile
       });
+
+
     } catch (e) {
       errors.push(e);
       //If no user is logged in, we don't want to show the error page with links to other pages on the site
