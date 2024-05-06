@@ -1,4 +1,6 @@
+<div class="main_container add_new">
 <h1>Make a Post</h1>
+<br>
 <form action="/forum/new" method="POST" class="new-post-form">
   <label for="title">
     Post Title <br>
@@ -7,6 +9,7 @@
   <br>
   <p class="hidden" id="titleError"></p>
 
+  <br>
   <label for="post">
     Post Body
   </label>
@@ -16,12 +19,13 @@
 
 
 
-  <br>
+  <br><br>
   <label for="tags" id="tags">
     Tags (separated by comma)<br><input type="text" name="tags" value="{{post.tags}}">
   </label>
   <br>
   <p class="hidden" id="tagsError"></p>
+  <br><br>
 
   <button type="submit">Create New Post</button>
   <button type="reset">Clear Form</button>
@@ -40,5 +44,5 @@
 </ul>
 {{/if}}
 
-</article>
+</div>
 <script src="../../public/js/newPostVerification.js"></script>

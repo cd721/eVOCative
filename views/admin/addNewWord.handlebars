@@ -1,10 +1,16 @@
+<div class="main_container add_new">
 <h1>Add a new word to the database!</h1>
+<br><br>
 <form method="POST" action="/admin/addNewWord" id="add-word-form">
     <label for="word">Word:</label>
     <input type="text" name="word" id="word">
+    <br>
     <label for="definition">Definition:</label>
     <input type="textarea" name="definition" id="definition">
+    <br>
     <label for="tags">Tags: (Separate unique tags with a ,)</label>
     <input type="text" name="tags" id="tags">
+    <br><br><br>
     <button type="submit">Add Word</button>
 </form>
+</div>

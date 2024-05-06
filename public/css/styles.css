@@ -370,6 +370,23 @@ form h3 {
     background-color: #570b10;
 }
 
+#share_score {
+    text-align: center;
+    font-size: 20px;
+    margin: 10px;
+}
+#share_score a, #admin-panel a {
+    color: #639bc6;
+}
+#share_score a:visited, #admin-panel a:visited {
+    color: #639bc6;
+}
+
+#admin-panel {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
 /* ################### container generals ################### */
 .date_added {
     color: #066163;
@@ -425,6 +442,71 @@ form h3 {
 
 .tags li:hover {
     background-color: #cf424b;
+}
+
+.add_new {
+    text-align: center;
+
+    margin: 70px auto;
+    padding: 10px 25px 20px;
+}
+.add_new label {
+    font-size: 20px;
+    margin: 10px;
+}
+.add_new input, .add_new textarea {
+    font-size: 15px;
+    width: 40%;
+}
+.add_new button {
+    width: 25%;
+    padding: 8px;
+
+    cursor: pointer;
+
+    background-color: #fd703c;
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
+    font-weight: bold;
+    font-size: 20px;
+    color: #fcfef1;
+}
+
+.add_new button:hover {
+    background-color: #ff9e6d;
+}
+
+/* ################### QUIZ ################### */
+#quiz_games {
+    text-align: center;
+}
+
+#quiz_games ul {
+    list-style: none;
+}
+
+#quiz_games li {
+    padding: 15px;
+    margin: 20px 100px;
+
+    background-color: #e6f4f1;
+
+    border-radius: 8px;
+    border: 2px solid #292929;
+
+    transition: background-color 0.3s ease;
+}
+#quiz_games li:hover {
+    background-color: #ff9e6d;
+    cursor: pointer;
+}
+
+#quiz_games li a {
+    text-decoration: none;
+    color: #292929;
+    font-size: 20px;
 }
 
 /* ################### WORDS ################### */
@@ -542,6 +624,46 @@ form h3 {
 
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ################### TICKETS ################### */
+#ticket_list {
+    margin: 0px 50px;
+}
+
+#ticket_list h1 {
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+#ticket_list article {
+    font-weight: normal;
+    background-color: #f2f2f2;
+    padding: 30px 20px;
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#ticket_list button {
+    width: 15%;
+    padding: 8px;
+
+    cursor: pointer;
+
+    background-color: #fd703c;
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
+    font-weight: bold;
+    font-size: 15px;
+    color: #fcfef1;
+}
+
+#ticket_list button:hover {
+    background-color: #ff9e6d;
 }
 
 
