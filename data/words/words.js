@@ -4,6 +4,7 @@ import wordValidation from "./wordValidation.js";
 import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
 import scoreValidation from "../../validation/generalValidation.js";
+import userData from "../users/users.js";
 
 let exportedMethods = {
   async getAllWords() {
@@ -109,6 +110,11 @@ let exportedMethods = {
     }
 
     const wordCollection = await words();
+    const usersWithWordList = await userData.getUsersWithWord(word_id);
+
+    for (let user of usersWithWordList) {
+      await userData.deleteWordForUser(user._id.toString(), word_id);
+    }
 
     const removeInformation = await wordCollection.deleteOne({
       _id: new ObjectId(word_id),
