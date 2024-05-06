@@ -47,6 +47,12 @@ h1 {
     text-align: center;
 }
 
+ul {
+    list-style: none;
+}
+
+
+/* buttons */
 .link_back {
     display: block;
 
@@ -61,6 +67,48 @@ h1 {
 }
 .link_back:hover {
     background-color: #ff9e6d;
+}
+
+/* tags */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.tags li {
+    background-color: #fd703c;
+    color: #ffffff;
+
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;   
+}
+
+
+
+/* general containers */
+.index-container {
+    margin: 0px auto;
+
+    width: 80%;
+}
+
+.index-container h1 {
+    margin: 20px auto;
+    padding-bottom: 20px;
+
+    font-size: 2em;
+
+    border-bottom: 2px solid #292929;
+}
+
+
+.single-container {
+    margin: 25px auto;
+
+    width: 60%;
 }
 
 /* ################### NAV BAR + FOOTER ################### */
@@ -78,7 +126,6 @@ nav {
 }
 
 nav ul {
-    list-style: none;
     display: flex;
 }
 
@@ -326,8 +373,6 @@ form h3 {
 }
 
 .profile ul {
-    list-style-type: none;
-
     display: flex;
     flex-wrap: wrap;
 
@@ -488,25 +533,6 @@ form h3 {
 }
 
 /* tickets */
-.index-container {
-    margin: 0px auto;
-
-    width: 80%;
-}
-
-.index-container h1 {
-    margin: 20px auto;
-    padding-bottom: 20px;
-
-    font-size: 2em;
-
-    border-bottom: 2px solid #292929;
-}
-
-.index-container ul {
-    list-style-type: none;
-}
-
 #tickets-page li {
     display: flex;
     justify-content: space-between;
@@ -622,7 +648,6 @@ form h3 {
     background-color: #ff9e6d;
 }
 
-
 .flagged {
     border: 3px solid #fd703c !important;
 }
@@ -659,10 +684,6 @@ form h3 {
 }
 
 #word-page {
-    margin: 25px auto;
-
-    width: 60%;
-
     border: 4px solid #005d9e;
     border-radius: 10px;
 }
@@ -703,20 +724,10 @@ form h3 {
 }
 
 #word-info ul {
-    list-style: none;
-
     display: flex;
     justify-content: center;
 }
 
-#word-info li {
-    padding: 10px;
-
-    background-color: #a0bcd1;
-
-    border-radius: 10px;
-    margin: 0px 10px;
-}
 
 #word-page a, 
 #admin-buttons a {
@@ -756,6 +767,41 @@ form h3 {
  }
 
 /* ################### FORUM ################### */
+/* general */
+.individual-post {
+    background-color: #ffffff;
+
+    border: 2px solid #005d9e;
+    border-radius: 8px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.individual-post>div {
+    border-bottom: 1px solid #005d9e;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.individual-post>div a {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #005d9e;
+
+    text-decoration: none;
+}
+.individual-post>div a:hover {
+    text-decoration: underline;
+}
+
+.individual-post>div p {
+    font-size: 0.9em;
+    color: #292929;
+    margin-top: 5px;
+}
+
 /* all posts */
 #forum-page header {
     display: flex;
@@ -809,133 +855,25 @@ form h3 {
     background-color: #ff9e6d;
 }
 
-.individual-post {
-    background-color: #ffffff;
-
-    border: 2px solid #005d9e;
-    border-radius: 8px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
-
-    padding: 15px;
-    margin-bottom: 20px;
-}
-
-.individual-post>div {
-    border-bottom: 1px solid #005d9e;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.individual-post>div a {
+/* single page */
+.post-content {
     font-size: 1.5em;
-    font-weight: bold;
-    color: #005d9e;
-
-    text-decoration: none;
-}
-.individual-post>div a:hover {
-    text-decoration: underline;
 }
 
-.individual-post>div p {
-    font-size: 0.9em;
-    color: #292929;
-    margin-top: 5px;
-}
-
-#forum-tags {
+#comments-list {
     display: flex;
-    flex-wrap: wrap;
-    margin: 10px 0;
+    flex-direction: column-reverse;
 }
 
-#forum-tags li {
-    background-color: #fd703c;
-    color: #ffffff;
-
-    margin: 5px;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.85em;   
-}
-
-
-
-/* post page */
-/* #post_page #post_info {
-    font-size: 1.5em;
-}
-
-#post_page p {
-    font-size: 1.5em;
-
-    margin: 0px 10px 20px;
-}
-
-#post_page address {
-    color: #066163;
-    font-size: 0.6em;
-}
-
-#CommentSection{
-    text-decoration: underline;
+#no-comments {
     text-align: center;
-    font-size: 1.5em;
+
+    margin: 10px;
 }
 
-#commentDate{
-    font-size: 0.7em !important;
-    color: #066163;
+#submit-comment h2 {
+    text-align: center;
+    margin: 10px auto;
 }
 
-.comment_list_username{
-    list-style-type: none;
-    font-weight: bold;
-}
 
-.comment_list_body{
-    list-style-type: none;
-    font-weight: normal;
-    background-color: #f2f2f2;
-    padding: 30px 20px;
-    margin-bottom: 20px;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
- */
-
-/* New Post */
-/* .hidden{
-    display: none;
-} */
-
-
-/* Forum Page */
-/* #forum_page .individual_post {
-    font-size: 1.0em;
-
-
-}
-
-#posts_list li {
-    list-style: none;
-} */
-
-/* Common styling for all forum pages  */
-/* #post_page #post_info,
-#forum_page .individual_post {
-    background: #f2f2f2;
-    padding: 30px 20px;
-    margin-bottom: 20px;
-
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-}
-
-#post_page h1,
-#posts_list h2 {
-    margin-bottom: 10px;
-    text-align: left;
-} */

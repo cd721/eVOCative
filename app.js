@@ -49,6 +49,18 @@ app.engine(
         });
       },
 
+      datePostSingle: (date) => {
+        return new Date(date).toLocaleString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            hour: 'numeric',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+    },
+
       dateProfile: (date) => {
         return new Date(date).toLocaleDateString("en-US", {
           month: "long",
