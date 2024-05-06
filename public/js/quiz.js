@@ -6,6 +6,8 @@
   let buttonDef2 = $("#button2");
   let buttonDef3 = $("#button3");
   let submitButton = $('#submitQuiz');
+  let noAnswer = $('#noAnswer');
+
 
   let buttons = [buttonDef0, buttonDef1, buttonDef2, buttonDef3];
 
@@ -26,20 +28,22 @@
     aDefinitionIsBeingPlayed = true;
   }
 
+  noAnswer.attr('hidden', true);
+
   //TODO: convert to jQuery
-  const nextQuestion = document.getElementById("nextQuestion");
-  nextQuestion.hidden = true;
+  const nextQuestion = $("#nextQuestion");
+  nextQuestion.attr('hidden', true);
 
 
-  const youGotIt = document.getElementById("correct");
-  youGotIt.hidden = true;
+  const youGotIt = $("#correct");
+  youGotIt.attr('hidden', true);
 
 
-  const youWrong = document.getElementById("wrong");
-  youWrong.hidden = true;
+  const youWrong = $("#wrong");
+  youWrong.attr('hidden', true);
 
-  const theCorrectAnswer = document.getElementById("theCorrectAnswer");
-  theCorrectAnswer.hidden = true;
+  const theCorrectAnswer = $("#theCorrectAnswer");
+  theCorrectAnswer.attr('hidden', true);
 
 
 
@@ -54,73 +58,81 @@
       }
     }
 
-
-    //Check if the selectedIndex is a number (must be 0,1,2,3)
-    if (theUserIsTryingToSubmitBadData(selectedIndex, aWordIsBeingPlayed, aDefinitionIsBeingPlayed)) {
-      window.location = '/quiz/invalidAnswer';
-
-    }
-
-    //Send data to server for processing so user can't do some hacky stuff on the client side to 
-    //mess with their score
-    let requestConfig;
-    if (aWordIsBeingPlayed) {
-      requestConfig = {
-        method: 'POST',
-        url: `/quiz/definitionToWord`, contentType: 'application/json',
-        data: JSON.stringify({
-          selectedIndex: selectedIndex,
-          wordBeingPlayed: wordBeingPlayed
-        })
-
-      };
-    } else if (aDefinitionIsBeingPlayed) {
-      requestConfig = {
-        method: 'POST',
-        url: `/quiz/wordToDefinition`, contentType: 'application/json',
-        data: JSON.stringify({
-          selectedIndex: selectedIndex,
-          definitionBeingPlayed: definitionBeingPlayed
-        })
-
-      };
-    }
-
-    $.ajax(requestConfig).then(function (data) {
-      console.log("Correct: " + data.correct);
-      console.log("Correct Index: " + data.correctIndex);
-
-      if (theAnswerIsInvalid(data, aWordIsBeingPlayed, aDefinitionIsBeingPlayed)) {
+    if (theUserDidNotSelectAnything(selectedIndex)) {
+      noAnswer.attr('hidden', false);
+    } else {
+      //Check if the selectedIndex is a number (must be 0,1,2,3)
+      if (theUserIsTryingToSubmitBadData(selectedIndex, aWordIsBeingPlayed, aDefinitionIsBeingPlayed)) {
         window.location = '/quiz/invalidAnswer';
-      } else {
-        if (aWordIsBeingPlayed || aDefinitionIsBeingPlayed) {
-          quizVerification(data.correctIndex, selectedIndex);
-        }
 
       }
 
+      //Send data to server for processing so user can't do some hacky stuff on the client side to 
+      //mess with their score
+      let requestConfig;
+      if (aWordIsBeingPlayed) {
+        requestConfig = {
+          method: 'POST',
+          url: `/quiz/definitionToWord`, contentType: 'application/json',
+          data: JSON.stringify({
+            selectedIndex: selectedIndex,
+            wordBeingPlayed: wordBeingPlayed
+          })
+
+        };
+      } else if (aDefinitionIsBeingPlayed) {
+        requestConfig = {
+          method: 'POST',
+          url: `/quiz/wordToDefinition`, contentType: 'application/json',
+          data: JSON.stringify({
+            selectedIndex: selectedIndex,
+            definitionBeingPlayed: definitionBeingPlayed
+          })
+
+        };
+      }
+
+      $.ajax(requestConfig).then(function (data) {
+        console.log("Correct: " + data.correct);
+        console.log("Correct Index: " + data.correctIndex);
+
+        if (theAnswerIsInvalid(data, aWordIsBeingPlayed, aDefinitionIsBeingPlayed)) {
+          window.location = '/quiz/invalidAnswer';
+        } else {
+          if (aWordIsBeingPlayed || aDefinitionIsBeingPlayed) {
+            quizVerification(data.correctIndex, selectedIndex);
+          }
+
+        }
+      }
+      );
+    }
 
 
-    });
+
     quizForm.trigger("reset");
 
   });
+
+  function theUserDidNotSelectAnything(selectedIndex) {
+    if (selectedIndex == undefined) {
+      return true;
+    }
+    return false;
+  }
 
   function theUserIsTryingToSubmitBadData(selectedIndex
     , aWordIsBeingPlayed, aDefinitionIsBeingPlayed
   ) {
 
-    if(!aWordIsBeingPlayed && !aDefinitionIsBeingPlayed){
+    if (!aWordIsBeingPlayed && !aDefinitionIsBeingPlayed) {
       return true;
     }
 
-    if(aWordIsBeingPlayed && aDefinitionIsBeingPlayed){
+    if (aWordIsBeingPlayed && aDefinitionIsBeingPlayed) {
       return true;
     }
 
-    if (selectedIndex == undefined) {
-      return true;
-    }
     if (typeof selectedIndex !== 'number') {
       return true;
     }
@@ -187,13 +199,13 @@
 
 
     if (buttonUserClicked === correctInd) {
-      youGotIt.hidden = false;
+      youGotIt.attr('hidden', false);
     } else {
-      theCorrectAnswer.hidden = false;
-      youWrong.hidden = false;
+      theCorrectAnswer.attr('hidden', false);
+      youWrong.attr('hidden', false);
     }
 
-    nextQuestion.hidden = false;
+    nextQuestion.attr('hidden', false);
 
     //Disable inputs so the user can't submit quiz again
     $("input:radio").attr('disabled', true);
