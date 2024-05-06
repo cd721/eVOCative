@@ -3,6 +3,7 @@ import idValidation from "../validation/idValidation.js";
 import userData from "../data/users/users.js";
 import commentData from "../data/comments/comments.js";
 import xss from "xss";
+import roundto from 'roundto';
 
 import postData from "../data/posts/posts.js";
 const router = Router();
@@ -66,9 +67,10 @@ router
   .get(async (req, res) => {
     try {
       let user = await userData.getUserById(req.session.user._id);
+      user.accuracy_score = roundto(user.accuracy_score * 100, 2);
       let post = {
         title: "My Accuracy Score",
-        body: `My accuracy score is currently ${user.accuracy_score}!`,
+        body: `My accuracy score is currently ${user.accuracy_score}%!`,
         tags: "Accuracy Score, Score Challenge",
       };
       return res.render("posts/new", { post: post });

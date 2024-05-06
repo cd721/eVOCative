@@ -35,7 +35,7 @@ if (form) {
     var titleInput = document.querySelector('input[name="title"]').value.trim();
     let titleLimit = 50;
     var postInput = document
-      .querySelector('input[name="post"]')
+      .querySelector('textarea[name="post"]')
       .value.trim();
     var tagsInput = document.querySelector('input[name="tags"]').value.trim();
 
