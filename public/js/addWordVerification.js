@@ -44,6 +44,7 @@ if (form) {
 
     try {
       validateGen("Word", wordInput);
+      if (wordInput.length > 50) throw `Error: words cannot be more than 50 characters.`;
     } catch (e) {
       displayError("word-entry", e);
       valid = false;
@@ -58,6 +59,7 @@ if (form) {
 
     try {
         validateTags(tagsInput);
+        if (tagsInput.length > 100) throw `Error: tags cannot be more than 100 characters.`;
     } catch (e) {
         displayError("tags-entry", e);
         valid = false;

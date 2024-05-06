@@ -38,6 +38,7 @@ if (form) {
 
     try {
       validateGen("Comment", commentInput);
+      if (commentInput.length > 250) throw `Error: Comment must be less than 250 characters.`;
     } catch (e) {
       displayError("comment", e);
       valid = false;

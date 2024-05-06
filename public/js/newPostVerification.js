@@ -55,6 +55,7 @@ if (form) {
 
     try {
       validateTags(tagsInput);
+      if (tagsInput.length > 100) throw `Error: tags cannot be more than 100 characters.`;
     } catch (e) {
       displayError("postTags", e);
       valid = false;
