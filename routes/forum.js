@@ -9,6 +9,7 @@ const router = Router();
 router.route("/").get(async (req, res) => {
   try {
     const postList = await postData.getAllPosts();
+    const tagList = await postData.getAllTags();
 
     // check poster id still exists in the database, if not remove post from post list
     for (let i = 0; i < postList.length; i++) {
@@ -23,7 +24,11 @@ router.route("/").get(async (req, res) => {
     }
 
     //console.log(postList)
-    return res.render("posts/index", { posts: postList });
+    return res.render("posts/index", { 
+      title: "Forum",
+      posts: postList,
+      tagList
+    });
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -53,6 +58,8 @@ router
       return res.status(500).render("errorSpecial", { error: e });
     }
   });
+
+
 
 router
   .route("/newScore")
@@ -106,6 +113,7 @@ router
       comments = comments.reverse();
 
       return res.render("posts/single", {
+        title: `${post.title}`,
         post: post,
         poster_name: poster_name,
         comments: comments,

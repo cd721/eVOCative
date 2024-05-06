@@ -1,6 +1,6 @@
 // The purpose of this file is to verify that all fields are filled out before submitting a new comment
 
-const form = document.getElementById("add_word_form");
+const form = document.getElementById("add-word-form");
 
 if (form) {
   form.addEventListener("submit", (event) => {
@@ -36,7 +36,7 @@ if (form) {
       .querySelector('input[name="word"]')
       .value.trim();
     var definitionInput = document
-      .querySelector('input[name="definition"]')
+      .querySelector('textarea[name="definition"]')
       .value.trim();
     var tagsInput = document
       .querySelector('input[name="tags"]')
@@ -45,21 +45,21 @@ if (form) {
     try {
       validateGen("Word", wordInput);
     } catch (e) {
-      displayError("word", e);
+      displayError("word-entry", e);
       valid = false;
     }
 
     try {
         validateGen("Definition", definitionInput);
     } catch (e) {
-        displayError("definition", e);
+        displayError("definition-entry", e);
         valid = false;
     }
 
     try {
         validateTags(tagsInput);
     } catch (e) {
-        displayError("tags", e);
+        displayError("tags-entry", e);
         valid = false;
     }
 

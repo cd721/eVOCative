@@ -1,21 +1,33 @@
-<section id="ticket_list">
+<article id="tickets-page" class="index-container">
   <h1>Tickets</h1>
-  <br>
   {{#if newTicket}}
-    <a href="/report/new">Create A New Ticket?</a>
+    <a href="/report/new" class="create-new" id="new-ticket">Create A New
+      Ticket?</a>
   {{/if}}
-  {{#each tickets}}
-    <article class="ticket">
-      <h2>{{body}}</h2>
-      <h3>{{type}}</h3>
-      <p>Submitted by: {{submitter.username}} on {{submission_date}}</p>
-      <p>Resolved: <span id="is_resolved">{{resolved}}</span></p>
-      <br>
-      {{#if notResolved}}
-      <form action="/admin/tickets/{{_id}}" method="POST" id="resolution_button_form">
-        <button type="submit">Mark As Resolved?</button>
-      </form>
-    {{/if}}
-    </article>
-  {{/each}}
-</section>
+  <ul>
+    {{#each tickets}}
+      <li>
+        <div>
+          <header>
+            <h2><span id="ticket-type">[{{type}}]</span> {{body}} </h2>
+          </header>
+          <p class="text-date">Submitted by:
+            {{submitter.username}}
+            on
+            {{submission_date}}</p>
+        </div>
+        {{#if notResolved}}
+          <form
+            action="/admin/tickets/{{_id}}"
+            method="POST"
+            id="resolution_button_form"
+          >
+            <button type="submit">Mark As Resolved?</button>
+          </form>
+        {{else}}
+          <p>Resolved: <span id="is_resolved">{{resolved}}</span></p>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+</article>

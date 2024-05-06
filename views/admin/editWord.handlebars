@@ -1,16 +1,22 @@
-<h1>Add a new word to the database!</h1>
-<form method="POST" action="/admin/editWord/{{id}}" id="edit_word_form">
-    <label for="word">Word:</label>
-    <input type="text" name="word" id="word" value="{{word}}">
-    <p id="error_word"></p>
+<form method="POST" action="/admin/editWord/{{id}}" id="edit-word-form" class="form-container">
+    <h1>Edit a word in the database!</h1>
+    <div>
+        <label for="word-entry">Word:</label>
+        <input type="text" name="word" id="word-entry" value="{{word}}">
+        <p class="error_text" id="error_word-entry"></p>
+    </div>
 
-    <label for="definition">Definition:</label>
-    <input type="textarea" name="definition" id="definition" value="{{definition}}">
-    <p id="error_definition"></p>
+    <div>
+        <label for="definition-entry">Definition:</label>
+        <textarea name="definition" id="definition-entry">{{definition}}</textarea>
+        <p class="error_text" id="error_definition-entry"></p>
+    </div>
 
-    <label for="tags">Tags: (Separate unique tags with a ,)</label>
-    <input type="text" name="tags" id="tags" value="{{tags}}">
-    <p id="error_tags"></p>
+    <div>
+        <label for="tags-entry">Tags: (Separate unique tags with a comma ",")</label>
+        <input type="text" name="tags" id="tags-entry" value="{{tags}}">
+        <p class="error_text" id="error_tags-entry"></p>
+    </div>
 
     <button type="submit">Edit Word</button>
 </form>

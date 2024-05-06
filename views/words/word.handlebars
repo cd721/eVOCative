@@ -1,14 +1,29 @@
-<article id="word_page" class="main_container">
-    <h1>[ {{word.word}} ]</h1>
-    <p class="definition">{{word.definition}}</p>
-    {{#if admin}}
-    <p class="date_added">{{dateWordSingle word.date_added}}</p>
-    {{else}}
-    <p class="date_added">{{dateWordSingle word.date_user_received_word}}</p>
-    {{/if}}
-    <div class="tags">
-        <h4>Tags</h4>
-        <ul>
+{{#if admin}}
+<div id="admin-buttons">
+    <h2>Admin Actions</h2>
+    <h2>(Alters the Database)</h2>
+    <div>
+        <a href="/admin/editWord/{{word._id}}">Edit Word</a>
+        <a href="/admin/deleteWord/{{word._id}}">Delete Word</a>
+    </div>
+</div>
+{{/if}}
+
+<article id="word-page" class="single-container">
+    <header>
+        <h1>{{word.word}}</h1>
+        <div id="word-dates">
+            <p class="date_added_user">Date Collected: <span>{{dateWordSingle word.date_user_received_word}}</span></p>
+            {{#if admin}}
+            <p class="date_added">Date Added: <span>{{dateWordSingle word.dateAdded}}</span></p>
+            {{/if}}
+        </div>
+    </header>
+
+    <div id="word-info">
+        <p>{{word.definition}}</p>
+        
+        <ul id="word-tags" class="tags">
             {{#each word.tags}}
             <li>{{this}}</li>
             {{/each}}
@@ -16,21 +31,15 @@
     </div>
     
     {{#if admin}}
-        <p></p>
+    <p></p>
     {{else}}
-        {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion word.flagged_for_deletion)}}
-        <a href="/users/{{user_id}}/recoverWord/{{word._id}}">Recover This Word</a>
-        {{else}}
-        <a href="/users/{{user_id}}/deleteWord/{{word._id}}">Delete This Word</a>
-        {{/if}}
+    {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion word.flagged_for_deletion)}}
+    <a href="/users/{{user_id}}/recoverWord/{{word._id}}">Recover This Word</a>
+    {{else}}
+    <a href="/users/{{user_id}}/deleteWord/{{word._id}}">Delete This Word</a>
+    {{/if}}
     {{/if}}
 
 
-    {{#if admin}}
-    <a class="link_back" href="/words/all">Back to All Words</a>
-    <a href="/admin/editWord/{{word._id}}">Edit This Word</a>
-    <a href="/admin/deleteWord/{{word._id}}">Delete This Word</a>
-    {{else}}
     <a class="link_back" href="/words">Back to All Words</a>
-    {{/if}}
 </article>

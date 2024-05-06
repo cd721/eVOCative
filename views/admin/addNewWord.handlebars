@@ -1,24 +1,21 @@
-<div class="main_container add_new">
-<h1>Add a new word to the database!</h1>
-<br><br>
-<form method="POST" action="/admin/addNewWord" id="add_word_form">
-    <label for="word">Word:</label>
-    <input type="text" name="word" id="word">
-    <p id="error_word"></p>
-
-    <br>
-    <label for="definition">Definition:</label>
-    <input type="textarea" name="definition" id="definition">
-    <p id="error_definition"></p>
-
-    <br>
-    <label for="tags">Tags: (Separate unique tags with a ,)</label>
-    <input type="text" name="tags" id="tags">
-    <p id="error_tags"></p>
-
-    <br><br><br>
+<form method="POST" action="/admin/addNewWord" id="add-word-form" class="form-container">
+    <h1>Expand the Wordbase!</h1>
+    <div>
+        <label for="word-entry">Word:</label>
+        <input type="text" name="word" id="word-entry">
+        <p class="error_text" id="error_word-entry"></p>
+    </div>
+    <div>
+        <label for="definition-entry">Definition:</label>
+        <textarea name="definition" id="definition-entry"></textarea>
+        <p class="error_text" id="error_definition-entry"></p>
+    </div>
+    <div>
+        <label for="tags-entry">Tags: (Separate unique tags with a comma ",")</label>
+        <input type="text" name="tags" id="tags-entry" placeholder="e.g., drinks, food">
+        <p class="error_text" id="error_tags-entry"></p>
+    </div>
     <button type="submit">Add Word</button>
 </form>
-</div>
 
 <script src="../../public/js/addWordVerification.js"></script>

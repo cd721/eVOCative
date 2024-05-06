@@ -71,7 +71,7 @@ let exportedMethods = {
 
   async loginUser(username, password) {
     username = userValidation.validateUsername(username);
-    password = userValidation.validatePassword(password);
+    password = userValidation.validateLoginPassword(password);
 
     username = username.toLowerCase();
 
@@ -96,7 +96,7 @@ let exportedMethods = {
       lastName: user.lastName,
       username: user.username,
       email: user.email,
-      role: role,
+      role: role
     };
   },
 
@@ -421,26 +421,26 @@ let exportedMethods = {
       let word_id = word._id.toString();
       let wordInfo = await wordData.getWordById(word_id);
 
-      wordInfo.date_user_received_word = word.date_user_received_word;
-      wordInfo.flagged_for_deletion = word.flagged_for_deletion;
-      wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
+        wordInfo.date_user_received_word = word.date_user_received_word;
+        wordInfo.flagged_for_deletion = word.flagged_for_deletion;
+        wordInfo.date_flagged_for_deletion = word.date_flagged_for_deletion;
 
-      //Get rid of the word if it was deleted by user over 24 hr ago
-      //Word must have been flagged for deletion
-      if (!wordInfo.flagged_for_deletion) {
-        wordsList.push(wordInfo);
-      } else if (
-        wordInfo.flagged_for_deletion &&
-        !helpers.wordWasDeletedLessThan24HoursAgo(
-          wordInfo.date_flagged_for_deletion,
-          wordInfo.flagged_for_deletion
-        )
-      ) {
-        //The word was not flagged for deletion
-        await this.deleteWordForUser(user_id, word_id);
-      }
+        if (!word.flagged_for_deletion || this.isRecoverable(word.date_flagged_for_deletion)) {
+            wordsList.push(wordInfo);
+        } else {
+            // if the word is flagged and not recoverable, delete it permanently
+            await this.deleteWordForUser(user_id, word._id.toString());
+        }
     }
     return wordsList;
+  },
+
+  isRecoverable(dateFlagged) {
+      if (!dateFlagged) {
+        return false;
+      }
+      const expirationDate = new Date(dateFlagged.getTime() + 24 * 60 * 60 * 1000);
+      return new Date() <= expirationDate;
   },
 
   async flagWordForDeletionForUser(user_id, word_id) {
@@ -518,7 +518,8 @@ let exportedMethods = {
     }
 
     return updateUserInfo;
-  },
+  }
+  
 };
 
 export default exportedMethods;

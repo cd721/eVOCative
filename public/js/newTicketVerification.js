@@ -1,6 +1,6 @@
 // The purpose of this file is to verify that all fields are filled out before submitting a new ticket
 
-const form = document.getElementById("new_ticket");
+const form = document.getElementById("new-ticket");
 
 if (form) {
   form.addEventListener("submit", function (event) {
