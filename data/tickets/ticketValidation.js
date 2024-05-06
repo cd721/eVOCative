@@ -24,6 +24,7 @@ const exportedMethods = {
     body = body.trim();
     if (body.length === 0)
       throw `Error: Ticket body cannot be empty or just spaces`;
+    if (body.length > 250) throw `Error: Ticket body cannot be more than 250 characters.`;
     return body;
   },
 };

@@ -5,6 +5,7 @@ const exportedMethods = {
     word = word.trim();
     word = word.toLowerCase();
     if (word.length === 0) throw `Error: Word cannot be empty or just spaces`;
+    if (word.length > 50) throw `Error: Word cannot be more than 50 characters.`;
     return word;
   },
 
@@ -14,6 +15,7 @@ const exportedMethods = {
     title = title.trim();
     title = title.toLowerCase();
     if (title.length === 0) throw `Error: Title cannot be empty or just spaces`;
+    if (title.length > 250) throw `Error: Definition cannot be more than 250 characters.`;
     return title;
   },
 
@@ -27,6 +29,7 @@ const exportedMethods = {
       str = str.trim();
       if (str.length === 0)
         throw `Error: Elements in tags cannot be empty or just spaces`;
+      if (str.length > 20) throw `Error: Elements in tags cannot be more than 20 characters.`;
     }
     return tags;
   },
