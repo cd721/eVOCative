@@ -40,6 +40,9 @@ router
       let type = xss(req.body.type);
       issue = ticketValidation.validateBody(issue);
       type = ticketValidation.validateType(type);
+
+      if(issue>250) throw `Error: issue cannot be more than 250 characters.`;
+      
       await ticketData.addTicket(req.session.user._id, type, issue);
 
       return res.redirect("/report");

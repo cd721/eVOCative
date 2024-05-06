@@ -9,14 +9,14 @@ const exportedMethods = {
     return word;
   },
 
-  validateDefinition(title) {
-    if (!title) throw `Error: Title not provided.`;
-    if (typeof title !== "string") throw `Error: Title must be of type string`;
-    title = title.trim();
-    title = title.toLowerCase();
-    if (title.length === 0) throw `Error: Title cannot be empty or just spaces`;
-    if (title.length > 250) throw `Error: Definition cannot be more than 250 characters.`;
-    return title;
+  validateDefinition(definition) {
+    if (!definition) throw `Error: Definition not provided.`;
+    if (typeof definition !== "string") throw `Error: Definition must be of type string`;
+    definition = definition.trim();
+    definition = definition.toLowerCase();
+    if (definition.length === 0) throw `Error: Definition cannot be empty or just spaces`;
+    if (definition.length > 250) throw `Error: Definition cannot be more than 250 characters.`;
+    return definition;
   },
 
   validateTags(tags) {
