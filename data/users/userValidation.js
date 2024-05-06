@@ -80,6 +80,33 @@ const exportedMethods = {
     return email;
   },
 
+  validateLoginPassword(password) {
+    if (password == undefined) {
+      throw "provide a pwd";
+    }
+    if (typeof password !== "string") {
+      throw "password must be a string";
+    }
+    //no just spaces, no spaces
+    if (password.trim() === "") {
+      throw "You must provide text for the password";
+    }
+
+    //trim
+    password = password.trim();
+    if (password.includes(" ")) {
+      throw "No spaces allowed in password";
+    }
+
+    //min 8 chars
+    if (password.length < 8) {
+      throw "password must be at least eight characters";
+    }
+
+    return password;
+  },
+
+
   validatePassword(password) {
     if (password == undefined) {
       throw "provide a pwd";

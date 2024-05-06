@@ -10,7 +10,6 @@ router.route("/").get(async (req, res) => {
       let user = req.session.user;
       const wordList = await userData.getWordsForUser(user._id.toString());
 
-      console.log(wordList);
       return res.render("words/index", { words: wordList });
     }
   } catch (e) {

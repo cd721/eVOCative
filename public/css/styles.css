@@ -719,14 +719,36 @@ form h3 {
 #quiz-list {
     height: 100%;
     width:100%;
+    display: flex;
+    justify-content: center;
 }
 
 .entry-quiz {
     flex: 1;
-    width: 60%;
+    width: 40%;
+    height: 20%;
+    margin: 20px;
     text-align: center;
     padding: 5%;
     background-color: rgb(76, 170, 194);
     border-radius: 8px;
     border: 2px solid #292929;
+    font-size: 24px;
+}
+
+.quiz-link {
+    font-size: 24px;
+    font-family: Roboto, sans-serif;
+}
+
+a.quiz-link:link {
+    color: white;
+}
+
+a.quiz-link:hover {
+    color: white;
+}
+
+a.quiz-link:visited {
+    color: rgb(116, 115, 115);
 }
