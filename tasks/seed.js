@@ -71,15 +71,11 @@ await users.addWordForUser(catherine._id.toString(), secondWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), thirdWord._id.toString());
 await users.addWordForUser(catherine._id.toString(), fourthWord._id.toString());
 
-//await users.updateAccuracyScoreForUser(catherine._id.toString(),  1);
-
 const accuracyScoreForCatherine = await users.getOverallAccuracyScoreForUser(catherine._id.toString());
 console.log("Catherine's initial accuracy score " + accuracyScoreForCatherine);
 
-
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
 const secondTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add smoothie to the word list");
-
 
 await users.makeUserAdmin(josie._id.toString());
 
