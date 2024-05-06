@@ -54,6 +54,7 @@ router
   .get(async (req, res) => {
     try {
       let word_id = req.params.id;
+      word_id = idValidation.validateId(word_id);
       let word = await wordData.getWordById(word_id);
       let tagStr = "";
       let firstTag = true;
@@ -83,6 +84,7 @@ router
     tags = tags.split(",").map((tag) => tag.trim());
 
     try {
+      word_id = idValidation.validateId(word_id);
       word = wordValidation.validateWord(word);
       definition = wordValidation.validateDefinition(definition);
       tags = wordValidation.validateTags(tags);
@@ -99,6 +101,7 @@ router
   .get(async (req, res) => {
     try {
       let word_id = req.params.id;
+      word_id = idValidation.validateId(word_id);
       let word = await wordData.getWordById(word_id);
       return res.render("admin/deleteWordConfirmation", {
         id: word_id,
@@ -111,6 +114,7 @@ router
   .post(async (req, res) => {
     try {
       let word_id = req.params.id;
+      word_id = idValidation.validateId(word_id);
       let removalInfo = await wordData.removeWord(word_id);
       if (removalInfo.removeSuccessful) {
         return res.render("admin/deleteWord");
@@ -144,6 +148,7 @@ router.route("/tickets").get(async (req, res) => {
 router.route("/tickets/:id").post(async (req, res) => {
   try {
     let ticket_id = req.params.id;
+    ticket_id = idValidation.validateId(ticket_id);
     await ticketData.resolveTicket(ticket_id);
     return res.redirect("/admin/tickets");
   } catch (e) {
