@@ -20,7 +20,7 @@ router
   .get(async (req, res) => {
     let user_id = req.params.id.toString();
     let user;
-    let errors;
+    let errors = [];
 
     let a_user_is_logged_in;
     if (req.session.user) {
