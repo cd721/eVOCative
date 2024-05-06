@@ -11,7 +11,6 @@ await words.addWord("magnanimous", "generously, especially to someone", ["verb",
 }catch(e){
     console.log(e)
 }
-console.log("Done adding words")
 
 
 await closeConnection();

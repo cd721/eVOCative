@@ -4,7 +4,7 @@ import path from "path";
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
-import roundto from 'roundto'
+import roundto from 'roundto';
 import rateLimit from "express-rate-limit";
 // arrays for organization
 const noFrames = ["/login", "/register", "/logout"];
@@ -38,14 +38,31 @@ app.engine(
         return new Date(date).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
+          year: "numeric",
         });
       },
 
       dateWordSingle: (date) => {
-        return new Date(date).toLocaleDateString("en-US", {
+        if (date == undefined) {
+          return "You didn't collect this word.";
+        } else {
+          return new Date(date).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          });
+        }
+      },
+
+      datePostSingle: (date) => {
+        return new Date(date).toLocaleString("en-US", {
           month: "long",
           day: "numeric",
           year: "numeric",
+          hour: 'numeric',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
         });
       },
 
@@ -232,13 +249,13 @@ app.use("/admin", (req, res, next) => {
 //Login middleware
 
 //user can only attempt to login 5 times in 10 minutes
-const loginLimit = rateLimit({
+export const loginLimit = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 5, // limit each IP to 5 requests per windowMs
   skipSuccessfulRequests: true,
   handler: (req, res) => {
     res.status(429).render("timeout");
-  }
+  },
 });
 
 //if the user is logged in then redirect to these routes

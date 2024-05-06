@@ -9,10 +9,10 @@ This is the handlebars file for the home page of eVOCative. The page users are t
 
         <div id="authentibar">
           {{#if notAuthUser}}
-          <a id="register_link" href="/register"><button>Register</button></a>
-          <a id="login_link" href="/login"><button>Log In</button></a>
+          <a id="register_link" href="/register">Register</a>
+          <a id="login_link" href="/login">Log In</a>
           {{else}}
-          <a id="logout_link" href="/logout"><button>Log Out</button></a>
+          <a id="logout_link" href="/logout">Log Out</a>
           {{/if}}
         </div>
   </div>
@@ -28,19 +28,3 @@ This is the handlebars file for the home page of eVOCative. The page users are t
     <p>Match words to definitions or vice versa!</p>
   </div>
 </div>
-
-{{!-- {{#if user}}
-{{> logoutLink}}
-{{else}}
-{{> accountLinks}}
-{{/if}}
-
-{{! after 'Word of the day: ' add the word of the day from the database}}
-{{#if word}}
-<h2> Word of the Day: {{word}}</h2>
-{{/if}}
-
-{{! Button for user to access word bank}}
-<form action="/wordbank" method="GET">
-  <button type="submit">Word Bank</button>
-</form> --}}

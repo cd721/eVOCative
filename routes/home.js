@@ -5,7 +5,6 @@ import wordData from "../data/words/words.js";
 import postData from "../data/posts/posts.js";
 const router = Router();
 router.route("/").get(async (req, res) => {
-  //TODO: test
   let isAuthUser = false;
   if (req.session.user) {
     isAuthUser = true;

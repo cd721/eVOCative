@@ -1,9 +1,9 @@
-// The purpose of this file is to verify that all fields are filled out before submitting a new post
+// The purpose of this file is to verify that all fields are filled out before submitting a new comment
 
-const form = document.getElementById("new-post-form");
+const form = document.getElementById("add-word-form");
 
 if (form) {
-  form.addEventListener("submit", function (event) {
+  form.addEventListener("submit", (event) => {
     function displayError(elementId, errorText) {
       // elements MUST HAVE FORMAT 'error_<input_name>' in html else this won't work!
       // well it doesn't have to, but it makes it easier
@@ -32,33 +32,37 @@ if (form) {
     let valid = true;
 
     // Get all the input fields
-    var titleInput = document.querySelector('input[name="title"]').value.trim();
-    let titleLimit = 50;
-    var postInput = document
-      .querySelector('textarea[name="post"]')
+    var wordInput = document
+      .querySelector('input[name="word"]')
       .value.trim();
-    var tagsInput = document.querySelector('input[name="tags"]').value.trim();
+    var definitionInput = document
+      .querySelector('textarea[name="definition"]')
+      .value.trim();
+    var tagsInput = document
+      .querySelector('input[name="tags"]')
+      .value.trim();
 
     try {
-      validateTitle(titleInput, titleLimit);
+      validateGen("Word", wordInput);
+      if (wordInput.length > 50) throw `Error: words cannot be more than 50 characters.`;
     } catch (e) {
-      displayError("postTitle", e);
+      displayError("word-entry", e);
       valid = false;
     }
 
     try {
-      validateGen("Post", postInput);
+        validateGen("Definition", definitionInput);
     } catch (e) {
-      displayError("postContent", e);
-      valid = false;
+        displayError("definition-entry", e);
+        valid = false;
     }
 
     try {
-      validateTags(tagsInput);
-      if (tagsInput.length > 100) throw `Error: tags cannot be more than 100 characters.`;
+        validateTags(tagsInput);
+        if (tagsInput.length > 100) throw `Error: tags cannot be more than 100 characters.`;
     } catch (e) {
-      displayError("postTags", e);
-      valid = false;
+        displayError("tags-entry", e);
+        valid = false;
     }
 
     if (!valid) {
@@ -77,22 +81,16 @@ function validateGen(label, input) {
   if (input.length > 250) throw `${label} cannot be more than 250 characters!`;
 }
 
-function validateTitle(title, limit) {
-  validateGen("Title", title);
-  if (title.length > limit)
-    throw `Error: Title cannot have more than ${limit} characters!`;
-}
-
 function validateTags(tags) {
-  validateGen("Tags", tags);
-  tags = tags.split(",");
-  if (!Array.isArray(tags)) throw `Error: Tags must be an array`;
-  if (tags.length === 0) throw `Error: Tags cannot be empty`;
-  for (let str of tags) {
-    if (typeof str !== "string")
-      throw `Error: All elements of tags must be strings`;
-    str = str.trim();
-    if (str.length === 0)
-      throw `Error: Elements in tags cannot be empty or just spaces`;
+    validateGen("Tags", tags);
+    tags = tags.split(",");
+    if (!Array.isArray(tags)) throw `Error: Tags must be an array`;
+    if (tags.length === 0) throw `Error: Tags cannot be empty`;
+    for (let str of tags) {
+      if (typeof str !== "string")
+        throw `Error: All elements of tags must be strings`;
+      str = str.trim();
+      if (str.length === 0)
+        throw `Error: Elements in tags cannot be empty or just spaces`;
+    }
   }
-}
