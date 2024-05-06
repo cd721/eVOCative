@@ -64,7 +64,7 @@ const exportedMethods = {
       username: { $regex: new RegExp(`^${username}$`, "i") },
     });
     if (duplicateUser)
-      throw `user already exists with the username ${username}`;
+      throw `User already exists with the username "${username}"`;
 
     return username;
   },
@@ -75,7 +75,7 @@ const exportedMethods = {
     let duplicateUser = await userCollection.findOne({
       email: { $regex: new RegExp(`^${email}$`, "i") },
     });
-    if (duplicateUser) throw `user already exists with the email ${email}`;
+    if (duplicateUser) throw `User already exists with the email "${email}"`;
 
     return email;
   },
@@ -112,7 +112,7 @@ const exportedMethods = {
       !password.match(oneSpecial) ||
       !password.match(oneUpperCase)
     ) {
-      throw "You need a special character, a number, and an uppercase character in your pwd";
+      throw "You need a special character, a number, and an uppercase character in your password.";
     }
     return password;
   },

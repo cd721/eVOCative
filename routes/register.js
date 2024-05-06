@@ -28,42 +28,101 @@ router.route("/").post(async (req, res) => {
   let confirmPassword = xss(req.body.confirmPassword);
 
   let errors = [];
-  try {
+  try{
     firstName = userValidation.validateName(firstName);
-    lastName = userValidation.validateName(lastName);
-    email = userValidation.validateEmail(email);
-    email = await userValidation.emailDoesNotAlreadyExist(email);
-
-    username = userValidation.validateUsername(username);
-    username = await userValidation.usernameDoesNotAlreadyExist(username);
-
-    password = userValidation.validatePassword(password);
-    checkPassword(password, confirmPassword);
-
-    username = username.toLowerCase();
-    const user = await userData.addUser(
-      firstName,
-      lastName,
-      email,
-      username,
-      password
-    );
-
-    if (user.signupCompleted) {
-      return res.redirect('/login');
-    } else {
-      return res.status(500).render('register', {
-        error: 'Internal server error.'
-      });
-    }
-
   } catch (e) {
-    errors.push(e)
+    errors.push(e);
+    firstName = "";
+  }
+
+  try{
+    lastName = userValidation.validateName(lastName);
+  } catch (e) {
+    errors.push(e);
+    lastName = "";
+  }
+
+  try{
+    email = userValidation.validateEmail(email);
+  } catch (e) {
+    errors.push(e);
+    email = "";
+  }
+
+  if(email.length !== 0) {
+    try{
+      email = await userValidation.emailDoesNotAlreadyExist(email);
+    } catch (e) {
+      errors.push(e);
+      email = "";
+    }
+  }
+
+
+  try{
+    username = userValidation.validateUsername(username);
+  } catch (e) {
+    errors.push(e);
+    username = "";
+  }
+
+  if(username.length !== 0) {
+    try{
+      username = await userValidation.usernameDoesNotAlreadyExist(username);
+    } catch (e) {
+      errors.push(e);
+      username = "";
+    }
+  }
+
+  try{
+    password = userValidation.validatePassword(password);
+  } catch (e) {
+    errors.push(e);
+  }
+
+  if(password.length !== 0) {
+    try{
+      checkPassword(password, confirmPassword);
+    } catch (e) {
+      errors.push(e);
+    }
+  }
+
+  if(errors.length !== 0) {
     return res.status(400).render('register', {
       errors,
-      data: req.body
+      data: req.body,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username
     });
   }
+  else {
+    try {
+      username = username.toLowerCase();
+      user = await userData.addUser(
+        firstName,
+        lastName,
+        email,
+        username,
+        password
+      );
+
+      if (user.signupCompleted) {
+        return res.redirect('/login');
+      } else {
+        return res.status(500).render('register', {
+          error: 'Internal server error.'
+        });
+      }
+    } catch (e) {
+      errors.push(e);
+    }
+  }
+
+
 });
 
 export default router;

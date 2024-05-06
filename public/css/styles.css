@@ -171,9 +171,13 @@ h1 {
 /* ################### login/register/logout ################### */
 .error_text {
     color: red;
-
     font-size: 0.70em;
     margin-top: 5px;
+}
+
+.error_top {
+    color: red;
+    font-size: 14px;
 }
 
 .auth_container {
@@ -708,4 +712,21 @@ form h3 {
 .error-text {
     color: red;
     margin: 10px;
+}
+
+/* ################### REGISTRATION ################### */
+
+#quiz-list {
+    height: 100%;
+    width:100%;
+}
+
+.entry-quiz {
+    flex: 1;
+    width: 60%;
+    text-align: center;
+    padding: 5%;
+    background-color: rgb(76, 170, 194);
+    border-radius: 8px;
+    border: 2px solid #292929;
 }
