@@ -44,11 +44,13 @@ router
     }
   })
   .post(async (req, res) => {
-    let poster_id = req.session.user._id;
-    let title = xss(req.body.title);
-    let post = xss(req.body.post);
-    let tags = xss(req.body.tags);
-    tags = tags.split(",").map((tag) => tag.trim());
+    try {
+      let poster_id = req.session.user._id.toString();
+      let title = xss(req.body.title);
+      let post = xss(req.body.post);
+      let tags = xss(req.body.tags);
+      tags = tags.split(",").map((tag) => tag.trim());
+      //console.log({poster_id: poster_id, title: title, post: post, tags: tags});
 
     try {
       await postData.addPost(poster_id, title, post, tags);
@@ -84,7 +86,7 @@ router
   })
   .post(async (req, res) => {
     try {
-      let poster_id = req.session.user._id;
+      let poster_id = req.session.user._id.toString();
       let title = xss(req.body.title);
       let post = xss(req.body.post);
       let tags = xss(req.body.tags);

@@ -97,12 +97,30 @@
             <a href="/words">Add some words</a>
         </div>
         {{/if}}
+        </div>
 
-
+        <div id="WOD-Announcement">
+            {{#if WOD}}
+                <h3>You have collected the Word of the day!</h3>
+            {{/if}}
+        </div>
     </div>
-    {{#if WOD}}
-    <div id="WOD-Announcement">
-        <h3>You have collected the Word of the day!</h3>
+
+    <div id="share_score">
+        <a href="/forum/newScore">Share your Accuracy Score?</a>
+    </div>
+
+    <div id="admin-panel">
+        <h2>Admin Options</h2>
+        <div id="add-new-word">
+            <a href="/admin/addNewWord">Add A New Word</a>
+        </div>
+        <div id="check-tickets">
+            <a href="/admin/tickets">Check Tickets</a>
+        </div>
+        <div id="see-all-words">
+            <a href="/words/all">See All Words</a>
+        </div>
     </div>
     {{/if}}
 </div>

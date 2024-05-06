@@ -1,9 +1,17 @@
 import { ObjectId } from 'mongodb';
+import idValidation from '../../validation/idValidation.js';
+import validation from './postValidation.js';
+import numValidation from '../../validation/generalValidation.js';
 
 let exportedMethods = {
 
-    createNewPost(poster_id, title, post, tags) {
-        poster_id = poster_id.toString();
+    createNewPost(poster_id, title, post, tags, charLimit) {
+        poster_id = idValidation.validateId(poster_id);
+        title = validation.validateTitle(title, charLimit);
+        post = validation.validatePost(post);
+        tags = validation.validateTags(tags);
+        charLimit = numValidation.validateNumber(charLimit);
+
         let newPost = {
             _id: new ObjectId(),
             title: title,

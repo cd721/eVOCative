@@ -1,6 +1,6 @@
-// The purpose of this file is to verify that all fields are filled out before submitting a new post
+// The purpose of this file is to verify that all fields are filled out before submitting a new ticket
 
-const form = document.querySelector(".new-post-form");
+const form = document.getElementById("new_ticket");
 
 if (form) {
   form.addEventListener("submit", function (event) {
@@ -32,31 +32,22 @@ if (form) {
     let valid = true;
 
     // Get all the input fields
-    var titleInput = document.querySelector('input[name="title"]').value.trim();
-    let titleLimit = 50;
-    var postInput = document
-      .querySelector('textarea[name="post"]')
+    var issueInput = document
+      .querySelector('input[name="issue"]')
       .value.trim();
-    var tagsInput = document.querySelector('input[name="tags"]').value.trim();
+    var typeInput = document.querySelector('select[name="type"]').value.trim();
 
     try {
-      validateTitle(titleInput, titleLimit);
+      validateGen("Issue", issueInput);
     } catch (e) {
-      displayError("title", e);
+      displayError("issue", e);
       valid = false;
     }
 
     try {
-      validateGen("Post", postInput);
+      validateType(typeInput);
     } catch (e) {
-      displayError("post", e);
-      valid = false;
-    }
-
-    try {
-      validateTags(tagsInput);
-    } catch (e) {
-      displayError("tags", e);
+      displayError("type", e);
       valid = false;
     }
 
@@ -75,22 +66,19 @@ function validateGen(label, input) {
   if (input.length === 0) throw `${label} cannot be empty or just spaces!`;
 }
 
-function validateTitle(title, limit) {
-  validateGen("Title", title);
-  if (title.length > limit)
-    throw `Error: Title cannot have more than ${limit} characters!`;
-}
-
-function validateTags(tags) {
-  validateGen("Tags", tags);
-  tags = tags.split(",");
-  if (!Array.isArray(tags)) throw `Error: Tags must be an array`;
-  if (tags.length === 0) throw `Error: Tags cannot be empty`;
-  for (let str of tags) {
-    if (typeof str !== "string")
-      throw `Error: All elements of tags must be strings`;
-    str = str.trim();
-    if (str.length === 0)
-      throw `Error: Elements in tags cannot be empty or just spaces`;
+function validateType(type) {
+  if (!type) throw `Error: Type not provided.`;
+  if (typeof type !== "string") throw `Error: Type must be of type string`;
+  type = type.trim();
+  if (type.length === 0) throw `Error: Type cannot be empty or just spaces`;
+  if (
+    type !== "new vocab" &&
+    type !== "report a user" &&
+    type !== "report a post/comment" &&
+    type !== "bug fix" &&
+    type !== "update/remove vocab" &&
+    type !== "feature request"
+  ) {
+    throw `Error: Type must be one of the predefined types`;
   }
 }

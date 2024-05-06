@@ -1,7 +1,12 @@
 import { ObjectId } from "mongodb";
+import validation from "./wordValidation.js";
 
 let exportedMethods = {
   createNewWord(word, definition, tags) {
+    word = validation.validateWord(word);
+    definition = validation.validateDefinition(definition);
+    tags = validation.validateTags(tags);
+
     let today = new Date();
 
     let newWord = {
@@ -16,7 +21,7 @@ let exportedMethods = {
 
       dateAdded: today,
 
-      times_played: 0
+      times_played: 0,
     };
 
     return newWord;

@@ -1,18 +1,19 @@
-<article id="forum-page" class="index-container">
-    <h1>Forum</h1>
+<article id="forum_page" class="main_container">
+    <h1>Posts</h1>
+    <h2><a href="/forum/new">Make a new post</a></h2>
 
-    <header>
-        <div id="tags-list">
-            <p>Filter by tags:</p>
-            {{#each tagList}}
-            <button class="tag-button" data-tag="{{this}}">{{this}}</button>
-            {{/each}}
-        </div>
-
-        <a href="/forum/new" class="create-new">Make a new post</a>
-    </header>
-
-    <div id="posts-list">
+    <p>Filter by tag:</p>
+    <form action="/forum" id="tag-filter-form" class="input_container">
+        <label for="tagFilter">Enter the tags you want to see:
+            <textarea value="tagFilter" id="tagFilter" name="tagFilter" rows="2"></textarea>
+        </label>
+        <button type="submit">Filter</button>
+    </form>
+    <form action="/forum" id="clear-filtered-tags">
+        <button type="submit">Clear Filters</button>
+    </form>
+    <br>
+    <div id="posts_list">
         <ul>
             {{#each posts}}
             <li class="individual-post" id="section{{_id}}">

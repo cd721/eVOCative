@@ -1,21 +1,22 @@
-<form action="/report/new" method="POST" class="form-container">
-    <h1>Create A New Ticket</h1>
-    <div>
-        <label for="issue">Issue</label>
-        <input type="text" name="issue" id="issue">
-    </div>
+<h1>Create A New Ticket</h1>
 
-    <div>
-        <label for="type">Type</label>
-        <select name="type" id="type">
-            <option value="new vocab">New Vocab</option>
-            <option value="report a user">Report a User</option>
-            <option value="report a post/comment">Report a Post/Comment</option>
-            <option value="bug fix">Bug Fix</option>
-            <option value="update/remove vocab">Update/Remove Vocab</option>
-            <option value="feature request">Feature Request</option>
-        </select>
-    </div>
+<form action="/report/new" method="POST" id="new_ticket">
+    <label for="issue">Issue</label>
+    <input type="textarea" name="issue" id="issue">
+    <p id="error_issue"></p>
+
+    <label for="type">Type</label>
+    <select name="type" id="type">
+        <option value="new vocab">New Vocab</option>
+        <option value="report a user">Report a User</option>
+        <option value="report a post/comment">Report a Post/Comment</option>
+        <option value="bug fix">Bug Fix</option>
+        <option value="update/remove vocab">Update/Remove Vocab</option>
+        <option value="feature request">Feature Request</option>
+    </select>
+    <p id="error_type"></p>
 
     <button type="submit">Create New Ticket</button>
 </form>
+
+<script src="../public/js/newTicketVerification.js"></script>

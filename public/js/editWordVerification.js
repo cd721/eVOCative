@@ -1,6 +1,6 @@
-// The purpose of this file is to verify that all fields are filled out before submitting a new post
+// The purpose of this file is to verify that all fields are filled out before submitting a new comment
 
-const form = document.querySelector(".new-post-form");
+const form = document.getElementById("edit_word_form");
 
 if (form) {
   form.addEventListener("submit", function (event) {
@@ -32,32 +32,35 @@ if (form) {
     let valid = true;
 
     // Get all the input fields
-    var titleInput = document.querySelector('input[name="title"]').value.trim();
-    let titleLimit = 50;
-    var postInput = document
-      .querySelector('textarea[name="post"]')
+    var wordInput = document
+      .querySelector('input[name="word"]')
       .value.trim();
-    var tagsInput = document.querySelector('input[name="tags"]').value.trim();
+    var definitionInput = document
+      .querySelector('input[name="definition"]')
+      .value.trim();
+    var tagsInput = document
+      .querySelector('input[name="tags"]')
+      .value.trim();
 
     try {
-      validateTitle(titleInput, titleLimit);
+      validateGen("Word", wordInput);
     } catch (e) {
-      displayError("title", e);
+      displayError("word", e);
       valid = false;
     }
 
     try {
-      validateGen("Post", postInput);
+        validateGen("Definition", definitionInput);
     } catch (e) {
-      displayError("post", e);
-      valid = false;
+        displayError("definition", e);
+        valid = false;
     }
 
     try {
-      validateTags(tagsInput);
+        validateTags(tagsInput);
     } catch (e) {
-      displayError("tags", e);
-      valid = false;
+        displayError("tags", e);
+        valid = false;
     }
 
     if (!valid) {
@@ -73,12 +76,6 @@ function validateGen(label, input) {
   if (typeof input !== "string") throw `${label} must be of type string!`;
   input = input.trim();
   if (input.length === 0) throw `${label} cannot be empty or just spaces!`;
-}
-
-function validateTitle(title, limit) {
-  validateGen("Title", title);
-  if (title.length > limit)
-    throw `Error: Title cannot have more than ${limit} characters!`;
 }
 
 function validateTags(tags) {

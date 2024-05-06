@@ -1,4 +1,4 @@
-import { users, words } from "../../config/mongoCollections.js";
+import { users } from "../../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import userValidation from "./userValidation.js";
 import idValidation from "../../validation/idValidation.js";
@@ -43,11 +43,13 @@ let exportedMethods = {
     username = await userValidation.usernameDoesNotAlreadyExist(username);
 
     email = userValidation.validateEmail(email);
+    email = await userValidation.emailDoesNotAlreadyExist(email);
+
     password = userValidation.validatePassword(password);
 
     const hashedPassword = await helpers.hashPassword(password);
 
-    let newUser = helpers.createNewUser(
+    let newUser = await helpers.createNewUser(
       firstName,
       lastName,
       email,
@@ -180,7 +182,7 @@ let exportedMethods = {
             times_played: 0,
             date_user_received_word: today,
           },
-        }
+        },
       }
     );
 
@@ -216,7 +218,6 @@ let exportedMethods = {
   },
 
   async addWordOfDay(user_id) {
-    user_id = user_id.toString();
     user_id = idValidation.validateId(user_id);
 
     let newWord;
@@ -230,7 +231,6 @@ let exportedMethods = {
         newWord._id.toString()
       );
     } while (hasWordAlready);
-
 
     await this.addWordForUser(user_id, newWord._id.toString());
   },
@@ -269,6 +269,7 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
+
   async getOverallAccuracyScoreForUser(user_id) {
     user_id = idValidation.validateId(user_id);
 
@@ -281,6 +282,7 @@ let exportedMethods = {
 
     return accuracyScoreForUser.accuracy_score;
   },
+
   async updateTimesPlayedForUser(user_id) {
     user_id = idValidation.validateId(user_id);
 
@@ -302,6 +304,7 @@ let exportedMethods = {
 
     return updateUserInfo;
   },
+
   async getTimesPlayedForUser(user_id) {
     user_id = idValidation.validateId(user_id);
 
@@ -314,6 +317,7 @@ let exportedMethods = {
 
     return result.times_played;
   },
+
   async updateAccuracyScoreForUser(user_id, new_score) {
     user_id = idValidation.validateId(user_id);
 
@@ -338,13 +342,14 @@ let exportedMethods = {
   },
 
   async isAdmin(user_id) {
+    user_id = idValidation.validateId(user_id);
     const user = await this.getUserById(user_id);
 
     return user.is_admin;
   },
 
   async makeUserAdmin(user_id) {
-    user_id = idValidation.validateId(user_id, "User Id");
+    user_id = idValidation.validateId(user_id);
     const userCollection = await users();
     const updateData = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
@@ -362,58 +367,59 @@ let exportedMethods = {
   },
 
   async getDateLastWordWasReceived(user_id) {
+    user_id = idValidation.validateId(user_id);
     const user = await this.getUserById(user_id);
 
     return user.date_last_word_was_received;
   },
 
   async getDateUserReceivedWord(user_id, word_id) {
-    const userCollection = await users();
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
       if (word._id.toString() === word_id) {
         return word.date_user_received_word;
-
       }
-
     }
-    return null; //TODO: handle this better
-
+    throw `Error: Could not validate word id.`;
   },
+
   async getDateFlaggedForDeletionForUser(user_id, word_id) {
-    //TODO: validation here and all function
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
-      if (word._id.toString() === word_id.toString()) {
+      if (word._id.toString() === word_id) {
         return word.date_flagged_for_deletion;
-
       }
-
     }
-    return null; //TODO: handle this better
-
+    throw `Error: Could not validate word id.`;
   },
 
   async wordFlaggedForDeletionForUser(user_id, word_id) {
-    //TODO: validation here and all function
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const wordsForUser = await this.getWordsForUser(user_id);
     for (let word of wordsForUser) {
       if (word._id.toString() === word_id) {
         return word.flagged_for_deletion;
-
       }
-
-    } return null; //TODO: handle this better
-
+    }
+    throw `Error: Could not validate word id.`;
   },
 
   async getWordsForUser(user_id) {
-    const userCollection = await users();
-    const user = await userCollection.findOne({ _id: new ObjectId(user_id) });
+    user_id = idValidation.validateId(user_id);
+    const user = await this.getUserById(user_id);
 
     let wordsList = [];
     for (let word of user.words) {
-        let wordInfo = await wordData.getWordById(word._id.toString());
+      let word_id = word._id.toString();
+      let wordInfo = await wordData.getWordById(word_id);
 
         wordInfo.date_user_received_word = word.date_user_received_word;
         wordInfo.flagged_for_deletion = word.flagged_for_deletion;
@@ -438,11 +444,15 @@ let exportedMethods = {
   },
 
   async flagWordForDeletionForUser(user_id, word_id) {
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const userCollection = await users();
-    let wordToRemove = await wordData.getWordById(word_id);
+    // let wordToRemove = await wordData.getWordById(word_id);
     const updateUserInfo = await userCollection.findOneAndUpdate(
       {
-        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+        _id: new ObjectId(user_id),
+        "words._id": new ObjectId(word_id),
       },
       {
         $set: {
@@ -461,12 +471,15 @@ let exportedMethods = {
   },
 
   async unflagWordForDeletionForUser(user_id, word_id) {
-    //TODO: validation
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const userCollection = await users();
-    let wordToRemove = await wordData.getWordById(word_id);
+    // let wordToRemove = await wordData.getWordById(word_id);
     const updateUserInfo = await userCollection.findOneAndUpdate(
       {
-        _id: new ObjectId(user_id), "words._id": new ObjectId(word_id)
+        _id: new ObjectId(user_id),
+        "words._id": new ObjectId(word_id),
       },
       {
         $set: {
@@ -485,8 +498,11 @@ let exportedMethods = {
   },
 
   async deleteWordForUser(user_id, word_id) {
+    user_id = idValidation.validateId(user_id);
+    word_id = idValidation.validateId(word_id);
+
     const userCollection = await users();
-    let wordToRemove = await wordData.getWordById(word_id);
+    // let wordToRemove = await wordData.getWordById(word_id);
     const updateUserInfo = await userCollection.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
       {
@@ -504,4 +520,5 @@ let exportedMethods = {
     return updateUserInfo;
   },
 };
+
 export default exportedMethods;
