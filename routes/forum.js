@@ -52,6 +52,11 @@ router
       let tags = xss(req.body.tags);
       tags = tags.split(",").map((tag) => tag.trim());
 
+      // character checking for each tag
+      for (let t of tags){
+        if(t.length > 20) throw `Error: tags cannot be more than 20 characters.`;
+      }
+
       await postData.addPost(poster_id, title, post, tags);
       return res.redirect("/forum");
     } catch (e) {
