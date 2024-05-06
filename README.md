@@ -36,7 +36,7 @@ To access the normal user website and normal features:
   - Users are able to use the report page for various reasons:
     - Bugs
     - Incorrect definitions
-    - Inapropriate fourm posts/comments
+    - Inapropriate forum posts/comments
     - New word requests
     - Website suggestions
   - Admins will be able to resolve tickets made by users and close it
