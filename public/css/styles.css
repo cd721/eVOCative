@@ -752,3 +752,31 @@ a.quiz-link:hover {
 a.quiz-link:visited {
     color: rgb(116, 115, 115);
 }
+
+#new-post {
+    width: 10%;
+    height: 5%;
+    text-align: center;
+    padding: 2%;
+    background-color: rgb(76, 170, 194);
+    border-radius: 8px;
+    border: 2px solid #292929;
+    font-size: 12px;
+}
+
+#tagFilter {
+    max-width: 750px;
+    max-height: 600px;
+    resize: none;
+    font-family: Roboto, sans-serif;
+}
+
+.word-button {
+    background-color: rgb(255, 186, 96);
+    border-radius: 8px;
+    width: auto;
+    height: auto;
+    padding: 3px;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+}

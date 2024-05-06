@@ -20,7 +20,7 @@ if (form) {
       for (let i = 0; i < postPreviews.length; i++) {
         let postSection = postPreviews[i].querySelector(".individual_post");
         let id = postSection.id;
-        let tagAs = [...document.querySelectorAll(`section#${id} li a`)];
+        let tagAs = [...document.querySelectorAll(`section#${id} li p`)];
         let tagList = tagAs.map((a) => a.innerHTML);
 
         for (let tagUserWants of tagsUserWantsToSee) {
