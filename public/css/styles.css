@@ -1025,6 +1025,10 @@ form h3 {
     text-align: center;
  }
 
+ .oneOff>div {
+    margin: 15px
+ }
+
  .oneOff h1 {
     margin: 20px auto 5px;
  }
