@@ -913,16 +913,6 @@ form h3 {
     border: 2px solid #292929;
 }
 
-.form-container {
-    margin: 70px auto;
-    padding: 10px 25px 20px;
-
-    max-width: 400px;
-
-    border-radius: 8px;
-    border: 2px solid #292929;
-}
-
 #quizForm h1 {
     border-bottom: 1px #292929 solid;
 }
