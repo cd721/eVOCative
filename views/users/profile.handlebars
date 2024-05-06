@@ -11,12 +11,22 @@
         </header>
         <ul>
             <li>
+                {{#if streakOneDay}}
+                <p>Streak</p>
+                <h4>{{user.streak}} day</h4>
+                {{else}}
                 <p>Streak</p>
                 <h4>{{user.streak}} days</h4>
+                {{/if}}
             </li>
             <li>
+                {{#if longestStreakOneDay}}
+                <p>Longest Streak</p>
+                <h4>{{user.longest_streak}} day</h4>
+                {{else}}
                 <p>Longest Streak</p>
                 <h4>{{user.longest_streak}} days</h4>
+                {{/if}}
             </li>
             <li>
                 <p>Accuracy Score</p>
@@ -57,4 +67,5 @@
         <h3>You have collected the Word of the day!</h3>
     </div>
     {{/if}}
+</div>
 </div>

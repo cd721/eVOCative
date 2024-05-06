@@ -9,8 +9,8 @@ const exportedMethods = {
         const existingScoreForWord = await wordData.getAccuracyScore(word_id.toString());
 
 
-        const number_correct_for_user = existingScoreForUser * user_times_played;
-        const number_correct_for_word = existingScoreForWord * word_times_played;
+        const number_correct_for_user = existingScoreForUser * (user_times_played-1);
+        const number_correct_for_word = existingScoreForWord * (word_times_played-1);
 
 
 

@@ -51,7 +51,7 @@ router.route("/all/:id").get(async (req, res) => {
     }
 
     try {
-      return res.render("words/word", { title: "Word", word: word, admin: true });
+      return res.render("words/word", { title: "Word", word: word, admin: true, fromAllWords: true });
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }
@@ -82,7 +82,8 @@ router.route("/:id").get(async (req, res) => {
         title: `${word.word}`, 
         word: word, 
         admin: adminStatus,
-        user_id: user._id.toString()
+        user_id: user._id.toString(),
+        fromAllWords: false
       });
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
