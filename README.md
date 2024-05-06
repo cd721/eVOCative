@@ -1,6 +1,6 @@
 # eVOCative
 
-Welcome to eVOCative! The "Word of the Day" Application that allows you to expand your vocabulary and refining your vocabulary with quiz games! With these games, you are able to review and practices words you have aquired each day. You are also able to share your progress through the fourms on the site, and post about your words while other users can comment on your posts.
+Welcome to eVOCative! The "Word of the Day" Application that allows you to expand your vocabulary and refining your vocabulary with quiz games! With these games, you are able to review and practices words you have aquired each day. You are also able to share your progress through the forums on the site, and post about your words while other users can comment on your posts.
 
 ## Installation Instructions
 
@@ -40,8 +40,8 @@ To access the normal user website and normal features:
     - New word requests
     - Website suggestions
   - Admins will be able to resolve tickets made by users and close it
-- Fourm page
-    - The fourm page is the page where everyone is able to create and look at posts made by users on the website
+- forum page
+    - The forum page is the page where everyone is able to create and look at posts made by users on the website
     - When creating a post, users are able to put tags on the posts to make it easier to filter through posts
 
 
