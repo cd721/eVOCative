@@ -14,75 +14,96 @@ router.route("/").get(async (req, res) => {
   }
 });
 
-router.route("/:id").get(async (req, res) => {
-  let user_id = req.params.id.toString();
-  let user;
-  let errors;
 
-  let a_user_is_logged_in;
-  if (req.session.user) {
-    a_user_is_logged_in = true;
-  } else {
-    a_user_is_logged_in = false;
-  }
+router
+  .route('/:id')
+  .get(async (req, res) => {
+    let user_id = req.params.id.toString();
+    let user;
+    let errors;
 
-  try {
-    user_id = idValidation.validateId(user_id);
-    user = await userData.getUserById(user_id);
-  } catch (e) {
-    return res.status(400).render("notFoundError");
-  }
-
-  try {
-    //add new word of the day to user word bank automatically
-    let date_last_word_was_received = await userData.getDateLastWordWasReceived(
-      user_id
-    );
-    const wordsUserHas = await userData.getWordsForUser(user_id);
-
-    let recievedWOD = false;
-
-    const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
-    if (wordsUserHas.length < totalNumberOfWords) {
-      if (
-        !date_last_word_was_received ||
-        helpers.dateIsNotToday(date_last_word_was_received)
-      ) {
-        await userData.addWordOfDay(user_id);
-        recievedWOD = true;
-      }
+    let a_user_is_logged_in;
+    if (req.session.user) {
+      a_user_is_logged_in = true;
+    } else {
+      a_user_is_logged_in = false;
     }
 
-    let words = await userData.getWordsForUser(user_id);
-    const userIsAdmin = await userData.isAdmin(user_id);
+    try {
+      user_id = idValidation.validateId(user_id);
+      user = await userData.getUserById(user_id);
+    } catch (e) {
+      return res.status(400).render("notFoundError");
+    }
 
-    // destructure so that sensitive fields are not sent to handlebars
-    const { hashedPassword, email, ...safeUserData } = user;
+    try {
+      //add new word of the day to user word bank automatically
+      let date_last_word_was_received = await userData.getDateLastWordWasReceived(
+        user_id
+      );
+      const wordsUserHas = await userData.getWordsForUser(user_id);
 
-    if (userIsAdmin) {
-      return res.render("users/adminProfile", {
-        title: "Admin Profile",
+      let recievedWOD = false;
+
+      const totalNumberOfWords = await wordData.getNumberOfWordsInDB();
+      if (wordsUserHas.length < totalNumberOfWords) {
+        if (
+          !date_last_word_was_received ||
+          helpers.dateIsNotToday(date_last_word_was_received)
+        ) {
+          await userData.addWordOfDay(user_id);
+          recievedWOD = true;
+        }
+      }
+
+      let words = await userData.getWordsForUser(user_id);
+      const userIsAdmin = await userData.isAdmin(user_id);
+
+      // destructure so that sensitive fields are not sent to handlebars
+      const { hashedPassword, email, ...safeUserData } = user;
+
+      let streakOneDay = false;
+      if (user.streak === 1) {
+        streakOneDay = true;
+      }
+      let longestStreakOneDay = false;
+      if (user.longest_streak === 1) {
+        longestStreakOneDay = true;
+      }
+
+
+
+      if (userIsAdmin) {
+        return res.render("users/adminProfile", {
+          title: "Admin Profile",
+          user: safeUserData,
+          words: words,
+          streakOneDay: streakOneDay,
+          longestStreakOneDay: longestStreakOneDay,
+          WOD: recievedWOD,
+        });
+      }
+      return res.render("users/profile", {
+        title: "User Profile",
         user: safeUserData,
         words: words,
         WOD: recievedWOD,
+        streakOneDay: streakOneDay,
+        longestStreakOneDay: longestStreakOneDay
       });
+    } catch (e) {
+      errors.push(e);
+      //If no user is logged in, we don't want to show the error page with links to other pages on the site
+      if (a_user_is_logged_in) {
+        return res.status(500).render("errorSpecial", { error: e });
+      } else {
+        return res.status(400).render('login', { errors });
+      }
     }
-    return res.render("users/profile", {
-      title: "User Profile",
-      user: safeUserData,
-      words: words,
-      WOD: recievedWOD,
-    });
-  } catch (e) {
-    errors.push(e);
-    //If no user is logged in, we don't want to show the error page with links to other pages on the site
-    if (a_user_is_logged_in) {
-      return res.status(500).render("errorSpecial", { error: e });
-    } else {
-      return res.status(400).render("login", { errors });
-    }
-  }
-});
+  })
+  ;
+
+
 
 router.route("/:userId/deleteWord/:wordId").get(async (req, res) => {
   let user_id = req.params.userId;

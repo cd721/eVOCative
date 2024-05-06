@@ -1,6 +1,8 @@
 import { Router } from "express";
 import userData from "../data/users/users.js";
 import wordData from "../data/words/words.js";
+
+import wordInfo from "../data/words/words.js";
 import quizHelpers from "../helpers/quizHelpers.js";
 import { ObjectId } from "mongodb";
 
@@ -29,13 +31,21 @@ router.route("/definitionToWord")
       return res.render("quiz/noWords");
     }
 
-    try {
-      randomWordForUser =
-        user.words[Math.floor(Math.random() * user.words.length)];
 
-      if (!randomWordForUser) {
-        throw "The user has no words";
+
+    try {
+
+      randomWordForUser = quizHelpers.getRandomWordForUser(user, req.session.previousWordId);
+
+      if (randomWordForUser === "noWords") {
+        return res.render("quiz/noWords")
+      } else if (randomWordForUser === "oneWord") {
+        return res.render("quiz/oneWord")
+
       }
+
+      req.session.previousWordId = randomWordForUser._id.toString();
+
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }
@@ -43,73 +53,23 @@ router.route("/definitionToWord")
     let randomWord;
     let words;
     try {
-      randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+      randomWord = await wordInfo.getWordById(randomWordForUser._id.toString());
 
-      words = await wordData.getAllWords();
+      words = await wordInfo.getAllWords();
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
 
     }
 
     try {
-      let randomDef1 = words[Math.floor(Math.random() * words.length)];
-      while (randomDef1.word === randomWord.word) {
-        randomDef1 = words[Math.floor(Math.random() * words.length)];
-      }
 
-      let randomDef2 = words[Math.floor(Math.random() * words.length)];
-      while (
-        randomDef2.word === randomWord.word ||
-        randomDef2.word === randomDef1.word
-      ) {
-        randomDef2 = words[Math.floor(Math.random() * words.length)];
-      }
-
-      let randomDef3 = words[Math.floor(Math.random() * words.length)];
-      while (
-        randomDef3.word === randomWord.word ||
-        randomDef3.word === randomDef1.word ||
-        randomDef3.word === randomDef2.word
-      ) {
-        randomDef3 = words[Math.floor(Math.random() * words.length)];
-      }
-
-      let buttonOrder = [0, 0, 0, 0];
-      let spotsLeft = [1, 2, 3, 4];
-      let ind;
-
-      buttonOrder[0] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-      ind = spotsLeft.indexOf(buttonOrder[0]);
-      spotsLeft.splice(ind, 1);
-
-      buttonOrder[1] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-      ind = spotsLeft.indexOf(buttonOrder[1]);
-      spotsLeft.splice(ind, 1);
-
-      buttonOrder[2] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-      ind = spotsLeft.indexOf(buttonOrder[2]);
-      spotsLeft.splice(ind, 1);
-
-      buttonOrder[3] = spotsLeft[0];
-
-      let buttonDefs = [];
-      for (let elem of buttonOrder) {
-        if (elem === 1) {
-          buttonDefs.push(randomWord.definition);
-        } else if (elem === 2) {
-          buttonDefs.push(randomDef1.definition);
-        } else if (elem === 3) {
-          buttonDefs.push(randomDef2.definition);
-        } else {
-          buttonDefs.push(randomDef3.definition);
-        }
-      }
-
+      const buttonDefs = quizHelpers.setUpDefinitionToWordGame(words,randomWord);
+      console.log(buttonDefs)
       let correctInd;
       for (let i = 0; i < buttonDefs.length; i++) {
         if (buttonDefs[i] == randomWord.definition) {
           correctInd = i;
-          console.log(correctInd)
+          //   console.log(correctInd)
         }
       }
 
@@ -127,40 +87,65 @@ router.route("/definitionToWord")
       return res.status(500).render("errorSpecial", { error: e });
     }
   }).post(async (req, res) => {
+    //TODO: validate user
+
 
     try {
+      let user = req.session.user;
+
+      let user_id = req.session.user._id.toString();
 
 
-      if (!req.session.correctIndex) {
+      if (req.session.correctIndex !== 0
+        && req.session.correctIndex !== 1
+        && req.session.correctIndex !== 2
+        && req.session.correctIndex !== 3) {
         //If correctIndex is null, the user already answered the question. 
         //This prevents the user from using client side JS to modify the form 
         //and change their original answer.
+        console.log("here")
         return res.redirect("/quiz/invalidAnswer");
       }
       //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-      console.log(req.body.selectedIndex);
 
-      //Increase number of times played
-      const word = await wordData.getWordByWord(req.body.wordBeingPlayed);
-      await wordData.updateTimesPlayed(word._id);
+      //Increase number of times played for user and word
+      const word = await wordInfo.getWordByWord(req.body.wordBeingPlayed);
+      await wordInfo.updateTimesPlayed(word._id);
+      await userData.updateTimesPlayedForUser(user._id.toString());
+
+
+      const user_times_played = await userData.getTimesPlayedForUser(user._id.toString());
+      const word_times_played = await wordInfo.getTimesPlayed(word._id.toString());
+
+
+
       //reset correct index
+      const correctIndexBeforeReset = req.session.correctIndex;
+      let userWasCorrect;
 
-      req.session.correctIndex = null;
 
 
-      ////update accuracy score for user
-      if (req.data.selectedIndex === req.session.correctIndex) {
-        await quizHelpers.updateAccuracyScores(user._id, word._id, true);
-        return res.status(200).json({ correct: true, correctIndex: req.session.correctIndex });
+
+
+      //Update accuracy score for user
+      if (req.body.selectedIndex === req.session.correctIndex) {
+        userWasCorrect = true;
+
       } else {
-
-        await quizHelpers.updateAccuracyScores(user._id, word._id, false);
-        return res.status(200).json({ correct: false, correctIndex: req.session.correctIndex });
+        userWasCorrect = false;
 
       }
 
 
 
+
+      await quizHelpers.updateAccuracyScores(user._id, word._id, userWasCorrect, user_times_played, word_times_played);
+
+      //Reset correct index last
+      req.session.correctIndex = null;
+
+
+      return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
 
     } catch (e) {
@@ -185,12 +170,18 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 
   try {
-    randomWordForUser =
-      user.words[Math.floor(Math.random() * user.words.length)];
+    randomWordForUser = quizHelpers.getRandomWordForUser(user, req.session.previousWordId);
 
-    if (!randomWordForUser) {
-      throw "The user has no words";
+
+    if (randomWordForUser === "noWords") {
+      return res.render("quiz/noWords")
+    } else if (randomWordForUser === "oneWord") {
+      return res.render("quiz/oneWord")
+
     }
+
+    req.session.previousWordId = randomWordForUser._id.toString();
+
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -201,75 +192,24 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
   let randomDefinition;
   try {
-    randomWord = await wordData.getWordById(randomWordForUser._id.toString());
+    randomWord = await wordInfo.getWordById(randomWordForUser._id.toString());
     randomDefinition = randomWord.definition;
-    words = await wordData.getAllWords();
+    words = await wordInfo.getAllWords();
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
 
   }
   try {
-    let randomDef1 = words[Math.floor(Math.random() * words.length)];
-    while (randomDef1.word === randomWord.word) {
-      randomDef1 = words[Math.floor(Math.random() * words.length)];
-    }
-
-    let randomDef2 = words[Math.floor(Math.random() * words.length)];
-    while (
-      randomDef2.word === randomWord.word ||
-      randomDef2.word === randomDef1.word
-    ) {
-      randomDef2 = words[Math.floor(Math.random() * words.length)];
-    }
-
-    let randomDef3 = words[Math.floor(Math.random() * words.length)];
-    while (
-      randomDef3.word === randomWord.word ||
-      randomDef3.word === randomDef1.word ||
-      randomDef3.word === randomDef2.word
-    ) {
-      randomDef3 = words[Math.floor(Math.random() * words.length)];
-    }
-
-
-
-    let buttonOrder = [0, 0, 0, 0];
-    let spotsLeft = [1, 2, 3, 4];
-    let ind;
-
-
-    buttonOrder[0] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-    ind = spotsLeft.indexOf(buttonOrder[0]);
-    spotsLeft.splice(ind, 1);
-
-    buttonOrder[1] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-    ind = spotsLeft.indexOf(buttonOrder[1]);
-    spotsLeft.splice(ind, 1);
-
-    buttonOrder[2] = spotsLeft[Math.floor(Math.random() * spotsLeft.length)];
-    ind = spotsLeft.indexOf(buttonOrder[2]);
-    spotsLeft.splice(ind, 1);
-
-    buttonOrder[3] = spotsLeft[0];
-
-    let buttonDefs = [];
-    for (let elem of buttonOrder) {
-      if (elem === 1) {
-        buttonDefs.push(randomWord.word);
-      } else if (elem === 2) {
-        buttonDefs.push(randomDef1.word);
-      } else if (elem === 3) {
-        buttonDefs.push(randomDef2.word);
-      } else {
-        buttonDefs.push(randomDef3.word);
-      }
-    }
+   const buttonDefs =
+   quizHelpers.setUpWordToDefinitionGame(
+    words,randomWord
+   );
 
     let correctInd;
     for (let i = 0; i < buttonDefs.length; i++) {
       if (buttonDefs[i] == randomWord.word) {
         correctInd = i;
-        console.log(correctInd)
+        // console.log(correctInd)
       }
     }
 
@@ -292,25 +232,31 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     //TODO: validate user
     let user = req.session.user;
-    console.log("heres correct " + req.session.correctIndex)
-    if (!req.session.correctIndex) {
+    let user_id = req.session.user._id.toString();
+    if (req.session.correctIndex !== 0
+      && req.session.correctIndex !== 1
+      && req.session.correctIndex !== 2
+      && req.session.correctIndex !== 3) {
       //If correctIndex is null, the user already answered the question. 
       //This prevents the user from using client side JS to modify the form 
       //and change their original answer.
-      console.log("heres correct " + req.session.correctIndex);
-
+      console.log("here")
       return res.redirect("/quiz/invalidAnswer");
     }
     //TODO: validate selectedIndex. it must be a number, either 0,1,2,3 and nothing else
-    console.log(req.body.selectedIndex);
 
-    //Increase number of times played
+    //Increase number of times played for word and user
     const wordInfo = await wordData.getWordByDefinition(req.body.definitionBeingPlayed);
     await wordData.updateTimesPlayed(wordInfo._id);
+    await userData.updateTimesPlayedForUser(user._id.toString());
+
+    const user_times_played = await userData.getTimesPlayedForUser(user._id.toString());
+    const word_times_played = await wordData.getTimesPlayed(wordInfo._id.toString());
+
+
 
     const correctIndexBeforeReset = req.session.correctIndex;
     let userWasCorrect;
-    req.session.correctIndex = null;
 
     ////update accuracy score for user
 
@@ -323,7 +269,11 @@ router.route("/wordToDefinition").get(async (req, res) => {
 
     }
 
-    await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect);
+    await quizHelpers.updateAccuracyScores(user._id, wordInfo._id, userWasCorrect, user_times_played, word_times_played);
+
+    //Do this last
+    req.session.correctIndex = null;
+
     return res.status(200).json({ correct: userWasCorrect, correctIndex: correctIndexBeforeReset });
 
   } catch (e) {
