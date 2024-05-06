@@ -34,15 +34,15 @@ To access the normal user website and normal features:
   - Users are able to share their score on the forum. They can do this by clicking "Profile" on the top right of the webpage and then clicking "Share your accuracy score?"
 - Report Page
   - Users are able to use the report page for various reasons:
-    - Bugs
-    - Incorrect definitions
-    - Inapropriate forum posts/comments
-    - New word requests
-    - Website suggestions
-  - Admins will be able to resolve tickets made by users and close it
-- forum page
+    - Report bugs
+    - Report users
+    - Report inappropriate forum posts/comments
+    - Request features
+    - Request to add/delete/update vocab
+  - Admins will be able to resolve tickets (thereby closing them)
+- Forum page
     - The forum page is the page where everyone is able to create and look at posts made by users on the website
-    - When creating a post, users are able to put tags on the posts to make it easier to filter through posts
+    - When creating a post, users are able to put tags on the posts. The user can use those tags to filter through posts
 
 
 ## Group Members
