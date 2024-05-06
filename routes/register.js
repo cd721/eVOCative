@@ -104,7 +104,7 @@ router.route("/").post(async (req, res) => {
   else {
     try {
       username = username.toLowerCase();
-      user = await userData.addUser(
+      const user = await userData.addUser(
         firstName,
         lastName,
         email,
@@ -112,15 +112,12 @@ router.route("/").post(async (req, res) => {
         password
       );
 
-      if (user.signupCompleted) {
-        return res.redirect('/login');
-      } else {
-        return res.status(500).render('register', {
-          error: 'Internal server error.'
-        });
-      }
+      return res.redirect('/login');
     } catch (e) {
-      errors.push(e);
+      console.log(e);
+      return res.status(500).render('register', {
+        error: 'Internal server error.'
+      });
     }
   }
 
