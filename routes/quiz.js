@@ -66,7 +66,6 @@ router
         words,
         randomWord
       );
-      console.log(buttonDefs);
       let correctInd;
       for (let i = 0; i < buttonDefs.length; i++) {
         if (buttonDefs[i] == randomWord.definition) {
@@ -102,7 +101,6 @@ router
         //If correctIndex is null, the user already answered the question.
         //This prevents the user from using client side JS to modify the form
         //and change their original answer.
-        console.log("here");
         return res.redirect("/quiz/invalidAnswer");
       }
 
@@ -236,7 +234,6 @@ router
         //If correctIndex is null, the user already answered the question.
         //This prevents the user from using client side JS to modify the form
         //and change their original answer.
-        console.log("here");
         return res.redirect("/quiz/invalidAnswer");
       }
 

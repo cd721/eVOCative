@@ -48,7 +48,6 @@ const exportedMethods = {
         do {
             randomWordForUser =
                 user.words[Math.floor(Math.random() * user.words.length)];
-            console.log(randomWordForUser)
 
             if (!randomWordForUser) {
                 return "noWords";

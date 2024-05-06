@@ -39,6 +39,7 @@ if (form) {
 
     try {
       validateGen("Issue", issueInput);
+      if (issueInput.length > 250) throw `Error: issue cannot be more than 250 characters.`;
     } catch (e) {
       displayError("issue", e);
       valid = false;

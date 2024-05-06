@@ -2,6 +2,7 @@ import { Router } from "express";
 import userValidation from "../data/users/userValidation.js";
 import userData from "../data/users/users.js";
 import xss from "xss";
+import {loginLimit} from '../app.js';
 const router = Router();
 
 router.route("/")
@@ -9,7 +10,10 @@ router.route("/")
 
     let errors = [];
     try {
-      return res.render("login");
+      return res.render("login",
+                        {
+                          triesLeft: 5
+                        });
     } catch (e) {
       errors.push(e);
       return res.status(500).render("login", {error: e});
@@ -18,7 +22,8 @@ router.route("/")
   .post(async (req, res) => {
     let username = xss(req.body.username);
     let password = xss(req.body.password);
-      
+    let triesLeft = parseInt(req.body.tries);
+
     let errors = [];
     try {
       username = userValidation.validateUsername(username);
@@ -35,6 +40,7 @@ router.route("/")
           role: user.role
         }
 
+        loginLimit.resetKey(req.ip);
         return res.redirect(`/users/${user._id.toString()}`);
         
       } else {
@@ -42,9 +48,15 @@ router.route("/")
       } 
     } catch (e) {
       errors.push(e);
+      triesLeft -= 1;
+      if(triesLeft === 1)
+        errors.push(`You have ${triesLeft} attempt left to login.`);
+      else
+        errors.push(`You have ${triesLeft} attempts left to login.`);
       return res.status(400).render('login', {
         errors,
-        username: username
+        username: username,
+        triesLeft: triesLeft
       });
     }
 });

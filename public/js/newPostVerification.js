@@ -55,6 +55,7 @@ if (form) {
 
     try {
       validateTags(tagsInput);
+      if (tagsInput.length > 100) throw `Error: tags cannot be more than 100 characters.`;
     } catch (e) {
       displayError("postTags", e);
       valid = false;
@@ -73,6 +74,7 @@ function validateGen(label, input) {
   if (typeof input !== "string") throw `${label} must be of type string!`;
   input = input.trim();
   if (input.length === 0) throw `${label} cannot be empty or just spaces!`;
+  if (input.length > 250) throw `${label} cannot be more than 250 characters!`;
 }
 
 function validateTitle(title, limit) {

@@ -12,8 +12,8 @@ Client-Side java is required for the form, but submmission will take place for l
     <h1>Login</h1>
     {{#if errors}}
     <div class="error_top">
-        {{#each errors}}
         <h4>There was an error:</h4>
+        {{#each errors}}
         <p>{{this}}</p>
         {{/each}}
     </div>
@@ -33,6 +33,7 @@ Client-Side java is required for the form, but submmission will take place for l
         
     <button type="submit">Login</button>
     <a id="register_link" href="/register">Don't have an account? Sign up here.</a>
+    <input class="hidden" name="tries" id="tries" value="{{triesLeft}}">
 </form>
 
 <script src="/public/js/authentication.js"></script>
