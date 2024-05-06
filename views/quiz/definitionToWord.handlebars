@@ -1,30 +1,36 @@
-<h1>Match the definition to its word</h1>
-
-<h2 id="wordBeingPlayed">{{curWord}}</h2>
 <form id="quizForm">
-    <label for="button0">{{def0}}</label>
-    <input type="radio" id="button0" name="buttonDef">
-    <br>
-    <label for="button1">{{def1}}</label>
-    <input type="radio" id="button1" name="buttonDef">
-    <br>
-    <label for="button2">{{def2}}</label>
-    <input type="radio" id="button2" name="buttonDef">
-    <br>
-    <label for="button3">{{def3}}</label>
-    <input type="radio" id="button3" name="buttonDef">
-    <br>
+    <h1>Match the definition to its word</h1>
+    <h2 id="wordBeingPlayed" class="quizValue">{{curWord}}</h2>
+    <div>
+        <input type="radio" id="button0" name="buttonDef">
+        <label for="button0">{{def0}}</label> 
+    </div>
+
+    <div>
+        <input type="radio" id="button1" name="buttonDef">
+        <label for="button1">{{def1}}</label> 
+    </div>
+
+    <div>
+        <input type="radio" id="button2" name="buttonDef">
+        <label for="button2">{{def2}}</label>
+    </div>
+
+    <div>
+        <input type="radio" id="button3" name="buttonDef">
+        <label for="button3">{{def3}}</label>
+    </div>
+
     <input type="submit" id="button" value="Check my answer">
 
-
+    <div id="messageSpace">
+        <p id="correct" hidden>You got it!</p>
+        <p id="wrong" hidden>Sorry, that was incorrect. Better luck next time!</p>
+        <p id="theCorrectAnswer" hidden></p>
+        <a id="nextQuestion" href="/quiz/defintiionToWord" hidden>Click here for the next question.</a>
+    </div>
 </form>
 
-<div id="messageSpace">
-    <p id="correct" hidden>You got it!</p>
-    <p id="wrong" hidden>Sorry, that was incorrect. Better luck next time!</p>
-    <p id="theCorrectAnswer" hidden></p>
-    <a id="nextQuestion" href="/quiz/defintiionToWord" hidden>Click here for the next question.</a>
-</div>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="/public/js/quizVerification.js"></script>
