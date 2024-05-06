@@ -428,7 +428,7 @@ form h3 {
 
 /* ################### ADMIN TOOLS ################### */
 /* add/edit/delete word */
-.word-database-container {
+.form-container {
     margin: 70px auto;
     padding: 10px 25px 20px;
 
@@ -438,11 +438,11 @@ form h3 {
     border: 2px solid #292929;
 }
 
-.word-database-container h1 {
+.form-container h1 {
     margin: 10px 0px 20px;
 }
 
-.word-database-container label {
+.form-container label {
     display: block;
     margin-bottom: 5px;
     
@@ -450,8 +450,8 @@ form h3 {
     font-weight: bold;
 }
 
-.word-database-container input[type="text"],
-.word-database-container textarea {
+.form-container input[type="text"],
+.form-container textarea {
     width: 94%;
 
     padding: 10px;
@@ -461,11 +461,11 @@ form h3 {
     border-radius: 5px;
 }
 
-.word-database-container textarea {
+.form-container textarea {
     resize: none;
 }
 
-.word-database-container button {
+.form-container button {
     width: 100%;
     padding: 8px;
 
@@ -479,7 +479,7 @@ form h3 {
     font-weight: bold;
     color: #fcfef1;
 }
-.word-database-container button:hover {
+.form-container button:hover {
     background-color: #ff9e6d;
 }
 
