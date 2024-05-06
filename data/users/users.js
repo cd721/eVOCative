@@ -499,44 +499,6 @@ let exportedMethods = {
     }
 
     return updateUserInfo;
-  },
-
-  async resetFailedLoginAttempts(user_id) {
-    const userCollection = await users();
-    const updateUserInfo = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(user_id) },
-      {
-        $set: {
-          failedLoginAttempts: 0,
-        },
-      },
-      { returnDocument: "after" }
-    );
-
-    if (!updateUserInfo) {
-      throw "Update failed!";
-    }
-
-    return updateUserInfo;
-  },
-
-  async incrementFailedLoginAttempts(user_id) {
-    const userCollection = await users();
-    const updateUserInfo = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(user_id) },
-      {
-        $inc: {
-          failedLoginAttempts: 1,
-        },
-      },
-      { returnDocument: "after" }
-    );
-
-    if(!updateUserInfo){
-      throw "Update failed!";
-    }
-
-    return updateUserInfo;
   }
   
 };
