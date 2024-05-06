@@ -30,7 +30,7 @@
         </ul>
     </div>
     
-    {{#if admin}}
+    {{#if fromAllWords}}
     <p></p>
     {{else}}
     {{#if (wasDeletedLessThan24HoursAgo word.date_flagged_for_deletion word.flagged_for_deletion)}}

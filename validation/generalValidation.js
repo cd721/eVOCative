@@ -25,9 +25,13 @@ const exportedMethods = {
   },
 
   validateIndex(ind) {
-    ind = Number(ind);
+    if (ind === '') {
+      ind = 0;
+    } else {
+      ind = Number(ind);
+    }
     ind = this.validateNumber(ind);
-    if (ind !== 1 && ind !== 2 && ind !== 3 && ind !== 4) throw `Error: Index must be 1, 2, 3, or 4.`;
+    if (ind !== 0 && ind !== 1 && ind !== 2 && ind !== 3) throw `Error: Index must be 0, 1, 2, or 3.`;
     return ind;
   },
 };

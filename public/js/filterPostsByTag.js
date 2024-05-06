@@ -15,7 +15,7 @@ for (let i = 0; i < tagButtons.length; i++) {
 
         // filter the posts
         for (let post of posts) {
-            const postTagsElements = post.querySelectorAll('#forum-tags li');
+            const postTagsElements = post.querySelectorAll('.forum-tags li');
             let hasMatchingTag = false;
 
             // check if post has a matching tag
