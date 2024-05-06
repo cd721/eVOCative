@@ -848,7 +848,7 @@ form h3 {
     margin: 5px auto;
 }
 
-#tickets-page #ticket-type {
+#tickets-page .ticket-type {
     color: #fd703c;
 }
 
