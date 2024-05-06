@@ -31,9 +31,9 @@ To access the normal user website and normal features:
     - Match the definition to the word
     - Match the word to the definition
    - The quiz uses the user's vocabulary bank for the games and everyday that the user visits the website, the games will be harder since they have more words to practice with
-  - Users will be able to share their score on the fourm easily
+  - Users are able to share their score on the forum. They can do this by clicking "Profile" on the top right of the webpage and then clicking "Share your accuracy score?"
 - Report Page
-  - Users will be able to use the report page for various reasons:
+  - Users are able to use the report page for various reasons:
     - Bugs
     - Incorrect definitions
     - Inapropriate fourm posts/comments
