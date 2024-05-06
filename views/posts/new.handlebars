@@ -7,7 +7,7 @@
     <input id="title" type="text" name="title" placeholder="Post Title" value="{{post.title}}" class="full-width-input">
   </label>
   <br>
-  <p class="hidden" id="titleError"></p>
+  <p id="error_title"></p>
 
   <br>
   <label for="post">
@@ -15,7 +15,7 @@
   </label>
   <br>
   <textarea id="post" name="post" rows="4" placeholder="Post Content" class="full-width-input">{{post.body}}</textarea>
-  <p class="hidden" id="postError"></p>
+  <p id="error_post"></p>
 
 
 
@@ -24,7 +24,7 @@
     Tags (separated by comma)<br><input type="text" name="tags" value="{{post.tags}}">
   </label>
   <br>
-  <p class="hidden" id="tagsError"></p>
+  <p id="error_tags"></p>
   <br><br>
 
   <button type="submit">Create New Post</button>

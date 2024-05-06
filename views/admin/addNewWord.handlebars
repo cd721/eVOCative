@@ -1,16 +1,24 @@
 <div class="main_container add_new">
 <h1>Add a new word to the database!</h1>
 <br><br>
-<form method="POST" action="/admin/addNewWord" id="add-word-form">
+<form method="POST" action="/admin/addNewWord" id="add_word_form">
     <label for="word">Word:</label>
     <input type="text" name="word" id="word">
+    <p id="error_word"></p>
+
     <br>
     <label for="definition">Definition:</label>
     <input type="textarea" name="definition" id="definition">
+    <p id="error_definition"></p>
+
     <br>
     <label for="tags">Tags: (Separate unique tags with a ,)</label>
     <input type="text" name="tags" id="tags">
+    <p id="error_tags"></p>
+
     <br><br><br>
     <button type="submit">Add Word</button>
 </form>
 </div>
+
+<script src="../../public/js/addWordVerification.js"></script>

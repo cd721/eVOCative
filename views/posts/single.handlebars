@@ -18,7 +18,9 @@
 
     <form action="/forum/{{post._id}}" method="POST" id="submit_comment">
       <label for="comment">Comment:</label>
-      <textarea name="comment" placeholder="enter comment"></textarea>
+      <textarea name="comment" placeholder="enter comment" id="comment"></textarea>
+      <p id="error_comment"></p>
+
       <input type="hidden" name="postID" value="{{post._id}}">
       <input type="submit" value="Add Comment">
     </form>
@@ -43,3 +45,5 @@
     {{/if}}
   </div>
 </article>
+
+<script src="../../public/js/commentVerification.js"></script>

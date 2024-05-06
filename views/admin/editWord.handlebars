@@ -1,10 +1,18 @@
 <h1>Add a new word to the database!</h1>
-<form method="POST" action="/admin/editWord/{{id}}" id="edit-word-form">
+<form method="POST" action="/admin/editWord/{{id}}" id="edit_word_form">
     <label for="word">Word:</label>
     <input type="text" name="word" id="word" value="{{word}}">
+    <p id="error_word"></p>
+
     <label for="definition">Definition:</label>
     <input type="textarea" name="definition" id="definition" value="{{definition}}">
+    <p id="error_definition"></p>
+
     <label for="tags">Tags: (Separate unique tags with a ,)</label>
     <input type="text" name="tags" id="tags" value="{{tags}}">
+    <p id="error_tags"></p>
+
     <button type="submit">Edit Word</button>
 </form>
+
+<script src="../../public/js/editWordVerification.js"></script>
