@@ -4,6 +4,7 @@ const exportedMethods = {
     if (typeof post !== "string") throw `Error: Post must be of type string.`;
     post = post.trim();
     if (post.length === 0) throw `Error: Post cannot be empty or just spaces.`;
+    if (post.length > 250) throw `Error: Post cannot be more than 250 characters.`;
     return post;
   },
 
@@ -28,6 +29,7 @@ const exportedMethods = {
       tags[i] = tags[i].trim();
       if (tags[i].length === 0)
         throw `Error: Tags in Array cannot be empty or just spaces.`;
+      if (tags[i].length > 20) throw `Error: Tags in Array cannot be more than 20 characters.`;
     }
 
     return tags;
