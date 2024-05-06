@@ -3,8 +3,7 @@ import { ObjectId } from "mongodb";
 import wordValidation from "./wordValidation.js";
 import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
-
-
+import scoreValidation from "../../validation/generalValidation.js";
 
 let exportedMethods = {
   async getAllWords() {
@@ -31,7 +30,8 @@ let exportedMethods = {
   },
 
   async getWordByDefinition(definition) {
-    //TODO: validate def, consider storing lowercase in DB
+    definition = wordValidation.validateDefinition(definition);
+
     const wordCollection = await words();
     definition = definition.trim();
     const existingWord = await wordCollection.findOne({
@@ -122,9 +122,9 @@ let exportedMethods = {
   },
 
   async updateTimesPlayed(word_id) {
-    //TODO: validate
-    const wordCollection = await words();
+    word_id = idValidation.validateId(word_id);
 
+    const wordCollection = await words();
     const updateInfo = await wordCollection.findOneAndUpdate(
       { _id: new ObjectId(word_id) },
       {
@@ -143,7 +143,9 @@ let exportedMethods = {
   },
 
   async updateAccuracyScore(word_id, new_score) {
-    //TODO: validate
+    word_id = idValidation.validateId(word_id);
+    new_score = scoreValidation.validateAccuracyScore(new_score);
+
     const wordCollection = await words();
 
     const updateInfo = await wordCollection.findOneAndUpdate(
@@ -163,7 +165,8 @@ let exportedMethods = {
     return updateInfo;
   },
   async getTimesPlayed(word_id) {
-    //TODO: validate
+    word_id = idValidation.validateId(word_id);
+
     const wordCollection = await words();
 
     const result = await wordCollection.findOne(
@@ -176,7 +179,8 @@ let exportedMethods = {
   },
 
   async getAccuracyScore(word_id) {
-    //TODO: validate
+    word_id = idValidation.validateId(word_id);
+
     const wordCollection = await words();
 
     const result = await wordCollection.findOne(
@@ -196,12 +200,12 @@ let exportedMethods = {
 
     return word[0];
   },
-   async getNumberOfWordsInDB() {
+
+  async getNumberOfWordsInDB() {
     const wordCollection = await words();
     const test = await wordCollection.countDocuments();
-    const numWords =await wordCollection.count()
+    const numWords = await wordCollection.count();
     return numWords;
-  }
-
+  },
 };
 export default exportedMethods;

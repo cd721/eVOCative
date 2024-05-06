@@ -16,9 +16,11 @@ const exportedMethods = {
     }
     return type;
   },
+  
   validateBody(body) {
     if (!body) throw `Error: Ticket body not provided.`;
-    if (typeof body !== "string") throw `Error: Ticket body must be of type string`;
+    if (typeof body !== "string")
+      throw `Error: Ticket body must be of type string`;
     body = body.trim();
     if (body.length === 0)
       throw `Error: Ticket body cannot be empty or just spaces`;
