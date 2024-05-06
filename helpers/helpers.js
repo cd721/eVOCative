@@ -10,18 +10,12 @@ const exportedMethods = {
 
   dateIsNotYesterday(date) {
     let today = new Date();
-<<<<<<< HEAD
-    let yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    // yesterday.setHours(0, 0, 0, 0);
-=======
 
     //For initialization purposes only
     let yesterday = new Date();
 
     //setDate returns nothing, this line sets yesterday to (today.getDate() - 1)
     yesterday.setDate(today.getDate() - 1);
->>>>>>> main
 
     return date.getDate() !== yesterday.getDate();
   },
