@@ -29,6 +29,9 @@ router.route("/")
       username = userValidation.validateUsername(username);
       password = userValidation.validateLoginPassword(password);
 
+      if(username.length>25) throw 'Error: username cannot be more than 25 characters.';
+      if(password.length>50) throw 'Error: password cannot be more than 50 characters.';
+
       const user = await userData.loginUser(username, password);
       if (user) {
         req.session.user = {
