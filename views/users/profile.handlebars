@@ -12,19 +12,11 @@
         <ul>
             <li>
                 <p>Streak</p>
-                {{#if streakOneDay}}
-                <h4>{{user.streak}} day</h4>
-                {{else}}
                 <h4>{{user.streak}} days</h4>
-                {{/if}}
             </li>
             <li>
                 <p>Longest Streak</p>
-                {{#if longestStreakOneDay}}
-                <h4>{{user.longest_streak}} day</h4>
-                {{else}}
                 <h4>{{user.longest_streak}} days</h4>
-                {{/if}}
             </li>
             <li>
                 <p>Accuracy Score</p>
@@ -66,4 +58,3 @@
     </div>
     {{/if}}
 </div>
-

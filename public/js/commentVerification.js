@@ -1,6 +1,6 @@
 // The purpose of this file is to verify that all fields are filled out before submitting a new comment
 
-const form = document.getElementById("submit_comment");
+const form = document.getElementById("submit-comment");
 
 if (form) {
   form.addEventListener("submit", function (event) {

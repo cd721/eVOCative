@@ -52,18 +52,10 @@ router
       tags = tags.split(",").map((tag) => tag.trim());
       //console.log({poster_id: poster_id, title: title, post: post, tags: tags});
 
-    try {
       await postData.addPost(poster_id, title, post, tags);
       return res.redirect("/forum");
     } catch (e) {
-      return res.status(500).render("posts/new", { 
-        error: [e.toString()],
-        post: {
-          title: title,
-          body: post,
-          tags: tags.join(", ")
-        }
-      });
+      return res.status(500).render("errorSpecial", { error: e });
     }
   });
 

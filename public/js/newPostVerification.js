@@ -1,6 +1,6 @@
 // The purpose of this file is to verify that all fields are filled out before submitting a new post
 
-const form = document.querySelector(".new-post-form");
+const form = document.getElementById("new-post-form");
 
 if (form) {
   form.addEventListener("submit", function (event) {
@@ -35,28 +35,28 @@ if (form) {
     var titleInput = document.querySelector('input[name="title"]').value.trim();
     let titleLimit = 50;
     var postInput = document
-      .querySelector('textarea[name="post"]')
+      .querySelector('input[name="post"]')
       .value.trim();
     var tagsInput = document.querySelector('input[name="tags"]').value.trim();
 
     try {
       validateTitle(titleInput, titleLimit);
     } catch (e) {
-      displayError("title", e);
+      displayError("postTitle", e);
       valid = false;
     }
 
     try {
       validateGen("Post", postInput);
     } catch (e) {
-      displayError("post", e);
+      displayError("postContent", e);
       valid = false;
     }
 
     try {
       validateTags(tagsInput);
     } catch (e) {
-      displayError("tags", e);
+      displayError("postTags", e);
       valid = false;
     }
 

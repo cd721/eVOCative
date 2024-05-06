@@ -1,30 +1,18 @@
-<article id="post_page" class="main_container">
-  <div id="post_info">
-    <h1>{{ post.title }}</h1>
-    <address>Posted by {{poster_name}} on {{post.post_date}}</address>
-  </div>
+<article id="post-page" class="single-container">
+    <div class="individual-post">
 
-  <p>{{ post.post }}</p>
-
-  {{> tags post}}
-  <br>
-
-  <div class="comments_list">
-
-  </div>
-  <br>
-  <div class="new_comment">
-    <h4>Leave a comment on this post</h4>
-
-    <form action="/forum/{{post._id}}" method="POST" id="submit_comment">
-      <label for="comment">Comment:</label>
-      <textarea name="comment" placeholder="enter comment" id="comment"></textarea>
-      <p id="error_comment"></p>
-
-      <input type="hidden" name="postID" value="{{post._id}}">
-      <input type="submit" value="Add Comment">
-    </form>
-  </div>
+        <div>
+          <h2>{{post.title}}</h1>
+          <p>{{datePostSingle post.post_date}} | {{ poster_name }} </p>
+        </div>
+        
+        <p class="post-content">{{ post.post }}</p>
+        <ul id="post-tags" class="tags">
+            {{#each post.tags}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
 
     <section id="comments-section">
         <ul id="comments-list">
@@ -53,6 +41,7 @@
         <div>
           <label for="comment">Comment:</label>
           <textarea id="comment" name="comment" placeholder="Enter comment"></textarea>
+          <p class="error_text" id="error_comment"></p>
         </div>
 
         <input type="hidden" name="postID" value="{{post._id}}">

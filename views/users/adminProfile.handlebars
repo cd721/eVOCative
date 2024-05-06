@@ -52,19 +52,11 @@
         <ul>
             <li>
                 <p>Streak</p>
-                {{#if streakOneDay}}
-                <h4>{{user.streak}} day</h4>
-                {{else}}
                 <h4>{{user.streak}} days</h4>
-                {{/if}}
             </li>
             <li>
                 <p>Longest Streak</p>
-                {{#if longestStreakOneDay}}
-                <h4>{{user.longest_streak}} day</h4>
-                {{else}}
                 <h4>{{user.longest_streak}} days</h4>
-                {{/if}}
             </li>
             <li>
                 <p>Accuracy Score</p>
@@ -97,31 +89,12 @@
             <a href="/words">Add some words</a>
         </div>
         {{/if}}
-        </div>
 
-        <div id="WOD-Announcement">
-            {{#if WOD}}
-                <h3>You have collected the Word of the day!</h3>
-            {{/if}}
-        </div>
+
     </div>
-
-    <div id="share_score">
-        <a href="/forum/newScore">Share your Accuracy Score?</a>
-    </div>
-
-    <div id="admin-panel">
-        <h2>Admin Options</h2>
-        <div id="add-new-word">
-            <a href="/admin/addNewWord">Add A New Word</a>
-        </div>
-        <div id="check-tickets">
-            <a href="/admin/tickets">Check Tickets</a>
-        </div>
-        <div id="see-all-words">
-            <a href="/words/all">See All Words</a>
-        </div>
+    {{#if WOD}}
+    <div id="WOD-Announcement">
+        <h3>You have collected the Word of the day!</h3>
     </div>
     {{/if}}
 </div>
-

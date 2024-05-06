@@ -9,7 +9,7 @@
     <div>
         <input type="radio" id="button1" name="buttonWord">
         <label for="button1">{{word1}}</label>
-
+        
     </div>
 
     <div>
@@ -29,10 +29,13 @@
         <p id="wrong" hidden>Sorry, that was incorrect. Better luck next time!</p>
         <p id="theCorrectAnswer" hidden></p>
         <a id="nextQuestion" href="/quiz/wordToDefinition" hidden>Click here for the next question.</a>
-        <p id="noAnswer" hidden>You must select an answer.</p>
     </div>
 </form>
-<a href="/quiz">Back to quiz selection?</a>
+
+
+
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="../../public/js/quiz.js"></script>
+<script src="/public/js/quizVerification.js"></script>
+
+{{!-- TODO: ensure form has necessary attributes --}}
