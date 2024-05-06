@@ -1,5 +1,5 @@
 import { tickets } from "../../config/mongoCollections.js";
-import { ObjectId, ReturnDocument } from "mongodb";
+import { ObjectId } from "mongodb";
 import ticketValidation from "./ticketValidation.js";
 import idValidation from "../../validation/idValidation.js";
 import helpers from "./helpers.js";
@@ -23,7 +23,9 @@ let exportedMethods = {
   async getTicketsForUser(user_id) {
     user_id = idValidation.validateId(user_id);
     const ticketCollection = await tickets();
-    const ticketList = await ticketCollection.find({ submitter_id: new ObjectId(user_id) }).toArray();
+    const ticketList = await ticketCollection
+      .find({ submitter_id: new ObjectId(user_id) })
+      .toArray();
     if (!ticketList) {
       throw "Error: no tickets for this user";
     }
@@ -65,7 +67,7 @@ let exportedMethods = {
       throw "Update failed!";
     }
 
-    return {resolutionSuccess: true};
+    return { resolutionSuccess: true };
   },
 };
 export default exportedMethods;

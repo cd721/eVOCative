@@ -1,9 +1,10 @@
-<section>
+<article id="admins-page" class="index-container">
     <h1>Administrators</h1>
-    {{#each users}}
-    <article class="user">
-        <h2><a href="/users/{{_id}}">{{firstName}} {{lastName}}</a></h2>
-        {{{user}}}
-    </article>
-    {{/each}}
-</section>
+    <ul>
+        {{#each users}}
+        <li>
+            <a href="/users/{{_id}}">{{firstName}} {{lastName}}</a>
+        </li>
+        {{/each}}
+    </ul>
+</article>

@@ -9,11 +9,11 @@ import tickets from '../data/tickets/tickets.js';
 const db = await dbConnection();
 await db.dropDatabase();
 
-await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario", "password");
+await users.addUser("Catherine", "DeMario", "cdemario@stevens.edu", "cdemario", "Password123#");
 const catherine = await users.getUserByUsername("cdemario");
 console.log(catherine);
 
-await users.addUser("Josie", "Cerino", "jcerino@stevens.edu", "jcerino", "pwrd123");
+await users.addUser("Josie", "Cerino", "jcerino@stevens.edu", "jcerino", "Pwrd123#");
 const josie = await users.getUserByUsername("jcerino");
 console.log(josie);
 
@@ -96,6 +96,7 @@ console.log(await words.getAccuracyScore(firstWord._id.toString()));
 
 
 const firstTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add tea to the word list");
+const secondTicket = await tickets.addTicket(catherine._id.toString(), "new vocab", "Please add smoothie to the word list");
 
 
 await users.makeUserAdmin(josie._id.toString());

@@ -6,7 +6,7 @@ const exportedMethods = {
     async updateAccuracyScores(user_id, word_id, user_was_correct, user_times_played, word_times_played) {
         //TODO: validation and err checking?
         const existingScoreForUser = await userData.getOverallAccuracyScoreForUser(user_id);
-        const existingScoreForWord = await wordData.getAccuracyScore(word_id);
+        const existingScoreForWord = await wordData.getAccuracyScore(word_id.toString());
 
 
         const number_correct_for_user = existingScoreForUser * user_times_played;

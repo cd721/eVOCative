@@ -1,51 +1,68 @@
-import { ObjectId } from 'mongodb';
-import bcrypt from 'bcrypt'
-import helpers from '../../helpers/helpers.js'
+import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
+import validation from "./userValidation.js";
+
 let exportedMethods = {
+  async createNewUser(firstName, lastName, email, hashedPassword, username) {
+    firstName = validation.validateName(firstName);
+    lastName = validation.validateName(lastName);
 
-    createNewUser(firstName, lastName, email, hashedPassword, username) {
-        let newUser = {
-            _id: new ObjectId(),
+    email = validation.validateEmail(email);
+    email = await validation.emailDoesNotAlreadyExist(email);
 
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-            hashedPassword: hashedPassword,
+    username = validation.validateUsername(username);
+    username = await validation.usernameDoesNotAlreadyExist(username);
 
-            start_date: new Date(),
-            streak: 0,
-            longest_streak: 0,
-            is_admin: false,
-            date_last_word_was_received: null,
-            posts: [],
-            words: [],
-            accuracy_score: 0,
-            selected_language: "French",
-            times_played: 0//times the user played any quiz games
-        };
+    let newUser = {
+      _id: new ObjectId(),
 
-        return newUser;
-    },
-    async hashPassword(password) {
-        const plaintextPassword = password;
-        const saltRounds = 1;
-        const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username,
+      hashedPassword: hashedPassword,
 
-        return hashedPassword;
-    },
+      start_date: new Date(),
+      streak: 0,
+      longest_streak: 0,
+      is_admin: false,
+      date_last_word_was_received: null,
+      posts: [],
+      words: [],
+      accuracy_score: 0,
+      selected_language: "French",
+      times_played: 0, //times the user played any quiz games
+    };
 
-    wordWasDeletedLessThan24HoursAgo(date_flagged_for_deletion, flagged_for_deletion) {
-        console.log(flagged_for_deletion)
-        if (flagged_for_deletion) {
-            let today = new Date().getTime() + (1 * 24 * 60 * 60 * 1000)
-            console.log(date_flagged_for_deletion)
-            return date_flagged_for_deletion < today;
-        } else {
-            return false;
-        }
+    return newUser;
+  },
+
+  async hashPassword(password) {
+    password = validation.validatePassword(password);
+
+    const plaintextPassword = password;
+    const saltRounds = 1;
+    const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
+
+    return hashedPassword;
+  },
+
+  wordWasDeletedLessThan24HoursAgo(
+    date_flagged_for_deletion,
+    flagged_for_deletion
+  ) {
+    date_flagged_for_deletion = validation.validateDate(
+      date_flagged_for_deletion
+    );
+    flagged_for_deletion = validation.validateBool(flagged_for_deletion);
+
+    if (flagged_for_deletion) {
+      let today = new Date().getTime() + 1 * 24 * 60 * 60 * 1000;
+      return date_flagged_for_deletion < today;
+    } else {
+      return false;
     }
-
+  },
 };
 
 export default exportedMethods;
