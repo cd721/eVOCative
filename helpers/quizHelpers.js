@@ -24,13 +24,40 @@ const exportedMethods = {
             new_word_score = (number_correct_for_word) / (word_times_played);
 
         }
-console.log(new_user_score);
-console.log(new_word_score)
+        console.log(new_user_score);
+        console.log(new_word_score)
         await userData.updateAccuracyScoreForUser(user_id, new_user_score);
 
         await wordData.updateAccuracyScore(word_id, new_word_score);
 
 
+    },
+
+    getRandomWordForUser(user, previousWordId) {
+        let randomWordForUser;
+        //If the user only has one word
+        if (user.words.length === 1) {
+            const usersOnlyWordId = user.words[0]._id.toString();
+
+            //If the user had already played the game
+            if (previousWordId === usersOnlyWordId) {
+                return "oneWord";
+            }
+        }
+
+
+        //If the user has more than one word
+        do {
+            randomWordForUser =
+                user.words[Math.floor(Math.random() * user.words.length)];
+            console.log(randomWordForUser)
+
+            if (!randomWordForUser) {
+                return "noWords";
+            }
+        } while (randomWordForUser._id.toString() === previousWordId);
+
+        return randomWordForUser;
     },
     async setUpDefinitionToWordGame(randomWordForUser) {
 

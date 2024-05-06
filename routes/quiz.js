@@ -31,18 +31,21 @@ router.route("/definitionToWord")
       return res.render("quiz/noWords");
     }
 
-    try {
-      do {
-        randomWordForUser =
-          user.words[Math.floor(Math.random() * user.words.length)];
-        console.log(randomWordForUser)
 
-        if (!randomWordForUser) {
-          throw "You have no more words to play! Come again another day!";
-        }
-      } while (randomWordForUser._id.toString() === req.session.previousWordId);
+
+    try {
+
+      randomWordForUser = quizHelpers.getRandomWordForUser(user, req.session.previousWordId);
+
+      if (randomWordForUser === "noWords") {
+        return res.render("quiz/noWords")
+      } else if (randomWordForUser === "oneWord") {
+        return res.render("quiz/oneWord")
+
+      }
 
       req.session.previousWordId = randomWordForUser._id.toString();
+
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
     }
@@ -217,15 +220,18 @@ router.route("/wordToDefinition").get(async (req, res) => {
   }
 
   try {
-    do {
-      randomWordForUser =
-        user.words[Math.floor(Math.random() * user.words.length)];
-      console.log(randomWordForUser)
-      if (!randomWordForUser) {
-        throw "You have no more words to play! Come again another day!";
-      }
-    } while (randomWordForUser._id.toString() === req.session.previousWordId);
+    randomWordForUser = quizHelpers.getRandomWordForUser(user, req.session.previousWordId);
+
+
+    if (randomWordForUser === "noWords") {
+      return res.render("quiz/noWords")
+    } else if (randomWordForUser === "oneWord") {
+      return res.render("quiz/oneWord")
+
+    }
+
     req.session.previousWordId = randomWordForUser._id.toString();
+
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
