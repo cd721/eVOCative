@@ -235,6 +235,7 @@ app.use("/admin", (req, res, next) => {
 const loginLimit = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 5, // limit each IP to 5 requests per windowMs
+  skipSuccessfulRequests: true,
   handler: (req, res) => {
     res.status(429).render("timeout");
   }
