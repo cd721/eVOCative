@@ -93,8 +93,6 @@
       }
 
       $.ajax(requestConfig).then(function (data) {
-        console.log("Correct: " + data.correct);
-        console.log("Correct Index: " + data.correctIndex);
 
         if (theAnswerIsInvalid(data, aWordIsBeingPlayed, aDefinitionIsBeingPlayed)) {
           window.location = '/quiz/invalidAnswer';

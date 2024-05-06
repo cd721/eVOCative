@@ -24,8 +24,6 @@ const exportedMethods = {
             new_word_score = (number_correct_for_word) / (word_times_played);
 
         }
-        console.log(new_user_score);
-        console.log(new_word_score)
         await userData.updateAccuracyScoreForUser(user_id, new_user_score);
 
         await wordData.updateAccuracyScore(word_id, new_word_score);
@@ -50,7 +48,6 @@ const exportedMethods = {
         do {
             randomWordForUser =
                 user.words[Math.floor(Math.random() * user.words.length)];
-            console.log(randomWordForUser)
 
             if (!randomWordForUser) {
                 return "noWords";
