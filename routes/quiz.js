@@ -76,7 +76,7 @@ router
         }
       }
 
-      req.session.correctIndex = correctInd; //TODO: what if the user has a quiz open in multiple tabs?
+      req.session.correctIndex = correctInd;
 
       return res.render("quiz/definitionToWord", {
         curWord: randomWord.word,
@@ -95,15 +95,28 @@ router
     try {
       let user = req.session.user;
 
+      //Validate correct index. It must be either 0,1,2,3 and nothing else
+      if (
+        req.session.correctIndex == undefined
+      ) {
+        //If correctIndex is null, the user already answered the question.
+        //This prevents the user from using client side JS to modify the form
+        //and change their original answer.
+        return res.redirect("/quiz/invalidAnswer");
+      }
+
+      if (
+        typeof req.session.correctIndex !== 'number'
+      ) {
+        return res.redirect("/quiz/invalidAnswer");
+      }
+
       if (
         req.session.correctIndex !== 0 &&
         req.session.correctIndex !== 1 &&
         req.session.correctIndex !== 2 &&
         req.session.correctIndex !== 3
       ) {
-        //If correctIndex is null, the user already answered the question.
-        //This prevents the user from using client side JS to modify the form
-        //and change their original answer.
         return res.redirect("/quiz/invalidAnswer");
       }
 
@@ -213,7 +226,7 @@ router
         }
       }
 
-      req.session.correctIndex = correctInd; //TODO: what if the user has a quiz open in multiple tabs?
+      req.session.correctIndex = correctInd;
 
       return res.render("quiz/wordToDefinition", {
         curDefinition: randomDefinition,
@@ -224,20 +237,34 @@ router
         correctInd: correctInd,
         title: "Word -> Definition"
       });
-    } catch (e) {}
+    } catch (e) { }
   })
   .post(async (req, res) => {
     try {
       let user = req.session.user;
+
+      //Validate correct index. It must be either 0,1,2,3 and nothing else
+      if (
+        req.session.correctIndex == undefined
+      ) {
+        //If correctIndex is null, the user already answered the question.
+        //This prevents the user from using client side JS to modify the form
+        //and change their original answer.
+        return res.redirect("/quiz/invalidAnswer");
+      }
+
+      if (
+        typeof req.session.correctIndex !== 'number'
+      ) {
+        return res.redirect("/quiz/invalidAnswer");
+      }
+
       if (
         req.session.correctIndex !== 0 &&
         req.session.correctIndex !== 1 &&
         req.session.correctIndex !== 2 &&
         req.session.correctIndex !== 3
       ) {
-        //If correctIndex is null, the user already answered the question.
-        //This prevents the user from using client side JS to modify the form
-        //and change their original answer.
         return res.redirect("/quiz/invalidAnswer");
       }
 
@@ -260,14 +287,13 @@ router
       const correctIndexBeforeReset = req.session.correctIndex;
       let userWasCorrect;
 
-      ////update accuracy score for user
-
       if (selectedIndex === correctIndexBeforeReset) {
         userWasCorrect = true;
       } else {
         userWasCorrect = false;
       }
 
+      //Update accuracy score for user
       await quizHelpers.updateAccuracyScores(
         user._id.toString(),
         wordInfo._id.toString(),
@@ -284,7 +310,6 @@ router
         correctIndex: correctIndexBeforeReset,
       });
     } catch (e) {
-      //reset correct index?
       return res.status(500).render("errorSpecial", { error: e });
     }
   });
