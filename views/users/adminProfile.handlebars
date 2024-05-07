@@ -6,6 +6,7 @@
         <p>User since {{dateProfile user.start_date}}</p>
     </div>
 
+    {{#if admin}}
     <div id="admin-panel">
         <h2>Admin Panel</h2>
 
@@ -46,6 +47,7 @@
             </li>
         </ul>
     </div>
+    {{/if}}
 
     <div id="user-stats">
         <header>
