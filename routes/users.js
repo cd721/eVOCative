@@ -29,6 +29,8 @@ router
       a_user_is_logged_in = false;
     }
 
+    let logged_in_user_isAdmin = await userData.isAdmin(req.session.user._id);
+
     try {
       user_id = idValidation.validateId(user_id);
       user = await userData.getUserById(user_id);
@@ -81,6 +83,7 @@ router
           streakOneDay: streakOneDay,
           longestStreakOneDay: longestStreakOneDay,
           WOD: recievedWOD,
+          admin: logged_in_user_isAdmin
         });
       }
       return res.render("users/profile", {
@@ -89,7 +92,8 @@ router
         words: words,
         WOD: recievedWOD,
         streakOneDay: streakOneDay,
-        longestStreakOneDay: longestStreakOneDay
+        longestStreakOneDay: longestStreakOneDay,
+        admin: logged_in_user_isAdmin
       });
     } catch (e) {
       errors.push(e);

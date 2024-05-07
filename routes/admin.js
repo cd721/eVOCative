@@ -16,7 +16,10 @@ router.route("/").get(async (req, res) => {
         adminUsers.push(user);
       }
     }
-    return res.render("admin/index", { users: adminUsers });
+    return res.render("admin/index", { 
+      users: adminUsers,
+      title: "Administrators"
+    });
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }

@@ -12,7 +12,9 @@ const router = Router();
 
 router.route("/").get(async (req, res) => {
   try {
-    return res.render("quiz/index");
+    return res.render("quiz/index", {
+      title: "Quizzes"
+    });
   } catch (e) {
     return res.status(500).render("errorSpecial", { error: e });
   }
@@ -83,6 +85,7 @@ router
         def2: buttonDefs[2],
         def3: buttonDefs[3],
         correctInd: correctInd,
+        title: "Definition -> Word"
       });
     } catch (e) {
       return res.status(500).render("errorSpecial", { error: e });
@@ -219,6 +222,7 @@ router
         word2: buttonDefs[2],
         word3: buttonDefs[3],
         correctInd: correctInd,
+        title: "Word -> Definition"
       });
     } catch (e) {}
   })
