@@ -7,7 +7,7 @@ Welcome to eVOCative! The "Word of the Day" Application that allows you to expan
 NOTE: Make sure you are in the top-level directory, `app.js` will be in that top-level directory alongside other files included.
 
 + `npm i` or `npm install` to install required dependencies for the application
-+ `npm seed` to populate the database for testing the application
++ `npm run seed` to populate the database for testing the application
 + `npm start` to run the program
 + Type in `localhost:3000` to access the landing page of eVOCative
 
